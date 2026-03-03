@@ -158,14 +158,16 @@ export default function Profile() {
           </EditPanel>
         )}
 
-        {/* Why I Started */}
+        {/* Why I Started — hidden in exploring mode */}
+        {!isExploring && (
         <SettingsItem
           label="Why I started"
           value={profile.why_i_started ? "Written" : "Add your reason"}
           onTap={() => { setEditing("why"); setEditValue(profile.why_i_started || ""); }}
         />
+        )}
 
-        {editing === "why" && (
+        {!isExploring && editing === "why" && (
           <EditPanel>
             <textarea
               value={editValue}
