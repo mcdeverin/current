@@ -7,7 +7,7 @@ import { getDaysSince } from "../components/current/milestoneData";
 export default function Profile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState(null); // 'date' | 'savings' | 'why' | 'notification' | null
+  const [editing, setEditing] = useState(null);
   const [editValue, setEditValue] = useState("");
 
   useEffect(() => {
@@ -17,7 +17,14 @@ export default function Profile() {
   const loadProfile = async () => {
     const profiles = await base44.entities.UserProfile.list();
     if (profiles.length > 0) {
-      setProfile(profiles[0]);
+      const p = profiles[0];
+      setProfile(p);
+      // Check if deep-linked from exploring nudge
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("setDate") === "true") {
+        setEditing("date");
+        setEditValue("");
+      }
     }
     setLoading(false);
   };
