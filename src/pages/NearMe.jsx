@@ -14,13 +14,14 @@ export default function NearMe() {
   const [suggestName, setSuggestName] = useState("");
   const [suggestNeighborhood, setSuggestNeighborhood] = useState("");
   const [suggestType, setSuggestType] = useState("Café");
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     loadPlaces();
   }, []);
 
   const loadPlaces = async () => {
-    const data = await base44.entities.Place.list();
+    const data = await base44.entities.Place.filter({ status: "approved" });
     setPlaces(data);
     setLoading(false);
   };
@@ -29,6 +30,10 @@ export default function NearMe() {
 
   const handleSuggest = async () => {
     if (!suggestName.trim()) return;
+    // Get user profile for context
+    const profiles = await base44.entities.UserProfile.list();
+    const profile = profiles[0];
+    const user = await base44.auth.me();
     await base44.entities.Place.create({
       name: suggestName,
       type: suggestType,
@@ -36,12 +41,17 @@ export default function NearMe() {
       city: "New York",
       tag: "Sober Friendly",
       emoji: "📍",
-      approved: false,
+      status: "pending",
+      suggested_by: user?.email || "",
+      suggested_by_name: profile?.first_name || "",
+      suggested_by_days: profile?.sobriety_date
+        ? Math.floor((new Date() - new Date(profile.sobriety_date)) / (1000 * 60 * 60 * 24))
+        : null,
     });
     setSuggestName("");
     setSuggestNeighborhood("");
     setShowSuggest(false);
-    loadPlaces();
+    setSubmitted(true);
   };
 
   return (
@@ -100,7 +110,21 @@ export default function NearMe() {
 
       {/* Suggest a place */}
       <div className="px-6 mt-6">
-        {!showSuggest ? (
+        {submitted ? (
+          <div className="p-5 rounded-xl border text-center" style={{ backgroundColor: '#fff', borderColor: '#e2e6e0' }}>
+            <p className="text-sm font-medium mb-1" style={{ color: '#0f1219' }}>Thanks.</p>
+            <p className="text-sm leading-relaxed" style={{ color: '#6a7280' }}>
+              We review every suggestion personally.{"\n"}If it's a fit, we'll add it within 48 hours.
+            </p>
+            <button
+              onClick={() => setSubmitted(false)}
+              className="mt-4 text-xs"
+              style={{ color: '#8aab8e' }}
+            >
+              Suggest another
+            </button>
+          </div>
+        ) : !showSuggest ? (
           <button
             onClick={() => setShowSuggest(true)}
             className="w-full py-3 rounded-xl border-2 border-dashed flex items-center justify-center gap-2 text-sm font-medium transition-colors"
@@ -110,14 +134,14 @@ export default function NearMe() {
             Suggest a place
           </button>
         ) : (
-          <div className="p-4 rounded-xl border" style={{ backgroundColor: '#fff', borderColor: '#dde4de' }}>
+          <div className="p-4 rounded-xl border" style={{ backgroundColor: '#fff', borderColor: '#e2e6e0' }}>
             <input
               type="text"
               value={suggestName}
               onChange={e => setSuggestName(e.target.value)}
               placeholder="Place name"
               className="w-full text-sm bg-transparent border-b pb-2 mb-3 focus:outline-none"
-              style={{ borderColor: '#dde4de' }}
+              style={{ borderColor: '#e2e6e0' }}
             />
             <input
               type="text"
@@ -125,13 +149,13 @@ export default function NearMe() {
               onChange={e => setSuggestNeighborhood(e.target.value)}
               placeholder="Neighborhood"
               className="w-full text-sm bg-transparent border-b pb-2 mb-3 focus:outline-none"
-              style={{ borderColor: '#dde4de' }}
+              style={{ borderColor: '#e2e6e0' }}
             />
             <select
               value={suggestType}
               onChange={e => setSuggestType(e.target.value)}
               className="w-full text-sm bg-transparent border-b pb-2 mb-4 focus:outline-none"
-              style={{ borderColor: '#dde4de' }}
+              style={{ borderColor: '#e2e6e0' }}
             >
               {["Soft Bar", "Event", "Mocktails", "Café", "Sober Friendly"].map(t => (
                 <option key={t} value={t}>{t}</option>
@@ -148,7 +172,7 @@ export default function NearMe() {
               <button
                 onClick={handleSuggest}
                 disabled={!suggestName.trim()}
-                className="flex-1 py-2.5 rounded-xl text-xs font-medium text-white disabled:opacity-30"
+                className="flex-1 py-2.5 rounded-xl text-xs font-medium disabled:opacity-30"
                 style={{ backgroundColor: '#8aab8e', color: '#0f1219' }}
               >
                 Submit

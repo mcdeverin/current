@@ -53,6 +53,7 @@ import NearMe from './pages/NearMe';
 import Community from './pages/Community';
 import Profile from './pages/Profile';
 import Milestone from './pages/Milestone';
+import Admin from './pages/Admin';
 import __Layout from './Layout.jsx';
 
 
@@ -63,6 +64,7 @@ export const PAGES = {
     "Community": Community,
     "Profile": Profile,
     "Milestone": Milestone,
+    "Admin": Admin,
 }
 
 export const pagesConfig = {
