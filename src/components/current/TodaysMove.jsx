@@ -39,9 +39,22 @@ function getDayOfYear() {
   return Math.floor((now - start) / (1000 * 60 * 60 * 24));
 }
 
-export default function TodaysMove({ days }) {
+export default function TodaysMove({ days, bare = false }) {
   const idx = getDayOfYear() % MOVES.length;
   const move = MOVES[idx](days);
+
+  if (bare) {
+    return (
+      <div>
+        <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#8aab8e' }}>
+          Today's Move
+        </p>
+        <p className="text-sm leading-relaxed" style={{ color: '#e8eaf0' }}>
+          {move} →
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-xl p-5" style={{ backgroundColor: '#161b24' }}>
