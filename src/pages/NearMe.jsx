@@ -4,7 +4,7 @@ import { MapPin, Plus } from "lucide-react";
 import PlaceCard from "../components/current/PlaceCard";
 import BottomNav from "../components/current/BottomNav";
 
-const FILTER_CHIPS = ["All", "Soft Bar", "Event", "Mocktails", "Café", "Sober Friendly"];
+const FILTER_CHIPS = ["All", "Spots", "Mocktails", "Events", "Cafés", "Wellness"];
 
 export default function NearMe() {
   const [places, setPlaces] = useState([]);
@@ -13,7 +13,7 @@ export default function NearMe() {
   const [showSuggest, setShowSuggest] = useState(false);
   const [suggestName, setSuggestName] = useState("");
   const [suggestNeighborhood, setSuggestNeighborhood] = useState("");
-  const [suggestType, setSuggestType] = useState("Café");
+  const [suggestType, setSuggestType] = useState("Spots");
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
@@ -157,7 +157,7 @@ export default function NearMe() {
               className="w-full text-sm bg-transparent border-b pb-2 mb-4 focus:outline-none"
               style={{ borderColor: '#232a35', color: '#e8eaf0', colorScheme: 'dark' }}
             >
-              {["Soft Bar", "Event", "Mocktails", "Café", "Sober Friendly"].map(t => (
+              {["Spots", "Mocktails", "Events", "Cafés", "Wellness"].map(t => (
                 <option key={t} value={t}>{t}</option>
               ))}
             </select>
