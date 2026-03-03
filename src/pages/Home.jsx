@@ -47,7 +47,7 @@ export default function Home() {
   };
 
   if (loading || !profile) {
-    return <div className="min-h-screen" style={{ backgroundColor: '#f0f2ee' }} />;
+    return <div className="min-h-screen" style={{ backgroundColor: '#0f1219' }} />;
   }
 
   const isExploring = profile.mode === "exploring";
@@ -87,7 +87,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#f0f2ee' }}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
       <AnimatePresence>
         {showMilestone && days != null && (
           <MilestoneOverlay
@@ -105,7 +105,7 @@ export default function Home() {
 
       <div className="px-6 pt-14 pb-6 max-w-lg mx-auto">
         {/* Greeting */}
-        <p className="font-display text-xl mb-10" style={{ color: '#0f1219' }}>
+        <p className="font-display text-xl mb-10" style={{ color: '#e8eaf0' }}>
           {getGreeting()}, {profile.first_name}.
         </p>
 
@@ -122,7 +122,7 @@ export default function Home() {
         {/* EXPLORING MODE: Simple header area */}
         {isExploring && (
           <div className="flex flex-col items-center mb-3 py-6">
-            <p className="font-display text-4xl font-medium text-center leading-tight" style={{ color: '#0f1219' }}>
+            <p className="font-display text-4xl font-medium text-center leading-tight" style={{ color: '#e8eaf0' }}>
               Present tense.
             </p>
             <p className="text-sm mt-3 text-center max-w-xs" style={{ color: '#6a7280' }}>

@@ -5,15 +5,15 @@
 @tailwind utilities;
 
 :root {
-  --current-black: #0f1219;
-  --current-bg: #f0f2ee;
-  --current-card: #ffffff;
-  --current-card-border: #e2e6e0;
+  --current-bg: #0f1219;
+  --current-card: #161b24;
+  --current-card-border: #232a35;
+  --current-text: #e8eaf0;
+  --current-muted: #6a7280;
   --current-accent: #8aab8e;
-  --current-stone: #6a7280;
-  --current-dark-bg: #0f1219;
-  --current-dark-card: #1a2018;
-  --current-dark-ring: #1a2018;
+  --current-accent-light: #1e3024;
+  --current-light-bg: #eef0ec;
+  --current-light-text: #0f1219;
 }
 
 * {
