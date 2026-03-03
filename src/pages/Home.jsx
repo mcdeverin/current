@@ -134,9 +134,21 @@ export default function Home() {
         )}
 
         {/* Intention */}
-        <div className="mt-8 mb-6">
+        <div className="mt-8 mb-4">
           <IntentionCard />
         </div>
+
+        {/* Today's Move + Mood — streak mode only */}
+        {!isExploring && (
+          <>
+            <div className="mb-4">
+              <TodaysMove days={days || 1} />
+            </div>
+            <div className="mb-6">
+              <MoodCheckin />
+            </div>
+          </>
+        )}
 
         {/* Stats — only for streak mode */}
         {!isExploring && (
