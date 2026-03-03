@@ -61,7 +61,7 @@ export default function CommunityPostCard({ post, currentUserEmail }) {
         {post.text}
       </p>
 
-      <div className="flex items-center mt-3 pt-2 border-t" style={{ borderColor: '#f0ece5' }}>
+      <div className="flex items-center mt-3 pt-2 border-t" style={{ borderColor: '#e2e6e0' }}>
         <button 
           onClick={handleHeart}
           className="flex items-center gap-1.5 transition-all"
