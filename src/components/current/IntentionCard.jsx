@@ -7,12 +7,12 @@ export default function IntentionCard() {
   return (
     <div 
       className="rounded-xl p-5"
-      style={{ backgroundColor: '#1a1918' }}
+      style={{ backgroundColor: '#161b24' }}
     >
-      <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#c8a97e' }}>
+      <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#8aab8e' }}>
         Today's Intention
       </p>
-      <p className="font-display text-lg italic text-white leading-relaxed">
+      <p className="font-display text-lg italic leading-relaxed" style={{ color: '#e8eaf0' }}>
         "{intention}"
       </p>
     </div>

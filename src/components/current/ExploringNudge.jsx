@@ -30,7 +30,7 @@ export default function ExploringNudge({ profile, onDismiss }) {
       exit={{ opacity: 0, y: 8 }}
       transition={{ delay: 0.4 }}
       className="mx-6 mt-4 rounded-xl p-4 flex items-start gap-3"
-      style={{ backgroundColor: '#1a1918', border: '1px solid #2a2826' }}
+      style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
     >
       <div className="flex-1">
         <p className="text-sm text-white leading-relaxed">
@@ -42,7 +42,7 @@ export default function ExploringNudge({ profile, onDismiss }) {
         <button
           onClick={handleSetDate}
           className="text-xs font-medium mt-3 transition-colors"
-          style={{ color: '#c8a97e' }}
+          style={{ color: '#8aab8e' }}
         >
           Set a date →
         </button>
@@ -50,7 +50,7 @@ export default function ExploringNudge({ profile, onDismiss }) {
       <button
         onClick={handleDismiss}
         className="mt-0.5 p-1 rounded-lg transition-colors"
-        style={{ color: '#8a8478' }}
+        style={{ color: '#6a7280' }}
       >
         <X size={14} />
       </button>

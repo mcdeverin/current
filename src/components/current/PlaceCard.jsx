@@ -1,10 +1,10 @@
 import React from "react";
 
 const tagColors = {
-  "Alcohol-Free": { bg: "rgba(200,169,126,0.12)", text: "#c8a97e" },
-  "Event": { bg: "rgba(138,132,120,0.12)", text: "#8a8478" },
-  "NA Cocktails": { bg: "rgba(200,169,126,0.12)", text: "#c8a97e" },
-  "Sober Friendly": { bg: "rgba(138,132,120,0.12)", text: "#8a8478" },
+  "Alcohol-Free": { bg: "rgba(138,171,142,0.15)", text: "#8aab8e" },
+  "Event": { bg: "rgba(106,114,128,0.12)", text: "#6a7280" },
+  "NA Cocktails": { bg: "rgba(138,171,142,0.15)", text: "#8aab8e" },
+  "Sober Friendly": { bg: "rgba(106,114,128,0.12)", text: "#6a7280" },
 };
 
 export default function PlaceCard({ place }) {

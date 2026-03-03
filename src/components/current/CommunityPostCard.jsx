@@ -31,13 +31,13 @@ export default function CommunityPostCard({ post, currentUserEmail }) {
       className={`rounded-xl p-4 mb-3 ${isMilestone ? 'border-2' : 'border'}`}
       style={{ 
         backgroundColor: '#fff',
-        borderColor: isMilestone ? '#c8a97e' : '#e8e4dd',
+        borderColor: isMilestone ? '#8aab8e' : '#dde4de',
       }}
     >
       <div className="flex items-center gap-3 mb-3">
         <div 
           className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium"
-          style={{ backgroundColor: isMilestone ? '#c8a97e' : '#e8e4dd', color: isMilestone ? '#fff' : '#8a8478' }}
+          style={{ backgroundColor: isMilestone ? '#8aab8e' : '#e8ecea', color: isMilestone ? '#fff' : '#6a7280' }}
         >
           {(post.author_name || "?")[0].toUpperCase()}
         </div>
@@ -46,12 +46,12 @@ export default function CommunityPostCard({ post, currentUserEmail }) {
             <span className="text-sm font-medium text-gray-900">{post.author_name}</span>
             {post.author_days != null && (
               <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full"
-                style={{ backgroundColor: 'rgba(200,169,126,0.12)', color: '#c8a97e' }}>
+                style={{ backgroundColor: 'rgba(138,171,142,0.15)', color: '#8aab8e' }}>
                 {post.author_days}d
               </span>
             )}
           </div>
-          <span className="text-[11px]" style={{ color: '#8a8478' }}>
+          <span className="text-[11px]" style={{ color: '#6a7280' }}>
             {moment(post.created_date).fromNow()}
           </span>
         </div>
@@ -68,14 +68,14 @@ export default function CommunityPostCard({ post, currentUserEmail }) {
         >
           <Heart 
             size={16} 
-            fill={hearted ? '#c8a97e' : 'none'}
+            fill={hearted ? '#8aab8e' : 'none'}
             style={{ 
-              color: hearted ? '#c8a97e' : '#8a8478',
+              color: hearted ? '#8aab8e' : '#6a7280',
               transform: animating ? 'scale(1.3)' : 'scale(1)',
               transition: 'transform 0.2s ease'
             }}
           />
-          <span className="text-xs" style={{ color: hearted ? '#c8a97e' : '#8a8478' }}>
+          <span className="text-xs" style={{ color: hearted ? '#8aab8e' : '#6a7280' }}>
             {hearts > 0 ? hearts : ''}
           </span>
         </button>
