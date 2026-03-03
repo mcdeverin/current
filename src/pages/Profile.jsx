@@ -38,7 +38,7 @@ export default function Profile() {
 
   if (loading || !profile) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#f0f2ee' }}>
+      <div className="min-h-screen" style={{ backgroundColor: '#0f1219' }}>
         <BottomNav />
       </div>
     );
@@ -62,10 +62,10 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#f0f2ee' }}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
       {/* Header */}
       <div className="px-6 pt-14 pb-8">
-        <h1 className="font-display text-2xl font-medium" style={{ color: '#0f1219' }}>{profile.first_name}</h1>
+        <h1 className="font-display text-2xl font-medium" style={{ color: '#e8eaf0' }}>{profile.first_name}</h1>
         {sinceDate && <p className="text-xs mt-1" style={{ color: '#6a7280' }}>Since {sinceDate}</p>}
         {isExploring && !sinceDate && (
           <p className="text-xs mt-1" style={{ color: '#6a7280' }}>Exploring</p>
@@ -74,7 +74,7 @@ export default function Profile() {
         {/* Streak large — only if streak mode */}
         {!isExploring && days != null && (
           <div className="mt-8 flex items-baseline gap-2">
-            <span className="font-display text-6xl font-medium" style={{ color: '#0f1219' }}>{days}</span>
+            <span className="font-display text-6xl font-medium" style={{ color: '#e8eaf0' }}>{days}</span>
             <span className="small-caps text-sm tracking-widest" style={{ color: '#6a7280' }}>days</span>
           </div>
         )}
@@ -102,7 +102,7 @@ export default function Profile() {
               onChange={e => setEditValue(e.target.value)}
               max={new Date().toISOString().split("T")[0]}
               className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-              style={{ borderColor: '#d4dcd5' }}
+              style={{ borderColor: '#232a35', color: '#e8eaf0', colorScheme: 'dark' }}
             />
             <EditActions
               onCancel={() => setEditing(null)}
@@ -128,7 +128,7 @@ export default function Profile() {
                 value={editValue}
                 onChange={e => setEditValue(e.target.value)}
                 className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-                style={{ borderColor: '#d4dcd5' }}
+                style={{ borderColor: '#232a35', color: '#e8eaf0' }}
               />
               <span className="text-sm" style={{ color: '#6a7280' }}>/day</span>
             </div>
@@ -150,7 +150,7 @@ export default function Profile() {
               value={editValue}
               onChange={e => setEditValue(e.target.value)}
               className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-              style={{ borderColor: '#d4dcd5' }}
+              style={{ borderColor: '#232a35', color: '#e8eaf0', colorScheme: 'dark' }}
             />
             <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("notification_time", editValue)} />
           </EditPanel>
@@ -170,8 +170,8 @@ export default function Profile() {
               onChange={e => setEditValue(e.target.value)}
               placeholder="This is private. Only you can see this."
               rows={4}
-              className="w-full text-sm bg-transparent border rounded-lg p-3 focus:outline-none resize-none"
-              style={{ borderColor: '#d4dcd5' }}
+              className="w-full text-sm bg-transparent border rounded-lg p-3 focus:outline-none resize-none placeholder-gray-600"
+              style={{ borderColor: '#232a35', color: '#e8eaf0' }}
             />
             <p className="text-[10px] mt-1 mb-3" style={{ color: '#6a7280' }}>
               This is never shared. It's yours alone.
@@ -181,7 +181,7 @@ export default function Profile() {
         )}
 
         {/* Divider */}
-        <div className="my-6 border-t" style={{ borderColor: '#d4dcd5' }} />
+        <div className="my-6 border-t" style={{ borderColor: '#232a35' }} />
 
         {/* About */}
         <div className="mb-6">
@@ -201,7 +201,7 @@ export default function Profile() {
         <button
           onClick={() => base44.auth.logout()}
           className="w-full py-3 text-sm font-medium text-center rounded-xl border transition-colors"
-          style={{ borderColor: '#d4dcd5', color: '#6a7280' }}
+          style={{ borderColor: '#232a35', color: '#6a7280' }}
         >
           Sign out
         </button>
