@@ -67,9 +67,9 @@ export default function Profile() {
       {/* Header */}
       <div className="px-6 pt-14 pb-8">
         <h1 className="font-display text-2xl font-medium" style={{ color: '#e8eaf0' }}>{profile.first_name}</h1>
-        {sinceDate && <p className="text-xs mt-1" style={{ color: '#6a7280' }}>Since {sinceDate}</p>}
-        {isExploring && !sinceDate && (
-          <p className="text-xs mt-1" style={{ color: '#6a7280' }}>Exploring</p>
+        {!isExploring && sinceDate && <p className="text-xs mt-1" style={{ color: '#6a7280' }}>Since {sinceDate}</p>}
+        {isExploring && (
+          <p className="text-xs mt-1 font-medium" style={{ color: '#8aab8e' }}>Exploring</p>
         )}
 
         {/* Streak large — only if streak mode */}
@@ -83,58 +83,59 @@ export default function Profile() {
 
       {/* Settings */}
       <div className="px-6">
-        {/* Sobriety Date — label adapts to mode */}
-        <SettingsItem
-          label={isExploring && !sinceDate ? "Set a date (optional)" : "Sobriety date"}
-          value={sinceDate || "Not set"}
-          onTap={() => { setEditing("date"); setEditValue(profile.sobriety_date || ""); }}
-        />
-
-        {editing === "date" && (
-          <EditPanel>
-            {isExploring && !sinceDate && (
-              <p className="text-xs mb-3 leading-relaxed" style={{ color: '#6a7280' }}>
-                No pressure. This is just for you — it unlocks your streak and milestones.
-              </p>
+        {/* Sobriety Date — only show in streak mode */}
+        {!isExploring && (
+          <>
+            <SettingsItem
+              label="Sobriety date"
+              value={sinceDate || "Not set"}
+              onTap={() => { setEditing("date"); setEditValue(profile.sobriety_date || ""); }}
+            />
+            {editing === "date" && (
+              <EditPanel>
+                <input
+                  type="date"
+                  value={editValue}
+                  onChange={e => setEditValue(e.target.value)}
+                  max={new Date().toISOString().split("T")[0]}
+                  className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
+                  style={{ borderColor: '#232a35', color: '#e8eaf0', colorScheme: 'dark' }}
+                />
+                <EditActions
+                  onCancel={() => setEditing(null)}
+                  onSave={() => saveField("sobriety_date", editValue)}
+                />
+              </EditPanel>
             )}
-            <input
-              type="date"
-              value={editValue}
-              onChange={e => setEditValue(e.target.value)}
-              max={new Date().toISOString().split("T")[0]}
-              className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-              style={{ borderColor: '#232a35', color: '#e8eaf0', colorScheme: 'dark' }}
-            />
-            <EditActions
-              onCancel={() => setEditing(null)}
-              onSave={isExploring && !sinceDate ? handleSaveDateAndSwitchMode : () => saveField("sobriety_date", editValue)}
-            />
-          </EditPanel>
+          </>
         )}
 
-        {/* Daily Savings */}
-        <SettingsItem
-          label="Daily savings rate"
-          value={`$${profile.daily_savings_rate || 15}/day`}
-          onTap={() => { setEditing("savings"); setEditValue(String(profile.daily_savings_rate || 15)); }}
-          premium
-        />
-
-        {editing === "savings" && (
-          <EditPanel>
-            <div className="flex items-center gap-2">
-              <span className="text-sm" style={{ color: '#6a7280' }}>$</span>
-              <input
-                type="number"
-                value={editValue}
-                onChange={e => setEditValue(e.target.value)}
-                className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-                style={{ borderColor: '#232a35', color: '#e8eaf0' }}
-              />
-              <span className="text-sm" style={{ color: '#6a7280' }}>/day</span>
-            </div>
-            <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("daily_savings_rate", Number(editValue))} />
-          </EditPanel>
+        {/* Daily Savings — only show in streak mode */}
+        {!isExploring && (
+          <>
+            <SettingsItem
+              label="Daily savings rate"
+              value={`$${profile.daily_savings_rate || 15}/day`}
+              onTap={() => { setEditing("savings"); setEditValue(String(profile.daily_savings_rate || 15)); }}
+              premium
+            />
+            {editing === "savings" && (
+              <EditPanel>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm" style={{ color: '#6a7280' }}>$</span>
+                  <input
+                    type="number"
+                    value={editValue}
+                    onChange={e => setEditValue(e.target.value)}
+                    className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
+                    style={{ borderColor: '#232a35', color: '#e8eaf0' }}
+                  />
+                  <span className="text-sm" style={{ color: '#6a7280' }}>/day</span>
+                </div>
+                <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("daily_savings_rate", Number(editValue))} />
+              </EditPanel>
+            )}
+          </>
         )}
 
         {/* Notification Time */}

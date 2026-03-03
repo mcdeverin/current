@@ -119,13 +119,13 @@ export default function Home() {
           </div>
         )}
 
-        {/* EXPLORING MODE: Simple header area */}
+        {/* EXPLORING MODE: Hero statement */}
         {isExploring && (
-          <div className="flex flex-col items-center mb-3 py-6">
-            <p className="font-display text-4xl font-medium text-center leading-tight" style={{ color: '#e8eaf0' }}>
+          <div className="flex flex-col items-center mb-3 py-8">
+            <p className="font-display text-5xl font-medium text-center leading-tight" style={{ color: '#e8eaf0', letterSpacing: '-0.02em' }}>
               Present tense.
             </p>
-            <p className="text-sm mt-3 text-center max-w-xs" style={{ color: '#6a7280' }}>
+            <p className="text-sm mt-4 text-center max-w-xs" style={{ color: '#6a7280' }}>
               You're here. That's enough.
             </p>
           </div>
@@ -141,15 +141,15 @@ export default function Home() {
           <div className="flex gap-3">
             <StatCard label="Time" value={getYearsMonths()} />
             <StatCard label="Saved" value={`$${(moneySaved || 0).toLocaleString()}`} premium />
-            <StatCard label="Near Me" value="5" sublabel="places" />
+            <StatCard label="NYC Spots" value="18" sublabel="places" />
           </div>
         )}
 
-        {/* Exploring: lighter stats */}
+        {/* Exploring: two cards */}
         {isExploring && (
           <div className="flex gap-3">
-            <StatCard label="Near Me" value="5" sublabel="places" />
-            <StatCard label="Community" value="Active" sublabel="now" />
+            <StatCard label="NYC Spots" value="18" sublabel="places" />
+            <StatCard label="Days Free" value="1" sublabel="and counting" />
           </div>
         )}
       </div>
