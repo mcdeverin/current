@@ -217,10 +217,10 @@ function SettingsItem({ label, value, onTap, premium }) {
     <button
       onClick={onTap}
       className="w-full flex items-center justify-between py-4 border-b text-left"
-      style={{ borderColor: '#d4dcd5' }}
+      style={{ borderColor: '#232a35' }}
     >
       <div className="flex items-center gap-2">
-        <span className="text-sm" style={{ color: '#0f1219' }}>{label}</span>
+        <span className="text-sm" style={{ color: '#e8eaf0' }}>{label}</span>
         {premium && (
           <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#8aab8e' }} />
         )}
@@ -235,7 +235,7 @@ function SettingsItem({ label, value, onTap, premium }) {
 
 function EditPanel({ children }) {
   return (
-    <div className="py-4 px-4 mb-2 rounded-xl border" style={{ backgroundColor: '#fff', borderColor: '#d4dcd5' }}>
+    <div className="py-4 px-4 mb-2 rounded-xl border" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
       {children}
     </div>
   );
