@@ -5,13 +5,13 @@
 @tailwind utilities;
 
 :root {
-  --current-black: #0e0e0f;
-  --current-cream: #f5f2ec;
-  --current-amber: #c8a97e;
-  --current-stone: #8a8478;
-  --current-dusk: #2a2826;
-  --current-dark-card: #1a1918;
-  --current-dark-card-hover: #222120;
+  --current-black: #0f1219;
+  --current-cream: #eef0ec;
+  --current-amber: #8aab8e;
+  --current-stone: #6a7280;
+  --current-dusk: #232a35;
+  --current-dark-card: #161b24;
+  --current-dark-card-hover: #1e2530;
 }
 
 * {
