@@ -106,26 +106,31 @@ export default function Home() {
       </AnimatePresence>
 
       <div className="px-6 pt-14 pb-6 max-w-lg mx-auto">
-        {/* Greeting */}
-        <p className="font-display text-xl mb-10" style={{ color: '#e8eaf0' }}>
-          {getGreeting()}, {profile.first_name}.
-        </p>
-
-        {/* STREAK MODE: Ring */}
-        {!isExploring && days != null && (
-          <div className="flex flex-col items-center mb-3">
-            <StreakRing days={days} />
-            <p className="text-xs mt-4" style={{ color: '#6a7280' }}>
-              Since {sinceDate}
+        {/* STREAK MODE: Greeting + Ring */}
+        {!isExploring && (
+          <>
+            <p className="font-display text-xl mb-10" style={{ color: '#e8eaf0' }}>
+              {getGreeting()}, {profile.first_name}.
             </p>
-          </div>
+            {days != null && (
+              <div className="flex flex-col items-center mb-3">
+                <StreakRing days={days} />
+                <p className="text-xs mt-4" style={{ color: '#6a7280' }}>
+                  Since {sinceDate}
+                </p>
+              </div>
+            )}
+          </>
         )}
 
         {/* EXPLORING MODE layout */}
         {isExploring && (
           <>
-            {/* Hero */}
+            {/* Hero — greeting + Present tense together */}
             <div className="mb-10 pt-4">
+              <p className="font-display text-xl mb-6" style={{ color: '#e8eaf0' }}>
+                {getGreeting()}, {profile.first_name}.
+              </p>
               <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: '#e8eaf0', letterSpacing: '-0.02em' }}>
                 Present tense.
               </p>
