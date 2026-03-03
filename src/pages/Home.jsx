@@ -8,6 +8,7 @@ import IntentionCard from "../components/current/IntentionCard";
 import StatCard from "../components/current/StatCard";
 import BottomNav from "../components/current/BottomNav";
 import MilestoneOverlay from "../components/current/MilestoneOverlay";
+import ExploringNudge from "../components/current/ExploringNudge";
 import { getDaysSince, isMilestoneDay } from "../components/current/milestoneData";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showMilestone, setShowMilestone] = useState(false);
+  const [showNudge, setShowNudge] = useState(false);
 
   useEffect(() => {
     loadProfile();
@@ -29,11 +31,18 @@ export default function Home() {
     const p = profiles[0];
     setProfile(p);
 
-    const days = getDaysSince(p.sobriety_date);
-    const dismissed = sessionStorage.getItem(`milestone_${days}_dismissed`);
-    if (isMilestoneDay(days) && !dismissed) {
-      setShowMilestone(true);
+    if (p.mode === "exploring" && !p.exploring_nudge_dismissed) {
+      setShowNudge(true);
     }
+
+    if (p.mode === "streak" && p.sobriety_date) {
+      const days = getDaysSince(p.sobriety_date);
+      const dismissed = sessionStorage.getItem(`milestone_${days}_dismissed`);
+      if (isMilestoneDay(days) && !dismissed) {
+        setShowMilestone(true);
+      }
+    }
+
     setLoading(false);
   };
 
@@ -41,12 +50,15 @@ export default function Home() {
     return <div className="min-h-screen" style={{ backgroundColor: '#0e0e0f' }} />;
   }
 
-  const days = getDaysSince(profile.sobriety_date);
+  const isExploring = profile.mode === "exploring";
+  const days = (!isExploring && profile.sobriety_date) ? getDaysSince(profile.sobriety_date) : null;
   const savingsRate = profile.daily_savings_rate || 15;
-  const moneySaved = days * savingsRate;
-  const sinceDate = new Date(profile.sobriety_date).toLocaleDateString("en-US", {
-    month: "long", day: "numeric", year: "numeric"
-  });
+  const moneySaved = days != null ? days * savingsRate : null;
+  const sinceDate = profile.sobriety_date
+    ? new Date(profile.sobriety_date).toLocaleDateString("en-US", {
+        month: "long", day: "numeric", year: "numeric",
+      })
+    : null;
 
   const getGreeting = () => {
     const h = new Date().getHours();
@@ -56,6 +68,7 @@ export default function Home() {
   };
 
   const getYearsMonths = () => {
+    if (days == null) return "—";
     const years = Math.floor(days / 365);
     const months = Math.floor((days % 365) / 30);
     if (years > 0 && months > 0) return `${years}y ${months}m`;
@@ -76,7 +89,7 @@ export default function Home() {
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: '#0e0e0f' }}>
       <AnimatePresence>
-        {showMilestone && (
+        {showMilestone && days != null && (
           <MilestoneOverlay
             days={days}
             sobrietyDate={profile.sobriety_date}
@@ -96,26 +109,60 @@ export default function Home() {
           {getGreeting()}, {profile.first_name}.
         </p>
 
-        {/* Streak Ring */}
-        <div className="flex flex-col items-center mb-3">
-          <StreakRing days={days} />
-          <p className="text-xs mt-4" style={{ color: '#8a8478' }}>
-            Since {sinceDate}
-          </p>
-        </div>
+        {/* STREAK MODE: Ring */}
+        {!isExploring && days != null && (
+          <div className="flex flex-col items-center mb-3">
+            <StreakRing days={days} />
+            <p className="text-xs mt-4" style={{ color: '#8a8478' }}>
+              Since {sinceDate}
+            </p>
+          </div>
+        )}
+
+        {/* EXPLORING MODE: Simple header area */}
+        {isExploring && (
+          <div className="flex flex-col items-center mb-3 py-6">
+            <p className="font-display text-4xl font-medium text-white text-center leading-tight">
+              Present tense.
+            </p>
+            <p className="text-sm mt-3 text-center max-w-xs" style={{ color: '#8a8478' }}>
+              You're here. That's enough.
+            </p>
+          </div>
+        )}
 
         {/* Intention */}
         <div className="mt-8 mb-6">
           <IntentionCard />
         </div>
 
-        {/* Stats */}
-        <div className="flex gap-3">
-          <StatCard label="Time" value={getYearsMonths()} />
-          <StatCard label="Saved" value={`$${moneySaved.toLocaleString()}`} premium />
-          <StatCard label="Near Me" value="5" sublabel="places" />
-        </div>
+        {/* Stats — only for streak mode */}
+        {!isExploring && (
+          <div className="flex gap-3">
+            <StatCard label="Time" value={getYearsMonths()} />
+            <StatCard label="Saved" value={`$${(moneySaved || 0).toLocaleString()}`} premium />
+            <StatCard label="Near Me" value="5" sublabel="places" />
+          </div>
+        )}
+
+        {/* Exploring: lighter stats */}
+        {isExploring && (
+          <div className="flex gap-3">
+            <StatCard label="Near Me" value="5" sublabel="places" />
+            <StatCard label="Community" value="Active" sublabel="now" />
+          </div>
+        )}
       </div>
+
+      {/* Exploring nudge — rendered outside padding container, no max-w */}
+      <AnimatePresence>
+        {isExploring && showNudge && (
+          <ExploringNudge
+            profile={profile}
+            onDismiss={() => setShowNudge(false)}
+          />
+        )}
+      </AnimatePresence>
 
       <BottomNav />
     </div>
