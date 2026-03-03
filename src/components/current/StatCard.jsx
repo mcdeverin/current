@@ -3,8 +3,8 @@ import React from "react";
 export default function StatCard({ label, value, sublabel, premium }) {
   return (
     <div 
-      className="flex-1 rounded-xl p-4 relative"
-      style={{ backgroundColor: '#161b24' }}
+      className="flex-1 rounded-xl p-4 relative border"
+      style={{ backgroundColor: '#ffffff', borderColor: '#e2e6e0' }}
     >
       {premium && (
         <div className="absolute top-3 right-3 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#8aab8e' }} />
@@ -12,7 +12,7 @@ export default function StatCard({ label, value, sublabel, premium }) {
       <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#6a7280' }}>
         {label}
       </p>
-      <p className="font-display text-2xl font-medium leading-none" style={{ color: '#e8eaf0' }}>
+      <p className="font-display text-2xl font-medium leading-none" style={{ color: '#0f1219' }}>
         {value}
       </p>
       {sublabel && (

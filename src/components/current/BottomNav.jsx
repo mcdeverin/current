@@ -16,8 +16,8 @@ export default function BottomNav() {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t"
       style={{ 
-        backgroundColor: '#0f1219', 
-        borderColor: '#232a35',
+        backgroundColor: '#ffffff', 
+        borderColor: '#e2e6e0',
         paddingBottom: 'env(safe-area-inset-bottom, 12px)'
       }}>
       <div className="flex justify-around items-center h-14 max-w-lg mx-auto">

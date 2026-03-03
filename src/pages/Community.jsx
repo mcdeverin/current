@@ -72,7 +72,7 @@ export default function Community() {
   });
 
   return (
-    <div className="min-h-screen pb-32" style={{ backgroundColor: '#eef0ec' }}>
+    <div className="min-h-screen pb-32" style={{ backgroundColor: '#f0f2ee' }}>
       <AnimatePresence>
         {showToneGuide && <ToneGuideModal onClose={closeToneGuide} />}
       </AnimatePresence>

@@ -38,7 +38,7 @@ export default function Profile() {
 
   if (loading || !profile) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#eef0ec' }}>
+      <div className="min-h-screen" style={{ backgroundColor: '#f0f2ee' }}>
         <BottomNav />
       </div>
     );
@@ -62,7 +62,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#eef0ec' }}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#f0f2ee' }}>
       {/* Header */}
       <div className="px-6 pt-14 pb-8">
         <h1 className="font-display text-2xl font-medium" style={{ color: '#0f1219' }}>{profile.first_name}</h1>

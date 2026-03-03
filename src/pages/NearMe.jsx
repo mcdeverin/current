@@ -45,7 +45,7 @@ export default function NearMe() {
   };
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#eef0ec' }}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#f0f2ee' }}>
       {/* Header */}
       <div className="px-6 pt-14 pb-4">
         <div className="flex items-start justify-between">
