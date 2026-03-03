@@ -3,6 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { ChevronRight } from "lucide-react";
 import BottomNav from "../components/current/BottomNav";
 import { getDaysSince } from "../components/current/milestoneData";
+import JourneySection from "../components/current/JourneySection";
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
