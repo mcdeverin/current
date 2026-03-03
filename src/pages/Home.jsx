@@ -121,46 +121,72 @@ export default function Home() {
           </div>
         )}
 
-        {/* EXPLORING MODE: Hero statement */}
+        {/* EXPLORING MODE layout */}
         {isExploring && (
-          <div className="flex flex-col items-center mb-3 py-8">
-            <p className="font-display text-5xl font-medium text-center leading-tight" style={{ color: '#e8eaf0', letterSpacing: '-0.02em' }}>
-              Present tense.
-            </p>
-            <p className="text-sm mt-4 text-center max-w-xs" style={{ color: '#6a7280' }}>
-              You're here. That's enough.
-            </p>
-          </div>
+          <>
+            {/* Hero */}
+            <div className="mb-10 pt-4">
+              <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: '#e8eaf0', letterSpacing: '-0.02em' }}>
+                Present tense.
+              </p>
+              <p className="text-sm" style={{ color: '#6a7280' }}>
+                You're here. That's enough.
+              </p>
+            </div>
+
+            {/* Intention — only card above the fold */}
+            <div className="mb-8">
+              <IntentionCard />
+            </div>
+
+            {/* Divider + Today's Move (bare) */}
+            <div className="border-t mb-6" style={{ borderColor: '#232a35' }} />
+            <div className="mb-8">
+              <TodaysMove days={1} bare />
+            </div>
+
+            {/* Mood Check-in (bare) */}
+            <div className="mb-10">
+              <MoodCheckin bare />
+            </div>
+
+            {/* NYC Spots footer card */}
+            <div className="border-t pt-6" style={{ borderColor: '#232a35' }}>
+              <button
+                onClick={() => navigate(createPageUrl("NearMe"))}
+                className="w-full flex items-center justify-between py-3 px-4 rounded-xl border"
+                style={{ borderColor: '#232a35', backgroundColor: '#161b24' }}
+              >
+                <span className="text-sm" style={{ color: '#6a7280' }}>18 sober-friendly spots near you</span>
+                <span style={{ color: '#8aab8e' }}>→</span>
+              </button>
+            </div>
+          </>
         )}
 
-        {/* Intention */}
-        <div className="mt-8 mb-4">
-          <IntentionCard />
-        </div>
-
-        {/* Today's Move + Mood */}
-        <div className="mb-4">
-          <TodaysMove days={days || 1} />
-        </div>
-        <div className="mb-6">
-          <MoodCheckin />
-        </div>
-
-        {/* Stats — only for streak mode */}
+        {/* STREAK MODE layout */}
         {!isExploring && (
-          <div className="flex gap-3">
-            <StatCard label="Time" value={getYearsMonths()} />
-            <StatCard label="Saved" value={`$${(moneySaved || 0).toLocaleString()}`} premium />
-            <StatCard label="NYC Spots" value="18" sublabel="places" />
-          </div>
-        )}
+          <>
+            {/* Intention */}
+            <div className="mt-8 mb-4">
+              <IntentionCard />
+            </div>
 
-        {/* Exploring: two cards */}
-        {isExploring && (
-          <div className="flex gap-3">
-            <StatCard label="NYC Spots" value="18" sublabel="places" />
-            <StatCard label="Days Free" value="1" sublabel="and counting" />
-          </div>
+            {/* Today's Move + Mood */}
+            <div className="mb-4">
+              <TodaysMove days={days || 1} />
+            </div>
+            <div className="mb-6">
+              <MoodCheckin />
+            </div>
+
+            {/* Stats */}
+            <div className="flex gap-3">
+              <StatCard label="Time" value={getYearsMonths()} />
+              <StatCard label="Saved" value={`$${(moneySaved || 0).toLocaleString()}`} premium />
+              <StatCard label="NYC Spots" value="18" sublabel="places" />
+            </div>
+          </>
         )}
       </div>
 
