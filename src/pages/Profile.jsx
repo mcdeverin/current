@@ -38,7 +38,7 @@ export default function Profile() {
 
   if (loading || !profile) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#f5f2ec' }}>
+      <div className="min-h-screen" style={{ backgroundColor: '#eef0ec' }}>
         <BottomNav />
       </div>
     );
@@ -62,20 +62,20 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#f5f2ec' }}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#eef0ec' }}>
       {/* Header */}
       <div className="px-6 pt-14 pb-8">
-        <h1 className="font-display text-2xl font-medium text-gray-900">{profile.first_name}</h1>
-        {sinceDate && <p className="text-xs mt-1" style={{ color: '#8a8478' }}>Since {sinceDate}</p>}
+        <h1 className="font-display text-2xl font-medium" style={{ color: '#0f1219' }}>{profile.first_name}</h1>
+        {sinceDate && <p className="text-xs mt-1" style={{ color: '#6a7280' }}>Since {sinceDate}</p>}
         {isExploring && !sinceDate && (
-          <p className="text-xs mt-1" style={{ color: '#8a8478' }}>Exploring</p>
+          <p className="text-xs mt-1" style={{ color: '#6a7280' }}>Exploring</p>
         )}
 
         {/* Streak large — only if streak mode */}
         {!isExploring && days != null && (
           <div className="mt-8 flex items-baseline gap-2">
-            <span className="font-display text-6xl font-medium text-gray-900">{days}</span>
-            <span className="small-caps text-sm tracking-widest" style={{ color: '#8a8478' }}>days</span>
+            <span className="font-display text-6xl font-medium" style={{ color: '#0f1219' }}>{days}</span>
+            <span className="small-caps text-sm tracking-widest" style={{ color: '#6a7280' }}>days</span>
           </div>
         )}
       </div>
@@ -92,7 +92,7 @@ export default function Profile() {
         {editing === "date" && (
           <EditPanel>
             {isExploring && !sinceDate && (
-              <p className="text-xs mb-3 leading-relaxed" style={{ color: '#8a8478' }}>
+              <p className="text-xs mb-3 leading-relaxed" style={{ color: '#6a7280' }}>
                 No pressure. This is just for you — it unlocks your streak and milestones.
               </p>
             )}
@@ -102,7 +102,7 @@ export default function Profile() {
               onChange={e => setEditValue(e.target.value)}
               max={new Date().toISOString().split("T")[0]}
               className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-              style={{ borderColor: '#e8e4dd' }}
+              style={{ borderColor: '#d4dcd5' }}
             />
             <EditActions
               onCancel={() => setEditing(null)}
@@ -122,15 +122,15 @@ export default function Profile() {
         {editing === "savings" && (
           <EditPanel>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500">$</span>
+              <span className="text-sm" style={{ color: '#6a7280' }}>$</span>
               <input
                 type="number"
                 value={editValue}
                 onChange={e => setEditValue(e.target.value)}
                 className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-                style={{ borderColor: '#e8e4dd' }}
+                style={{ borderColor: '#d4dcd5' }}
               />
-              <span className="text-sm text-gray-500">/day</span>
+              <span className="text-sm" style={{ color: '#6a7280' }}>/day</span>
             </div>
             <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("daily_savings_rate", Number(editValue))} />
           </EditPanel>
@@ -150,7 +150,7 @@ export default function Profile() {
               value={editValue}
               onChange={e => setEditValue(e.target.value)}
               className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-              style={{ borderColor: '#e8e4dd' }}
+              style={{ borderColor: '#d4dcd5' }}
             />
             <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("notification_time", editValue)} />
           </EditPanel>
@@ -171,9 +171,9 @@ export default function Profile() {
               placeholder="This is private. Only you can see this."
               rows={4}
               className="w-full text-sm bg-transparent border rounded-lg p-3 focus:outline-none resize-none"
-              style={{ borderColor: '#e8e4dd' }}
+              style={{ borderColor: '#d4dcd5' }}
             />
-            <p className="text-[10px] mt-1 mb-3" style={{ color: '#8a8478' }}>
+            <p className="text-[10px] mt-1 mb-3" style={{ color: '#6a7280' }}>
               This is never shared. It's yours alone.
             </p>
             <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("why_i_started", editValue)} />
@@ -181,18 +181,18 @@ export default function Profile() {
         )}
 
         {/* Divider */}
-        <div className="my-6 border-t" style={{ borderColor: '#e0dbd3' }} />
+        <div className="my-6 border-t" style={{ borderColor: '#d4dcd5' }} />
 
         {/* About */}
         <div className="mb-6">
-          <h3 className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#8a8478' }}>
+          <h3 className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#6a7280' }}>
             About Current
           </h3>
-          <p className="text-sm leading-relaxed" style={{ color: '#8a8478' }}>
+          <p className="text-sm leading-relaxed" style={{ color: '#6a7280' }}>
             Current is for people who are proud of who they are today. 
             No labels. No programs. Just presence.
           </p>
-          <p className="text-xs mt-4" style={{ color: '#c8a97e' }}>
+          <p className="text-xs mt-4" style={{ color: '#8aab8e' }}>
             Present tense. Always.
           </p>
         </div>
@@ -201,7 +201,7 @@ export default function Profile() {
         <button
           onClick={() => base44.auth.logout()}
           className="w-full py-3 text-sm font-medium text-center rounded-xl border transition-colors"
-          style={{ borderColor: '#e0dbd3', color: '#8a8478' }}
+          style={{ borderColor: '#d4dcd5', color: '#6a7280' }}
         >
           Sign out
         </button>
@@ -217,17 +217,17 @@ function SettingsItem({ label, value, onTap, premium }) {
     <button
       onClick={onTap}
       className="w-full flex items-center justify-between py-4 border-b text-left"
-      style={{ borderColor: '#e8e4dd' }}
+      style={{ borderColor: '#d4dcd5' }}
     >
       <div className="flex items-center gap-2">
-        <span className="text-sm text-gray-900">{label}</span>
+        <span className="text-sm" style={{ color: '#0f1219' }}>{label}</span>
         {premium && (
-          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#c8a97e' }} />
+          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#8aab8e' }} />
         )}
       </div>
       <div className="flex items-center gap-2">
-        <span className="text-sm" style={{ color: '#8a8478' }}>{value}</span>
-        <ChevronRight size={14} style={{ color: '#d4d0c8' }} />
+        <span className="text-sm" style={{ color: '#6a7280' }}>{value}</span>
+        <ChevronRight size={14} style={{ color: '#b8c9ba' }} />
       </div>
     </button>
   );
@@ -235,7 +235,7 @@ function SettingsItem({ label, value, onTap, premium }) {
 
 function EditPanel({ children }) {
   return (
-    <div className="py-4 px-4 mb-2 rounded-xl border" style={{ backgroundColor: '#fff', borderColor: '#e8e4dd' }}>
+    <div className="py-4 px-4 mb-2 rounded-xl border" style={{ backgroundColor: '#fff', borderColor: '#d4dcd5' }}>
       {children}
     </div>
   );
@@ -244,13 +244,13 @@ function EditPanel({ children }) {
 function EditActions({ onCancel, onSave }) {
   return (
     <div className="flex gap-2 mt-4">
-      <button onClick={onCancel} className="flex-1 py-2 text-xs font-medium" style={{ color: '#8a8478' }}>
+      <button onClick={onCancel} className="flex-1 py-2 text-xs font-medium" style={{ color: '#6a7280' }}>
         Cancel
       </button>
       <button
         onClick={onSave}
         className="flex-1 py-2 rounded-lg text-xs font-medium text-white"
-        style={{ backgroundColor: '#0e0e0f' }}
+        style={{ backgroundColor: '#8aab8e', color: '#0f1219' }}
       >
         Save
       </button>
