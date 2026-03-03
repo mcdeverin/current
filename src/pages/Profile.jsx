@@ -91,6 +91,11 @@ export default function Profile() {
 
         {editing === "date" && (
           <EditPanel>
+            {isExploring && !sinceDate && (
+              <p className="text-xs mb-3 leading-relaxed" style={{ color: '#8a8478' }}>
+                No pressure. This is just for you — it unlocks your streak and milestones.
+              </p>
+            )}
             <input
               type="date"
               value={editValue}
@@ -99,7 +104,10 @@ export default function Profile() {
               className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
               style={{ borderColor: '#e8e4dd' }}
             />
-            <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("sobriety_date", editValue)} />
+            <EditActions
+              onCancel={() => setEditing(null)}
+              onSave={isExploring && !sinceDate ? handleSaveDateAndSwitchMode : () => saveField("sobriety_date", editValue)}
+            />
           </EditPanel>
         )}
 
