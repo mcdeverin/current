@@ -72,14 +72,14 @@ export default function Community() {
   });
 
   return (
-    <div className="min-h-screen pb-32" style={{ backgroundColor: '#f0f2ee' }}>
+    <div className="min-h-screen pb-32" style={{ backgroundColor: '#0f1219' }}>
       <AnimatePresence>
         {showToneGuide && <ToneGuideModal onClose={closeToneGuide} />}
       </AnimatePresence>
 
       {/* Header */}
       <div className="px-6 pt-14 pb-6">
-        <h1 className="font-display text-2xl font-medium" style={{ color: '#0f1219' }}>Community</h1>
+        <h1 className="font-display text-2xl font-medium" style={{ color: '#e8eaf0' }}>Community</h1>
       </div>
 
       {/* Posts */}
@@ -87,12 +87,12 @@ export default function Community() {
         {loading ? (
           <div className="space-y-3">
             {[1,2,3].map(i => (
-              <div key={i} className="h-28 rounded-xl animate-pulse" style={{ backgroundColor: '#d8e0d9' }} />
+              <div key={i} className="h-28 rounded-xl animate-pulse" style={{ backgroundColor: '#232a35' }} />
             ))}
           </div>
         ) : sortedPosts.length === 0 ? (
           <div className="text-center py-16">
-            <p className="font-display text-lg mb-2" style={{ color: '#0f1219' }}>Nothing here yet.</p>
+            <p className="font-display text-lg mb-2" style={{ color: '#e8eaf0' }}>Nothing here yet.</p>
             <p className="text-sm" style={{ color: '#6a7280' }}>Be the first to share a moment.</p>
           </div>
         ) : (
@@ -105,8 +105,8 @@ export default function Community() {
       {/* Composer */}
       <div className="fixed bottom-14 left-0 right-0 border-t px-4 py-3"
         style={{ 
-          backgroundColor: '#eef0ec', 
-          borderColor: '#d4dcd5',
+          backgroundColor: '#0f1219', 
+          borderColor: '#232a35',
           paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)'
         }}>
         <div className="flex items-center gap-3 max-w-lg mx-auto">
@@ -115,8 +115,8 @@ export default function Community() {
             value={newPost}
             onChange={e => setNewPost(e.target.value.slice(0, 150))}
             placeholder="Share a moment..."
-            className="flex-1 text-sm bg-white rounded-xl px-4 py-3 border focus:outline-none focus:ring-1"
-            style={{ borderColor: '#d4dcd5' }}
+            className="flex-1 text-sm rounded-xl px-4 py-3 border focus:outline-none placeholder-gray-600"
+            style={{ backgroundColor: '#161b24', borderColor: '#232a35', color: '#e8eaf0' }}
             onKeyDown={e => e.key === "Enter" && handlePost()}
           />
           <button
