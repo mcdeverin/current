@@ -128,10 +128,10 @@ export default function Home() {
           <>
             {/* Hero — greeting + Present tense together */}
             <div className="mb-10 pt-4">
-              <p className="font-display text-xl mb-6" style={{ color: '#e8eaf0' }}>
+              <p className="text-xl mb-6 font-body" style={{ color: '#e8eaf0' }}>
                 {getGreeting()}, {profile.first_name}.
               </p>
-              <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: '#e8eaf0', letterSpacing: '-0.02em' }}>
+              <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: '#e8eaf0', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
                 Present tense.
               </p>
               <p className="text-sm" style={{ color: '#6a7280' }}>
@@ -151,21 +151,24 @@ export default function Home() {
             </div>
 
             {/* Mood Check-in (bare) */}
-            <div className="mb-10">
+            <div className="mb-6">
               <MoodCheckin bare />
             </div>
 
-            {/* NYC Spots footer card */}
-            <div className="border-t pt-6" style={{ borderColor: '#232a35' }}>
-              <button
-                onClick={() => navigate(createPageUrl("NearMe"))}
-                className="w-full flex items-center justify-between py-3 px-4 rounded-xl border"
-                style={{ borderColor: '#232a35', backgroundColor: '#161b24' }}
-              >
-                <span className="text-sm" style={{ color: '#6a7280' }}>18 sober-friendly spots near you</span>
-                <span style={{ color: '#8aab8e' }}>→</span>
-              </button>
-            </div>
+            {/* NYC Spots card */}
+            <button
+              onClick={() => navigate(createPageUrl("NearMe"))}
+              className="w-full rounded-xl p-4 text-left"
+              style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
+            >
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#8aab8e' }}>
+                NYC Spots
+              </p>
+              <div className="flex items-center justify-between">
+                <p className="text-sm" style={{ color: '#6a7280' }}>18 sober-friendly spots in New York City</p>
+                <span className="ml-3 flex-shrink-0" style={{ color: '#8aab8e' }}>→</span>
+              </div>
+            </button>
           </>
         )}
 
