@@ -47,7 +47,7 @@ export default function Home() {
   };
 
   if (loading || !profile) {
-    return <div className="min-h-screen" style={{ backgroundColor: '#0e0e0f' }} />;
+    return <div className="min-h-screen" style={{ backgroundColor: '#0f1219' }} />;
   }
 
   const isExploring = profile.mode === "exploring";
@@ -87,7 +87,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0e0e0f' }}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
       <AnimatePresence>
         {showMilestone && days != null && (
           <MilestoneOverlay
@@ -105,7 +105,7 @@ export default function Home() {
 
       <div className="px-6 pt-14 pb-6 max-w-lg mx-auto">
         {/* Greeting */}
-        <p className="font-display text-xl text-white mb-10">
+        <p className="font-display text-xl mb-10" style={{ color: '#e8eaf0' }}>
           {getGreeting()}, {profile.first_name}.
         </p>
 
@@ -113,7 +113,7 @@ export default function Home() {
         {!isExploring && days != null && (
           <div className="flex flex-col items-center mb-3">
             <StreakRing days={days} />
-            <p className="text-xs mt-4" style={{ color: '#8a8478' }}>
+            <p className="text-xs mt-4" style={{ color: '#6a7280' }}>
               Since {sinceDate}
             </p>
           </div>
@@ -122,10 +122,10 @@ export default function Home() {
         {/* EXPLORING MODE: Simple header area */}
         {isExploring && (
           <div className="flex flex-col items-center mb-3 py-6">
-            <p className="font-display text-4xl font-medium text-white text-center leading-tight">
+            <p className="font-display text-4xl font-medium text-center leading-tight" style={{ color: '#e8eaf0' }}>
               Present tense.
             </p>
-            <p className="text-sm mt-3 text-center max-w-xs" style={{ color: '#8a8478' }}>
+            <p className="text-sm mt-3 text-center max-w-xs" style={{ color: '#6a7280' }}>
               You're here. That's enough.
             </p>
           </div>
