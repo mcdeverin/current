@@ -138,17 +138,13 @@ export default function Home() {
           <IntentionCard />
         </div>
 
-        {/* Today's Move + Mood — streak mode only */}
-        {!isExploring && (
-          <>
-            <div className="mb-4">
-              <TodaysMove days={days || 1} />
-            </div>
-            <div className="mb-6">
-              <MoodCheckin />
-            </div>
-          </>
-        )}
+        {/* Today's Move + Mood */}
+        <div className="mb-4">
+          <TodaysMove days={days || 1} />
+        </div>
+        <div className="mb-6">
+          <MoodCheckin />
+        </div>
 
         {/* Stats — only for streak mode */}
         {!isExploring && (
