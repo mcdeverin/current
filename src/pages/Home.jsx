@@ -9,6 +9,8 @@ import StatCard from "../components/current/StatCard";
 import BottomNav from "../components/current/BottomNav";
 import MilestoneOverlay from "../components/current/MilestoneOverlay";
 import ExploringNudge from "../components/current/ExploringNudge";
+import TodaysMove from "../components/current/TodaysMove";
+import MoodCheckin from "../components/current/MoodCheckin";
 import { getDaysSince, isMilestoneDay } from "../components/current/milestoneData";
 
 export default function Home() {
