@@ -1,12 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { Home, MapPin, MessageCircle, User } from "lucide-react";
+import { Home, MapPin, User } from "lucide-react";
 
 const tabs = [
   { name: "Home", icon: Home, page: "Home" },
-  { name: "Near Me", icon: MapPin, page: "NearMe" },
-  { name: "Community", icon: MessageCircle, page: "Community" },
+  { name: "NYC Spots", icon: MapPin, page: "NearMe" },
   { name: "You", icon: User, page: "Profile" },
 ];
 
@@ -16,8 +15,8 @@ export default function BottomNav() {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t"
       style={{ 
-        backgroundColor: '#ffffff', 
-        borderColor: '#e2e6e0',
+        backgroundColor: '#0f1219', 
+        borderColor: '#232a35',
         paddingBottom: 'env(safe-area-inset-bottom, 12px)'
       }}>
       <div className="flex justify-around items-center h-14 max-w-lg mx-auto">
