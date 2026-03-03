@@ -182,7 +182,7 @@ export default function Profile() {
             </p>
             <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("why_i_started", editValue)} />
           </EditPanel>
-        }}
+        )}
 
         {/* Divider */}
         <div className="my-6 border-t" style={{ borderColor: '#232a35' }} />
