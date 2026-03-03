@@ -44,32 +44,49 @@ export default function Profile() {
     );
   }
 
-  const days = getDaysSince(profile.sobriety_date);
-  const sinceDate = new Date(profile.sobriety_date).toLocaleDateString("en-US", {
-    month: "long", day: "numeric", year: "numeric"
-  });
+  const isExploring = profile.mode === "exploring";
+  const days = profile.sobriety_date ? getDaysSince(profile.sobriety_date) : null;
+  const sinceDate = profile.sobriety_date
+    ? new Date(profile.sobriety_date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
+    : null;
+
+  const handleSaveDateAndSwitchMode = async () => {
+    if (!editValue) return;
+    await base44.entities.UserProfile.update(profile.id, {
+      sobriety_date: editValue,
+      mode: "streak",
+      exploring_nudge_dismissed: true,
+    });
+    setProfile(prev => ({ ...prev, sobriety_date: editValue, mode: "streak", exploring_nudge_dismissed: true }));
+    setEditing(null);
+  };
 
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: '#f5f2ec' }}>
       {/* Header */}
       <div className="px-6 pt-14 pb-8">
         <h1 className="font-display text-2xl font-medium text-gray-900">{profile.first_name}</h1>
-        <p className="text-xs mt-1" style={{ color: '#8a8478' }}>Since {sinceDate}</p>
+        {sinceDate && <p className="text-xs mt-1" style={{ color: '#8a8478' }}>Since {sinceDate}</p>}
+        {isExploring && !sinceDate && (
+          <p className="text-xs mt-1" style={{ color: '#8a8478' }}>Exploring</p>
+        )}
 
-        {/* Streak large */}
-        <div className="mt-8 flex items-baseline gap-2">
-          <span className="font-display text-6xl font-medium text-gray-900">{days}</span>
-          <span className="small-caps text-sm tracking-widest" style={{ color: '#8a8478' }}>days</span>
-        </div>
+        {/* Streak large — only if streak mode */}
+        {!isExploring && days != null && (
+          <div className="mt-8 flex items-baseline gap-2">
+            <span className="font-display text-6xl font-medium text-gray-900">{days}</span>
+            <span className="small-caps text-sm tracking-widest" style={{ color: '#8a8478' }}>days</span>
+          </div>
+        )}
       </div>
 
       {/* Settings */}
       <div className="px-6">
-        {/* Sobriety Date */}
+        {/* Sobriety Date — label adapts to mode */}
         <SettingsItem
-          label="Sobriety date"
-          value={sinceDate}
-          onTap={() => { setEditing("date"); setEditValue(profile.sobriety_date); }}
+          label={isExploring && !sinceDate ? "Set a date (optional)" : "Sobriety date"}
+          value={sinceDate || "Not set"}
+          onTap={() => { setEditing("date"); setEditValue(profile.sobriety_date || ""); }}
         />
 
         {editing === "date" && (
