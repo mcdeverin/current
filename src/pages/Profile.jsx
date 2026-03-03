@@ -184,6 +184,12 @@ export default function Profile() {
         {/* Divider */}
         <div className="my-6 border-t" style={{ borderColor: '#232a35' }} />
 
+        {/* Your Journey */}
+        <JourneySection profile={profile} onProfileUpdate={(updated) => setProfile(prev => ({ ...prev, ...updated }))} />
+
+        {/* Divider */}
+        <div className="my-6 border-t" style={{ borderColor: '#232a35' }} />
+
         {/* About */}
         <div className="mb-6">
           <h3 className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#6a7280' }}>
