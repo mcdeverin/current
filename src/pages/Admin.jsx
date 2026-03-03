@@ -55,24 +55,24 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen pb-16" style={{ backgroundColor: '#f0f2ee' }}>
+    <div className="min-h-screen pb-16" style={{ backgroundColor: '#0f1219' }}>
       <div className="px-6 pt-14 pb-6 max-w-lg mx-auto">
         <p className="text-[10px] uppercase tracking-widest font-medium mb-1" style={{ color: '#8aab8e' }}>
           Admin
         </p>
-        <h1 className="font-display text-2xl font-medium mb-8" style={{ color: '#0f1219' }}>
+        <h1 className="font-display text-2xl font-medium mb-8" style={{ color: '#e8eaf0' }}>
           Place Queue
         </h1>
 
         {loading ? (
           <div className="space-y-3">
             {[1, 2, 3].map(i => (
-              <div key={i} className="h-24 rounded-xl animate-pulse" style={{ backgroundColor: '#d8e0d9' }} />
+              <div key={i} className="h-24 rounded-xl animate-pulse" style={{ backgroundColor: '#232a35' }} />
             ))}
           </div>
         ) : pending.length === 0 ? (
           <div className="text-center py-20">
-            <p className="font-display text-lg mb-2" style={{ color: '#0f1219' }}>All clear.</p>
+            <p className="font-display text-lg mb-2" style={{ color: '#e8eaf0' }}>All clear.</p>
             <p className="text-sm" style={{ color: '#6a7280' }}>No pending suggestions.</p>
           </div>
         ) : (
@@ -81,11 +81,11 @@ export default function Admin() {
               <div
                 key={place.id}
                 className="rounded-xl p-4 border"
-                style={{ backgroundColor: '#ffffff', borderColor: '#e2e6e0' }}
+                style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="text-base font-medium leading-tight" style={{ color: '#0f1219' }}>
+                    <p className="text-base font-medium leading-tight" style={{ color: '#e8eaf0' }}>
                       {place.name}
                     </p>
                     <p className="text-xs mt-0.5" style={{ color: '#6a7280' }}>
@@ -107,7 +107,7 @@ export default function Admin() {
                     <button
                       onClick={() => handleDecline(place)}
                       className="w-9 h-9 rounded-lg flex items-center justify-center border transition-all active:scale-95"
-                      style={{ borderColor: '#e2e6e0', color: '#6a7280' }}
+                      style={{ borderColor: '#232a35', color: '#6a7280' }}
                     >
                       <X size={16} />
                     </button>
