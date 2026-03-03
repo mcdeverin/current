@@ -33,10 +33,10 @@ export default function ExploringNudge({ profile, onDismiss }) {
       style={{ backgroundColor: '#ffffff', border: '1px solid #e2e6e0' }}
     >
       <div className="flex-1">
-        <p className="text-sm text-white leading-relaxed">
+        <p className="text-sm leading-relaxed" style={{ color: '#0f1219' }}>
           Want to set a date?
         </p>
-        <p className="text-xs mt-1 leading-relaxed" style={{ color: '#8a8478' }}>
+        <p className="text-xs mt-1 leading-relaxed" style={{ color: '#6a7280' }}>
           No pressure. It's just for you.
         </p>
         <button
