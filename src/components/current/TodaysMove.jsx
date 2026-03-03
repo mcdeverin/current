@@ -49,7 +49,7 @@ export default function TodaysMove({ days, bare = false }) {
         <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#8aab8e' }}>
           Today's Move
         </p>
-        <p className="text-sm leading-relaxed" style={{ color: '#e8eaf0' }}>
+        <p className="text-sm leading-relaxed" style={{ color: '#e8eaf0', fontFamily: 'DM Sans, sans-serif' }}>
           {move} →
         </p>
       </div>
@@ -61,8 +61,8 @@ export default function TodaysMove({ days, bare = false }) {
       <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#8aab8e' }}>
         Today's Move
       </p>
-      <p className="font-display text-lg italic leading-relaxed" style={{ color: '#f0f2ee' }}>
-        "{move}"
+      <p className="text-base leading-relaxed" style={{ color: '#f0f2ee', fontFamily: 'DM Sans, sans-serif' }}>
+        {move}
       </p>
     </div>
   );
