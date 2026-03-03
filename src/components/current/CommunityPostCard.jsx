@@ -30,20 +30,20 @@ export default function CommunityPostCard({ post, currentUserEmail }) {
     <div 
       className={`rounded-xl p-4 mb-3 ${isMilestone ? 'border-2' : 'border'}`}
       style={{ 
-        backgroundColor: '#fff',
-        borderColor: isMilestone ? '#8aab8e' : '#dde4de',
+        backgroundColor: '#161b24',
+        borderColor: isMilestone ? '#8aab8e' : '#232a35',
       }}
     >
       <div className="flex items-center gap-3 mb-3">
         <div 
           className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium"
-          style={{ backgroundColor: isMilestone ? '#8aab8e' : '#e8ecea', color: isMilestone ? '#fff' : '#6a7280' }}
+          style={{ backgroundColor: isMilestone ? '#8aab8e' : '#232a35', color: isMilestone ? '#0f1219' : '#6a7280' }}
         >
           {(post.author_name || "?")[0].toUpperCase()}
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-900">{post.author_name}</span>
+            <span className="text-sm font-medium" style={{ color: '#e8eaf0' }}>{post.author_name}</span>
             {post.author_days != null && (
               <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full"
                 style={{ backgroundColor: 'rgba(138,171,142,0.15)', color: '#8aab8e' }}>
@@ -57,11 +57,11 @@ export default function CommunityPostCard({ post, currentUserEmail }) {
         </div>
       </div>
 
-      <p className={`text-sm leading-relaxed text-gray-800 ${isMilestone ? 'font-display text-base' : ''}`}>
+      <p className={`text-sm leading-relaxed ${isMilestone ? 'font-display text-base' : ''}`} style={{ color: '#e8eaf0' }}>
         {post.text}
       </p>
 
-      <div className="flex items-center mt-3 pt-2 border-t" style={{ borderColor: '#e2e6e0' }}>
+      <div className="flex items-center mt-3 pt-2 border-t" style={{ borderColor: '#232a35' }}>
         <button 
           onClick={handleHeart}
           className="flex items-center gap-1.5 transition-all"

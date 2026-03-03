@@ -30,10 +30,10 @@ export default function ExploringNudge({ profile, onDismiss }) {
       exit={{ opacity: 0, y: 8 }}
       transition={{ delay: 0.4 }}
       className="mx-6 mt-4 rounded-xl p-4 flex items-start gap-3"
-      style={{ backgroundColor: '#ffffff', border: '1px solid #e2e6e0' }}
+      style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
     >
       <div className="flex-1">
-        <p className="text-sm leading-relaxed" style={{ color: '#0f1219' }}>
+        <p className="text-sm leading-relaxed" style={{ color: '#e8eaf0' }}>
           Want to set a date?
         </p>
         <p className="text-xs mt-1 leading-relaxed" style={{ color: '#6a7280' }}>

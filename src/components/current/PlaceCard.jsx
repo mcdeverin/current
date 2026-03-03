@@ -11,13 +11,13 @@ export default function PlaceCard({ place }) {
   const colors = tagColors[place.tag] || tagColors["Sober Friendly"];
 
   return (
-    <div className="flex items-start gap-4 py-4 border-b" style={{ borderColor: '#e2e6e0' }}>
+    <div className="flex items-start gap-4 py-4 border-b" style={{ borderColor: '#232a35' }}>
       <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
-        style={{ backgroundColor: '#eef2ef' }}>
+        style={{ backgroundColor: '#1e3024' }}>
         {place.emoji || "📍"}
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="font-display text-base font-medium leading-tight" style={{ color: '#0f1219' }}>
+        <h3 className="font-display text-base font-medium leading-tight" style={{ color: '#e8eaf0' }}>
           {place.name}
         </h3>
         <p className="text-xs mt-0.5" style={{ color: '#6a7280' }}>
