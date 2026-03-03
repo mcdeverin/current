@@ -10,7 +10,7 @@ function getTodayKey() {
   return `mood_checkin_${new Date().toISOString().split("T")[0]}`;
 }
 
-export default function MoodCheckin() {
+export default function MoodCheckin({ bare = false }) {
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
@@ -24,6 +24,32 @@ export default function MoodCheckin() {
   };
 
   const response = selected ? MOODS.find(m => m.label === selected)?.response : null;
+
+  if (bare) {
+    return (
+      <div>
+        <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#6a7280' }}>
+          How are you right now?
+        </p>
+        {!selected ? (
+          <div className="flex gap-2">
+            {MOODS.map(({ label }) => (
+              <button
+                key={label}
+                onClick={() => handleSelect(label)}
+                className="px-4 py-1.5 rounded-full text-xs font-medium border transition-all"
+                style={{ borderColor: '#232a35', color: '#6a7280', backgroundColor: 'transparent' }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm" style={{ color: '#8aab8e' }}>{response}</p>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-xl p-5" style={{ backgroundColor: '#161b24' }}>
