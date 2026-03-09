@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { Home, MapPin, User } from "lucide-react";
-import { useTheme } from "./ThemeContext";
 
 const tabs = [
   { name: "Home", icon: Home, page: "Home" },
@@ -12,13 +11,12 @@ const tabs = [
 
 export default function BottomNav() {
   const location = useLocation();
-  const { t } = useTheme();
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t"
       style={{ 
-        backgroundColor: t.bg, 
-        borderColor: t.border,
+        backgroundColor: '#0f1219', 
+        borderColor: '#232a35',
         paddingBottom: 'env(safe-area-inset-bottom, 12px)'
       }}>
       <div className="flex justify-around items-center h-14 max-w-lg mx-auto">
@@ -35,11 +33,11 @@ export default function BottomNav() {
               <Icon
                 size={20}
                 strokeWidth={isActive ? 2 : 1.5}
-                style={{ color: isActive ? t.success : t.muted }}
+                style={{ color: isActive ? '#8aab8e' : '#6a7280' }}
               />
               <span
                 className="text-[10px] font-medium"
-                style={{ color: isActive ? t.success : t.muted }}
+                style={{ color: isActive ? '#8aab8e' : '#6a7280' }}
               >
                 {name}
               </span>

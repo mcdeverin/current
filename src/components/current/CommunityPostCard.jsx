@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { Heart } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import moment from "moment";
-import { useTheme } from "./ThemeContext";
 
 export default function CommunityPostCard({ post, currentUserEmail }) {
-  const { t } = useTheme();
   const [hearts, setHearts] = useState(post.hearts || 0);
   const [hearted, setHearted] = useState(
     (post.hearted_by || []).includes(currentUserEmail)
@@ -17,6 +15,7 @@ export default function CommunityPostCard({ post, currentUserEmail }) {
     setAnimating(true);
     setHearted(true);
     setHearts(h => h + 1);
+
     const newHeartedBy = [...(post.hearted_by || []), currentUserEmail];
     await base44.entities.CommunityPost.update(post.id, {
       hearts: (post.hearts || 0) + 1,
@@ -31,49 +30,52 @@ export default function CommunityPostCard({ post, currentUserEmail }) {
     <div 
       className={`rounded-xl p-4 mb-3 ${isMilestone ? 'border-2' : 'border'}`}
       style={{ 
-        backgroundColor: t.bgSecondary,
-        borderColor: isMilestone ? t.success : t.border,
+        backgroundColor: '#161b24',
+        borderColor: isMilestone ? '#8aab8e' : '#232a35',
       }}
     >
       <div className="flex items-center gap-3 mb-3">
         <div 
           className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium"
-          style={{ backgroundColor: isMilestone ? t.success : t.bgTertiary, color: isMilestone ? '#fff' : t.muted }}
+          style={{ backgroundColor: isMilestone ? '#8aab8e' : '#232a35', color: isMilestone ? '#0f1219' : '#6a7280' }}
         >
           {(post.author_name || "?")[0].toUpperCase()}
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium" style={{ color: t.text }}>{post.author_name}</span>
+            <span className="text-sm font-medium" style={{ color: '#e8eaf0' }}>{post.author_name}</span>
             {post.author_days != null && (
               <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full"
-                style={{ backgroundColor: t.successBg, color: t.success }}>
+                style={{ backgroundColor: 'rgba(138,171,142,0.15)', color: '#8aab8e' }}>
                 {post.author_days}d
               </span>
             )}
           </div>
-          <span className="text-[11px]" style={{ color: t.muted }}>
+          <span className="text-[11px]" style={{ color: '#6a7280' }}>
             {moment(post.created_date).fromNow()}
           </span>
         </div>
       </div>
 
-      <p className={`text-sm leading-relaxed ${isMilestone ? 'font-display text-base' : ''}`} style={{ color: t.text }}>
+      <p className={`text-sm leading-relaxed ${isMilestone ? 'font-display text-base' : ''}`} style={{ color: '#e8eaf0' }}>
         {post.text}
       </p>
 
-      <div className="flex items-center mt-3 pt-2 border-t" style={{ borderColor: t.border }}>
-        <button onClick={handleHeart} className="flex items-center gap-1.5 transition-all">
+      <div className="flex items-center mt-3 pt-2 border-t" style={{ borderColor: '#232a35' }}>
+        <button 
+          onClick={handleHeart}
+          className="flex items-center gap-1.5 transition-all"
+        >
           <Heart 
             size={16} 
-            fill={hearted ? t.success : 'none'}
+            fill={hearted ? '#8aab8e' : 'none'}
             style={{ 
-              color: hearted ? t.success : t.muted,
+              color: hearted ? '#8aab8e' : '#6a7280',
               transform: animating ? 'scale(1.3)' : 'scale(1)',
               transition: 'transform 0.2s ease'
             }}
           />
-          <span className="text-xs" style={{ color: hearted ? t.success : t.muted }}>
+          <span className="text-xs" style={{ color: hearted ? '#8aab8e' : '#6a7280' }}>
             {hearts > 0 ? hearts : ''}
           </span>
         </button>

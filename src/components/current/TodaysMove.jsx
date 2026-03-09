@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "./ThemeContext";
 
 const MOVES = [
   (d) => `You've done this ${d} times. Today is one more.`,
@@ -41,17 +40,16 @@ function getDayOfYear() {
 }
 
 export default function TodaysMove({ days, bare = false }) {
-  const { t } = useTheme();
   const idx = getDayOfYear() % MOVES.length;
   const move = MOVES[idx](days);
 
   if (bare) {
     return (
       <div>
-        <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: t.success }}>
+        <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#8aab8e' }}>
           Today's Move
         </p>
-        <p className="text-sm leading-relaxed" style={{ color: t.text, fontFamily: 'DM Sans, sans-serif' }}>
+        <p className="text-sm leading-relaxed" style={{ color: '#e8eaf0', fontFamily: 'DM Sans, sans-serif' }}>
           {move} →
         </p>
       </div>
@@ -59,11 +57,11 @@ export default function TodaysMove({ days, bare = false }) {
   }
 
   return (
-    <div className="rounded-xl p-5" style={{ backgroundColor: t.bgSecondary, border: `1px solid ${t.border}` }}>
-      <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: t.success }}>
+    <div className="rounded-xl p-5" style={{ backgroundColor: '#161b24' }}>
+      <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#8aab8e' }}>
         Today's Move
       </p>
-      <p className="text-base leading-relaxed" style={{ color: t.text, fontFamily: 'DM Sans, sans-serif' }}>
+      <p className="text-base leading-relaxed" style={{ color: '#f0f2ee', fontFamily: 'DM Sans, sans-serif' }}>
         {move}
       </p>
     </div>
