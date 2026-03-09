@@ -145,6 +145,14 @@ export default function NearMe() {
           >
             Use current location
           </button>
+        ) : userLocation ? (
+          <button
+            onClick={() => setUserLocation(null)}
+            className="text-xs font-medium"
+            style={{ color: '#6F8FA4' }}
+          >
+            Stop using location
+          </button>
         ) : (
           <span />
         )}
