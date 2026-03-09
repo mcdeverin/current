@@ -247,7 +247,7 @@ export default function Onboarding() {
               What's your name?
             </h2>
             <p className="text-sm mb-10 text-center" style={{ color: MUTED }}>
-              Not for anyone else. Just so we know what to call you.
+              Just so we know what to call you.
             </p>
 
             <input
