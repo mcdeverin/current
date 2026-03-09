@@ -207,7 +207,13 @@ export default function Home() {
             {days != null && (
               <div className="flex flex-col items-center mb-3">
                 <StreakRing days={days} />
-                <p className="text-xs mt-4" style={{ color: '#6a7280' }}>
+                <p className="text-xs mt-4 font-medium" style={{ color: '#e8eaf0' }}>
+                  {getClearDayText(days)}
+                </p>
+                <p className="text-xs mt-1" style={{ color: '#6a7280' }}>
+                  That matters.
+                </p>
+                <p className="text-xs mt-3" style={{ color: '#6a7280' }}>
                   Since {sinceDate}
                 </p>
               </div>
