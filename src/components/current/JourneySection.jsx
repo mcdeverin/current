@@ -68,6 +68,15 @@ export default function JourneySection({ profile, onProfileUpdate }) {
   const handleSaveDate = async () => {
     if (!dateValue) return;
     await update({ sobriety_date: dateValue, mode: "streak", exploring_nudge_dismissed: true });
+    const user = await base44.auth.me();
+    await trackModeChange({
+      user_email: user?.email,
+      user_name: profile.first_name,
+      from_mode: isExploring ? "exploring" : "streak",
+      to_mode: "streak",
+      sobriety_date_set: dateValue,
+      profile_created_date: profile.created_date,
+    });
     setDateConfirmed(true);
   };
 
