@@ -1,8 +1,34 @@
-import React from "react";
-import { getTodaysIntention } from "./intentions";
+import React, { useState, useEffect } from "react";
+import { base44 } from "@/api/base44Client";
+
+function getDayOfYear() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  return Math.floor((now - start) / (1000 * 60 * 60 * 24));
+}
 
 export default function IntentionCard() {
-  const intention = getTodaysIntention();
+  const [intention, setIntention] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadIntention();
+  }, []);
+
+  const loadIntention = async () => {
+    const content = await base44.entities.DailyContent.filter({
+      type: "intention",
+      active: true
+    });
+
+    if (content.length > 0) {
+      const idx = getDayOfYear() % content.length;
+      setIntention(content[idx].text);
+    }
+    setLoading(false);
+  };
+
+  if (loading) return null;
 
   return (
     <div 
