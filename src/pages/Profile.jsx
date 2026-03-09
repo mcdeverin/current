@@ -91,6 +91,12 @@ export default function Profile() {
           >
             Create account
           </button>
+
+          <div className="mt-12 border-t pt-6 flex flex-col gap-3" style={{ borderColor: '#232a35' }}>
+            <a href="mailto:hello@current.app" className="text-xs font-medium" style={{ color: '#6F8FA4' }}>Contact</a>
+            <Link to={createPageUrl("PrivacyPolicy")} className="text-xs font-medium" style={{ color: '#6F8FA4' }}>Privacy Policy</Link>
+            <Link to={createPageUrl("TermsOfService")} className="text-xs font-medium" style={{ color: '#6F8FA4' }}>Terms of Service</Link>
+          </div>
         </div>
         <BottomNav />
       </div>
