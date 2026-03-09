@@ -137,15 +137,7 @@ export default function NearMe() {
 
       {/* Location prompt + Open now */}
       <div className="px-6 pb-3 flex items-center justify-between gap-3">
-        {!userLocation && !locationDismissed ? (
-          <button
-            onClick={requestLocation}
-            className="text-xs font-medium"
-            style={{ color: '#6F8FA4' }}
-          >
-            Use current location
-          </button>
-        ) : userLocation ? (
+        {userLocation ? (
           <button
             onClick={() => setUserLocation(null)}
             className="text-xs font-medium"
@@ -154,7 +146,13 @@ export default function NearMe() {
             Stop using location
           </button>
         ) : (
-          <span />
+          <button
+            onClick={requestLocation}
+            className="text-xs font-medium"
+            style={{ color: '#6F8FA4' }}
+          >
+            Use current location
+          </button>
         )}
         <button
           onClick={() => setOpenNow(v => !v)}
