@@ -59,7 +59,7 @@ export default function Onboarding() {
 
   const choosePath = (chosen) => {
     setMode(chosen);
-    setStep(chosen === "streak" ? 2 : 3);
+    setStep(chosen === "streak" ? 1 : 2);
   };
 
   const handleComplete = async () => {
