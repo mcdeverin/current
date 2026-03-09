@@ -32,7 +32,7 @@ export default function PrivacyPolicy() {
           Your data is used solely to power your personal experience in the app — your streak, stats, and settings. We do not sell your data, share it with advertisers, or use it for marketing.
         </Section>
 
-        <Section title="Your "Why I Started"">
+        <Section title="Your Why I Started">
           The note you write under "Why I started" is private and stored securely. It is never shared, never displayed publicly, and never used for any purpose other than being available to you inside the app.
         </Section>
 
