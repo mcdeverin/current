@@ -235,8 +235,8 @@ export default function Onboarding() {
           </motion.div>
         )}
 
-        {/* Step 3: Name */}
-        {step === 3 && (
+        {/* Step 2: Name */}
+        {step === 2 && (
           <motion.div
             key="name"
             variants={slideVariants} initial="enter" animate="center" exit="exit"
