@@ -256,30 +256,27 @@ export default function Profile() {
         </div>
 
         {/* Legal & Contact links */}
-        <div className="mb-3 rounded-xl border overflow-hidden" style={{ borderColor: '#232a35' }}>
-          <Link
-            to="mailto:hello@current.app"
-            className="w-full flex items-center justify-between px-4 py-3.5 border-b text-sm"
-            style={{ borderColor: '#232a35', color: '#6a7280' }}
+        <div className="flex flex-col gap-3 mb-4">
+          <a
+            href="mailto:hello@current.app"
+            className="text-xs font-medium"
+            style={{ color: '#6F8FA4' }}
           >
             Contact
-            <ChevronRight size={14} style={{ color: '#6a7280' }} />
-          </Link>
+          </a>
           <Link
             to={createPageUrl("PrivacyPolicy")}
-            className="w-full flex items-center justify-between px-4 py-3.5 border-b text-sm"
-            style={{ borderColor: '#232a35', color: '#6a7280' }}
+            className="text-xs font-medium"
+            style={{ color: '#6F8FA4' }}
           >
             Privacy Policy
-            <ChevronRight size={14} style={{ color: '#6a7280' }} />
           </Link>
           <Link
             to={createPageUrl("TermsOfService")}
-            className="w-full flex items-center justify-between px-4 py-3.5 text-sm"
-            style={{ color: '#6a7280' }}
+            className="text-xs font-medium"
+            style={{ color: '#6F8FA4' }}
           >
             Terms of Service
-            <ChevronRight size={14} style={{ color: '#6a7280' }} />
           </Link>
         </div>
 
