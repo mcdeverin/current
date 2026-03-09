@@ -207,7 +207,7 @@ export default function NearMe() {
           </div>
         ) : !showSuggest ? (
           <button
-            onClick={() => setShowSuggest(true)}
+            onClick={openSuggest}
             className="w-full py-3 rounded-xl border-2 border-dashed flex items-center justify-center gap-2 text-sm font-medium transition-colors"
             style={{ borderColor: '#232a35', color: '#6a7280' }}
           >
