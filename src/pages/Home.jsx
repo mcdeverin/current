@@ -119,25 +119,25 @@ export default function Home() {
 
           {/* NYC Spots card */}
           <button
-           onClick={() => navigate(createPageUrl("NearMe"))}
-           className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-8"
-           style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
+            onClick={() => navigate(createPageUrl("NearMe"))}
+            className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-8"
+            style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
           >
-           <p className="text-[10px] uppercase tracking-widest font-medium mb-2 text-center" style={{ color: '#6F8FA4' }}>
-             Discover
-           </p>
-           <div className="flex items-center justify-between">
-              <p className="text-sm flex-1" style={{ color: '#6a7280' }}>Places that don't need a drink to be good</p>
-              <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
-            </div>
+            <p className="text-[10px] uppercase tracking-widest font-medium mb-2 text-center" style={{ color: '#6F8FA4' }}>
+              Discover
+            </p>
+            <div className="flex items-center justify-between">
+               <p className="text-sm flex-1" style={{ color: '#6a7280' }}>Places that don't need a drink to be good</p>
+               <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
+             </div>
           </button>
 
           {/* Sign up CTA */}
           <div className="rounded-xl p-5 border text-center" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
-           <p className="font-display text-lg mb-1" style={{ color: '#e8eaf0' }}>Track your days.</p>
-           <p className="text-sm mb-4" style={{ color: '#6a7280' }}>
-             Whenever you're ready, we'll keep count with you.
-           </p>
+            <p className="font-display text-lg mb-1" style={{ color: '#e8eaf0' }}>Track your journey.</p>
+            <p className="text-sm mb-4" style={{ color: '#6a7280' }}>
+            Whenever you're ready, we'll be here.
+            </p>
             <button
               onClick={() => base44.auth.redirectToLogin(createPageUrl("Onboarding"))}
               className="w-full py-3 rounded-xl text-sm font-medium"
@@ -261,7 +261,7 @@ export default function Home() {
                 Discover
               </p>
               <div className="flex items-center justify-between">
-                <p className="text-sm flex-1" style={{ color: '#6a7280' }}>Find places with great non-alcohol options</p>
+                <p className="text-sm flex-1" style={{ color: '#6a7280' }}>Places that don't need a drink to be good</p>
                 <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
               </div>
             </button>
