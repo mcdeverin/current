@@ -225,7 +225,7 @@ export default function Home() {
                 {getGreeting()}, {profile.first_name}.
               </p>
               <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: '#e8eaf0', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
-                Present tense.
+                {getDailyHeadline()}
               </p>
               <p className="text-sm" style={{ color: '#6a7280' }}>
                 You're here. That's enough.
@@ -251,10 +251,10 @@ export default function Home() {
               style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
             >
               <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#6F8FA4' }}>
-                NYC Spots
+                Discover
               </p>
               <div className="flex items-center justify-between">
-                <p className="text-sm" style={{ color: '#6a7280' }}>{spotsCount} sober-friendly spots in New York City</p>
+                <p className="text-sm" style={{ color: '#6a7280' }}>Discover {spotsCount > 0 ? `${spotsCount} ` : ''}sober-friendly places in NYC</p>
                 <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
               </div>
             </button>
