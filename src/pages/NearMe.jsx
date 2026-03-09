@@ -58,7 +58,7 @@ export default function NearMe() {
   }, []);
 
   const loadPlaces = async () => {
-    const data = await base44.entities.Place.filter({ status: "approved" });
+    const data = await base44.entities.Places.filter({ status: "approved" });
     setPlaces(data);
     setLoading(false);
   };
@@ -83,7 +83,7 @@ export default function NearMe() {
     const profiles = await base44.entities.UserProfile.list();
     const profile = profiles[0];
     const user = await base44.auth.me();
-    await base44.entities.Place.create({
+    await base44.entities.Places.create({
       name: suggestName,
       type: suggestType,
       neighborhood: suggestNeighborhood || "New York",

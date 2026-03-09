@@ -23,13 +23,13 @@ export default function Admin() {
   };
 
   const loadPending = async () => {
-    const data = await base44.entities.Place.filter({ status: "pending" }, "-created_date");
+    const data = await base44.entities.Places.filter({ status: "pending" }, "-created_date");
     setPending(data);
     setLoading(false);
   };
 
   const handleApprove = async (place) => {
-    await base44.entities.Place.update(place.id, {
+    await base44.entities.Places.update(place.id, {
       status: "approved",
       tag: place.tag || "Sober Friendly",
       emoji: place.emoji || "📍",
@@ -38,7 +38,7 @@ export default function Admin() {
   };
 
   const handleDecline = async (place) => {
-    await base44.entities.Place.update(place.id, { status: "declined" });
+    await base44.entities.Places.update(place.id, { status: "declined" });
     setPending(prev => prev.filter(p => p.id !== place.id));
   };
 
