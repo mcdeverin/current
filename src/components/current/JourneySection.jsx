@@ -34,6 +34,14 @@ export default function JourneySection({ profile, onProfileUpdate }) {
 
   const handleSwitchToExploring = async () => {
     await update({ mode: "exploring" });
+    const user = await base44.auth.me();
+    await trackModeChange({
+      user_email: user?.email,
+      user_name: profile.first_name,
+      from_mode: "streak",
+      to_mode: "exploring",
+      profile_created_date: profile.created_date,
+    });
     setView("idle");
   };
 
