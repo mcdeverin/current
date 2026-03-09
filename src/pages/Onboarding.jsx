@@ -95,24 +95,18 @@ export default function Onboarding() {
             transition={{ duration: 0.5 }}
             className="flex-1 flex flex-col items-center justify-center px-8"
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6 }}
-              className="relative flex-shrink-0 mb-8"
-            >
-              <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a74d93ee777abd7bf98d48/5edea7853_ChatGPTImageMar9202601_40_08PM.png"
-                alt="Current logo"
-                className="w-[140px] h-[140px]"
-              />
-            </motion.div>
-            <h1 className="font-display text-5xl md:text-6xl font-medium mb-2" style={{ color: TEXT }}>
-              Current
-            </h1>
-            <p className="text-sm tracking-wide" style={{ color: MUTED }}>
-              present tense.
-            </p>
+             <motion.div
+               initial={{ opacity: 0, scale: 0.9 }}
+               animate={{ opacity: 1, scale: 1 }}
+               transition={{ duration: 0.6 }}
+               className="relative flex-shrink-0"
+             >
+               <img 
+                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a74d93ee777abd7bf98d48/5edea7853_ChatGPTImageMar9202601_40_08PM.png"
+                 alt="current present tense"
+                 className="w-[280px] h-[280px]"
+               />
+             </motion.div>
           </motion.div>
         )}
 
