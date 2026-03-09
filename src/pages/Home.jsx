@@ -35,9 +35,9 @@ function getDailyHeadline() {
   return headlines[seed % headlines.length];
 }
 
-function getMorningsMatterText(count) {
-  const word = count === 1 ? "morning" : "mornings";
-  return `${count} ${word} clear`;
+function getClearDayText(count) {
+  const word = count === 1 ? "day" : "days";
+  return `${count} clear ${word}`;
 }
 
 export default function Home() {
