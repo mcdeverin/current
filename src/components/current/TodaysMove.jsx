@@ -69,6 +69,7 @@ export default function TodaysMove({ days, bare = false }) {
       <p className="text-base leading-relaxed" style={{ color: '#f0f2ee', fontFamily: 'DM Sans, sans-serif' }}>
         {move}
       </p>
+      <MomentumBoost />
     </div>
   );
 }
