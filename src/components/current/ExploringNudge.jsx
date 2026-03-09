@@ -34,10 +34,10 @@ export default function ExploringNudge({ profile, onDismiss }) {
     >
       <div className="flex-1">
         <p className="text-sm leading-relaxed" style={{ color: '#e8eaf0' }}>
-          Save your start date
+          Track your days
         </p>
         <p className="text-xs mt-1 leading-relaxed" style={{ color: '#6a7280' }}>
-          We'll keep track of the days.
+          If you ever decide to start, we'll keep count for you.
         </p>
         <button
           onClick={handleSetDate}

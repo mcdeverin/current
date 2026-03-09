@@ -51,7 +51,7 @@ export default function TodaysMoment() {
         Today's Moment
       </p>
       <p className="font-display text-lg italic leading-relaxed mb-3" style={{ color: '#f0f2ee' }}>
-        {intention}
+        {intention}:
       </p>
       <p className="text-base leading-relaxed" style={{ color: '#f0f2ee', fontFamily: 'DM Sans, sans-serif' }}>
         {move}

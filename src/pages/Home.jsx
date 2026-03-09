@@ -226,8 +226,8 @@ export default function Home() {
         {/* EXPLORING MODE */}
         {isExploring && (
           <>
-            <div className="mb-10 pt-4 text-center">
-              <p className="text-xl mb-6 font-body" style={{ color: '#e8eaf0' }}>
+            <div className="mb-12 pt-4 text-center">
+              <p className="text-sm mb-4 font-body" style={{ color: '#6a7280' }}>
                 {getGreeting()}, {profile.first_name}.
               </p>
               <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: '#e8eaf0', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
@@ -238,13 +238,13 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mb-8 flex justify-center">
+            <div className="mb-10 pt-6 pb-6 flex justify-center">
               <div className="w-full max-w-xs">
                 <MoodCheckin bare />
               </div>
             </div>
 
-            <div className="mb-8 flex justify-center">
+            <div className="mb-12 flex justify-center">
               <div className="w-full max-w-xs">
                 <TodaysMoment />
               </div>
@@ -252,7 +252,7 @@ export default function Home() {
 
             <button
               onClick={() => navigate(createPageUrl("NearMe"))}
-              className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-6 mt-12"
+              className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-6 mt-8"
               style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
             >
               <p className="text-[10px] uppercase tracking-widest font-medium mb-2 text-center" style={{ color: '#6F8FA4' }}>
@@ -288,14 +288,14 @@ export default function Home() {
         )}
       </div>
 
-      <AnimatePresence>
-        {isExploring && showNudge && (
+      {isExploring && showNudge && (
+        <div className="px-6 pb-6 max-w-lg mx-auto">
           <ExploringNudge
             profile={profile}
             onDismiss={() => setShowNudge(false)}
           />
-        )}
-      </AnimatePresence>
+        </div>
+      )}
 
       <BottomNav />
     </div>
