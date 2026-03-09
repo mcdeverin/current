@@ -26,14 +26,24 @@ export default function PlaceCard({ place, distance, isOpen }) {
               {place.description}
             </p>
           )}
-          {place.tag && (
-            <span
-              className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full mt-2"
-              style={{ backgroundColor: 'rgba(111,143,164,0.15)', color: '#6F8FA4' }}
-            >
-              {place.tag}
-            </span>
-          )}
+          <div className="flex items-center gap-2 flex-wrap">
+            {place.tag && (
+              <span
+                className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full mt-2"
+                style={{ backgroundColor: 'rgba(111,143,164,0.15)', color: '#6F8FA4' }}
+              >
+                {place.tag}
+              </span>
+            )}
+            {isOpen && (
+              <span
+                className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full mt-2"
+                style={{ backgroundColor: 'rgba(74,183,117,0.15)', color: '#4ab775' }}
+              >
+                Open now
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>
