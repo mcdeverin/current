@@ -79,7 +79,35 @@ export default function Onboarding() {
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: BG }}>
       <AnimatePresence mode="wait">
 
-        {/* Step 0: Splash */}
+        {/* Step -1: Auto Splash */}
+        {step === -1 && (
+          <motion.div
+            key="splash"
+            variants={slideVariants} initial="enter" animate="center" exit="exit"
+            transition={{ duration: 0.5 }}
+            className="flex-1 flex flex-col items-center justify-center px-8"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              className="relative flex-shrink-0 mb-8"
+              style={{ width: 140, height: 140 }}
+            >
+              <svg width={140} height={140} viewBox="0 0 140 140" className="drop-shadow-lg">
+                <circle cx={70} cy={70} r={60} stroke="#6F8FA4" strokeWidth={18} fill="none" />
+              </svg>
+            </motion.div>
+            <h1 className="font-display text-5xl md:text-6xl font-medium mb-2" style={{ color: TEXT }}>
+              Current
+            </h1>
+            <p className="text-sm tracking-wide" style={{ color: MUTED }}>
+              present tense.
+            </p>
+          </motion.div>
+        )}
+
+        {/* Step 0: Path choice */}
         {step === 0 && (
           <motion.div
             key="welcome"
