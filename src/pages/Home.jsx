@@ -140,8 +140,8 @@ export default function Home() {
            </p>
             <button
               onClick={() => base44.auth.redirectToLogin(createPageUrl("Onboarding"))}
-              className="w-full py-3 rounded-xl text-sm font-medium"
-              style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
+              className="text-sm font-medium hover:opacity-70 transition-opacity"
+              style={{ color: '#6F8FA4' }}
             >
               Get started
             </button>
