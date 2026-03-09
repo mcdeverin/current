@@ -9,7 +9,10 @@ const MOVES = [
   () => `Open NYC Spots. You've earned a good night out.`,
   (d) => `${d} days in. Notice how different you feel.`,
   () => `Do one thing today that sober-you is proud of.`,
-  (d) => `${d} mornings clear. That's not nothing.`,
+  (d) => {
+    const word = d === 1 ? "morning" : "mornings";
+    return `${d} ${word} clear. That matters.`;
+  },
   () => `Text someone who's been rooting for you.`,
   () => `Buy yourself something small and good today.`,
   (d) => `Day ${d}. Still here. Still choosing this.`,
