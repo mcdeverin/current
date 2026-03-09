@@ -201,7 +201,7 @@ export default function Home() {
         {/* STREAK MODE */}
         {!isExploring && (
           <>
-            <p className="font-display text-xl mb-10" style={{ color: '#e8eaf0' }}>
+            <p className="font-display text-xl mb-10 text-center" style={{ color: '#e8eaf0' }}>
               {getGreeting()}, {profile.first_name}.
             </p>
             {days != null && (
