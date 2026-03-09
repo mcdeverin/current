@@ -38,9 +38,9 @@ export default function Onboarding() {
   }, [step]);
 
   useEffect(() => {
-    // Auto-advance from greeting after 1 second
+    // Auto-advance from greeting after 2.5 seconds
     if (step === 4) {
-      const timer = setTimeout(() => navigate(createPageUrl("Home")), 1000);
+      const timer = setTimeout(() => navigate(createPageUrl("Home")), 2500);
       return () => clearTimeout(timer);
     }
   }, [step, navigate]);
