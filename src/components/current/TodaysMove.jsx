@@ -42,6 +42,8 @@ function getDayOfYear() {
   return Math.floor((now - start) / (1000 * 60 * 60 * 24));
 }
 
+import MomentumBoost from "./MomentumBoost";
+
 export default function TodaysMove({ days, bare = false }) {
   const idx = getDayOfYear() % MOVES.length;
   const move = MOVES[idx](days);
