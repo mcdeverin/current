@@ -278,16 +278,22 @@ export default function Home() {
         {/* STREAK layout */}
         {!isExploring && (
           <>
-            <div className="mt-8 mb-4">
-              <IntentionCard />
+            <div className="mt-8 mb-4 flex justify-center">
+              <div className="w-full max-w-xs">
+                <IntentionCard />
+              </div>
             </div>
-            <div className="mb-4">
-              <TodaysMove days={days || 1} />
+            <div className="mb-4 flex justify-center">
+              <div className="w-full max-w-xs">
+                <TodaysMove days={days || 1} />
+              </div>
             </div>
-            <div className="mb-6">
-              <MoodCheckin />
+            <div className="mb-6 flex justify-center">
+              <div className="w-full max-w-xs">
+                <MoodCheckin />
+              </div>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 justify-center">
               <StatCard label="Time" value={getYearsMonths()} />
               <StatCard label="Saved" value={`$${(moneySaved || 0).toLocaleString()}`} premium />
               <StatCard label="NYC Spots" value={String(spotsCount)} sublabel="places" />
