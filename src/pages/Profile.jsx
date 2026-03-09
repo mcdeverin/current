@@ -255,6 +255,34 @@ export default function Profile() {
           </p>
         </div>
 
+        {/* Legal & Contact links */}
+        <div className="mb-3 rounded-xl border overflow-hidden" style={{ borderColor: '#232a35' }}>
+          <Link
+            to="mailto:hello@current.app"
+            className="w-full flex items-center justify-between px-4 py-3.5 border-b text-sm"
+            style={{ borderColor: '#232a35', color: '#6a7280' }}
+          >
+            Contact
+            <ChevronRight size={14} style={{ color: '#6a7280' }} />
+          </Link>
+          <Link
+            to={createPageUrl("PrivacyPolicy")}
+            className="w-full flex items-center justify-between px-4 py-3.5 border-b text-sm"
+            style={{ borderColor: '#232a35', color: '#6a7280' }}
+          >
+            Privacy Policy
+            <ChevronRight size={14} style={{ color: '#6a7280' }} />
+          </Link>
+          <Link
+            to={createPageUrl("TermsOfService")}
+            className="w-full flex items-center justify-between px-4 py-3.5 text-sm"
+            style={{ color: '#6a7280' }}
+          >
+            Terms of Service
+            <ChevronRight size={14} style={{ color: '#6a7280' }} />
+          </Link>
+        </div>
+
         {/* Sign out */}
         <button
           onClick={() => base44.auth.logout()}
