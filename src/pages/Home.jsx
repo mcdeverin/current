@@ -124,10 +124,10 @@ export default function Home() {
             style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
           >
             <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#6F8FA4' }}>
-              NYC Spots
+              Discover
             </p>
             <div className="flex items-center justify-between">
-              <p className="text-sm" style={{ color: '#6a7280' }}>Sober-friendly spots in New York City</p>
+              <p className="text-sm" style={{ color: '#6a7280' }}>Discover sober-friendly places in NYC</p>
               <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
             </div>
           </button>
