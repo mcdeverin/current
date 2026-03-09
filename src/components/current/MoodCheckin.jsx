@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTheme } from "./ThemeContext";
 
 const MOODS = [
   { label: "Good", response: "That's worth something." },
@@ -11,6 +12,7 @@ function getTodayKey() {
 }
 
 export default function MoodCheckin({ bare = false }) {
+  const { t } = useTheme();
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export default function MoodCheckin({ bare = false }) {
   if (bare) {
     return (
       <div>
-        <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#6a7280' }}>
+        <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: t.muted }}>
           How are you right now?
         </p>
         {!selected ? (
@@ -38,22 +40,22 @@ export default function MoodCheckin({ bare = false }) {
                 key={label}
                 onClick={() => handleSelect(label)}
                 className="px-4 py-1.5 rounded-full text-xs font-medium border transition-all"
-                style={{ borderColor: '#232a35', color: '#6a7280', backgroundColor: 'transparent' }}
+                style={{ borderColor: t.border, color: t.muted, backgroundColor: 'transparent' }}
               >
                 {label}
               </button>
             ))}
           </div>
         ) : (
-          <p className="text-sm" style={{ color: '#8aab8e' }}>{response}</p>
+          <p className="text-sm" style={{ color: t.success }}>{response}</p>
         )}
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl p-5" style={{ backgroundColor: '#161b24' }}>
-      <p className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#8aab8e' }}>
+    <div className="rounded-xl p-5" style={{ backgroundColor: t.bgSecondary, border: `1px solid ${t.border}` }}>
+      <p className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: t.success }}>
         How are you right now?
       </p>
       {!selected ? (
@@ -63,14 +65,14 @@ export default function MoodCheckin({ bare = false }) {
               key={label}
               onClick={() => handleSelect(label)}
               className="flex-1 py-2.5 rounded-lg text-xs font-medium transition-all"
-              style={{ backgroundColor: '#232a35', color: '#e8eaf0' }}
+              style={{ backgroundColor: t.bgTertiary, color: t.text }}
             >
               {label}
             </button>
           ))}
         </div>
       ) : (
-        <p className="font-display text-base italic leading-relaxed" style={{ color: '#f0f2ee' }}>
+        <p className="font-display text-base italic leading-relaxed" style={{ color: t.text }}>
           "{response}"
         </p>
       )}
