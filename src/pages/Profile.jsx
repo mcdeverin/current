@@ -255,6 +255,9 @@ export default function Profile() {
           </p>
         </div>
 
+        {/* Separator */}
+        <div className="my-6 border-t" style={{ borderColor: '#232a35' }} />
+
         {/* Legal & Contact links */}
         <div className="flex flex-col gap-3 mb-4">
           <a
