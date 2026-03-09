@@ -20,6 +20,26 @@ function getGreeting() {
   return "Good evening";
 }
 
+function getDailyHeadline() {
+  const headlines = [
+    "Present tense.",
+    "Just today.",
+    "Stay here.",
+    "One moment at a time.",
+    "Breathe.",
+    "Still moving.",
+    "You made it to today."
+  ];
+  const day = new Date().toDateString();
+  const seed = day.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return headlines[seed % headlines.length];
+}
+
+function getMorningsMatterText(count) {
+  const word = count === 1 ? "morning" : "mornings";
+  return `${count} ${word} clear`;
+}
+
 export default function Home() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
