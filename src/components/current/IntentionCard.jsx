@@ -13,7 +13,7 @@ export default function IntentionCard() {
         Today's Intention
       </p>
       <p className="font-display text-lg italic leading-relaxed" style={{ color: '#f0f2ee' }}>
-        "{intention}"
+        {intention}
       </p>
     </div>
   );
