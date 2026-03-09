@@ -158,7 +158,12 @@ export default function NearMe() {
       </div>
 
       {/* Filter chips */}
-      <div className="px-6 pb-4 overflow-x-auto">
+      <div 
+        className="px-6 pb-4 overflow-x-auto" 
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        onScroll={(e) => e.currentTarget.style.scrollBehavior = 'smooth'}
+      >
+        <style>{`.filter-chips::-webkit-scrollbar { display: none; }`}</style>
         <div className="flex gap-2">
           {FILTER_CHIPS.map(chip => (
             <button
