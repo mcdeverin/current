@@ -146,7 +146,7 @@ export default function NearMe() {
             <p className="text-sm" style={{ color: '#6a7280' }}>No places found.</p>
           </div>
         ) : (
-          filtered.map(place => <PlaceCard key={place.id} place={place} />)
+          filtered.map(place => <PlaceCard key={place.id} place={place} distance={place._distance} />)
         )}
       </div>
 
