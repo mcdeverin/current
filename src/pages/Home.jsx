@@ -230,15 +230,17 @@ export default function Home() {
               <p className="text-sm mb-4 font-body" style={{ color: '#6a7280' }}>
                 {getGreeting()}, {profile.first_name}.
               </p>
-              <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: '#e8eaf0', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
-                {getDailyHeadline()}
-              </p>
+              <div className="max-w-sm mx-auto">
+                <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: '#e8eaf0', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
+                  {getDailyHeadline()}
+                </p>
+              </div>
               <p className="text-sm" style={{ color: '#6a7280' }}>
                 You're here. That's enough.
               </p>
             </div>
 
-            <div className="mb-10 pt-6 pb-6 flex justify-center">
+            <div className="mb-10 pt-10 pb-6 flex justify-center">
               <div className="w-full max-w-xs">
                 <MoodCheckin bare />
               </div>
