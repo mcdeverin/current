@@ -37,6 +37,14 @@ export default function Onboarding() {
     }
   }, [step]);
 
+  useEffect(() => {
+    // Auto-advance from greeting after 1 second
+    if (step === 4) {
+      const timer = setTimeout(() => navigate(createPageUrl("Home")), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [step, navigate]);
+
   const checkExisting = async () => {
     const isAuth = await base44.auth.isAuthenticated();
     if (!isAuth) {
