@@ -2,6 +2,20 @@ import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { getDaysSince } from "./milestoneData";
 
+async function trackModeChange({ user_email, user_name, from_mode, to_mode, sobriety_date_set, profile_created_date }) {
+  const days_in_previous_mode = profile_created_date
+    ? Math.floor((new Date() - new Date(profile_created_date)) / (1000 * 60 * 60 * 24))
+    : null;
+  await base44.entities.ModeChange.create({
+    user_email,
+    user_name,
+    from_mode,
+    to_mode,
+    sobriety_date_set: sobriety_date_set || null,
+    days_in_previous_mode,
+  });
+}
+
 export default function JourneySection({ profile, onProfileUpdate }) {
   const [view, setView] = useState("idle");
   const [dateValue, setDateValue] = useState(profile.sobriety_date || "");
