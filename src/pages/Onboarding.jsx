@@ -196,8 +196,8 @@ export default function Onboarding() {
           </motion.div>
         )}
 
-        {/* Step 2: Date picker (streak path) */}
-        {step === 2 && (
+        {/* Step 1: Date picker (streak path) */}
+        {step === 1 && (
           <motion.div
             key="date"
             variants={slideVariants} initial="enter" animate="center" exit="exit"
