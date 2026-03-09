@@ -12,9 +12,11 @@ import ExploringNudge from "../components/current/ExploringNudge";
 import TodaysMove from "../components/current/TodaysMove";
 import MoodCheckin from "../components/current/MoodCheckin";
 import { getDaysSince, isMilestoneDay } from "../components/current/milestoneData";
+import { useTheme } from "../components/current/ThemeContext";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { t } = useTheme();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showMilestone, setShowMilestone] = useState(false);
@@ -49,7 +51,7 @@ export default function Home() {
   };
 
   if (loading || !profile) {
-    return <div className="min-h-screen" style={{ backgroundColor: '#0f1219' }} />;
+    return <div className="min-h-screen" style={{ backgroundColor: t.bg }} />;
   }
 
   const isExploring = profile.mode === "exploring";
@@ -89,7 +91,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: t.bg }}>
       <AnimatePresence>
         {showMilestone && days != null && (
           <MilestoneOverlay
@@ -106,16 +108,15 @@ export default function Home() {
       </AnimatePresence>
 
       <div className="px-6 pt-14 pb-6 max-w-lg mx-auto">
-        {/* STREAK MODE: Greeting + Ring */}
         {!isExploring && (
           <>
-            <p className="font-display text-xl mb-10" style={{ color: '#e8eaf0' }}>
+            <p className="font-display text-xl mb-10" style={{ color: t.text }}>
               {getGreeting()}, {profile.first_name}.
             </p>
             {days != null && (
               <div className="flex flex-col items-center mb-3">
                 <StreakRing days={days} />
-                <p className="text-xs mt-4" style={{ color: '#6a7280' }}>
+                <p className="text-xs mt-4" style={{ color: t.muted }}>
                   Since {sinceDate}
                 </p>
               </div>
@@ -123,72 +124,60 @@ export default function Home() {
           </>
         )}
 
-        {/* EXPLORING MODE layout */}
         {isExploring && (
           <>
-            {/* Hero — greeting + Present tense together */}
             <div className="mb-10 pt-4">
-              <p className="text-xl mb-6 font-body" style={{ color: '#e8eaf0' }}>
+              <p className="text-xl mb-6 font-body" style={{ color: t.text }}>
                 {getGreeting()}, {profile.first_name}.
               </p>
-              <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: '#e8eaf0', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
+              <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: t.text, letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
                 Present tense.
               </p>
-              <p className="text-sm" style={{ color: '#6a7280' }}>
+              <p className="text-sm" style={{ color: t.muted }}>
                 You're here. That's enough.
               </p>
             </div>
 
-            {/* Intention — only card above the fold */}
             <div className="mb-8">
               <IntentionCard />
             </div>
 
-            {/* Divider + Today's Move (bare) */}
-            <div className="border-t mb-6" style={{ borderColor: '#232a35' }} />
+            <div className="border-t mb-6" style={{ borderColor: t.border }} />
             <div className="mb-8">
               <TodaysMove days={1} bare />
             </div>
 
-            {/* Mood Check-in (bare) */}
             <div className="mb-6">
               <MoodCheckin bare />
             </div>
 
-            {/* NYC Spots card */}
             <button
               onClick={() => navigate(createPageUrl("NearMe"))}
               className="w-full rounded-xl p-4 text-left"
-              style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
+              style={{ backgroundColor: t.bgSecondary, border: `1px solid ${t.border}` }}
             >
-              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#8aab8e' }}>
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: t.success }}>
                 NYC Spots
               </p>
               <div className="flex items-center justify-between">
-                <p className="text-sm" style={{ color: '#6a7280' }}>18 sober-friendly spots in New York City</p>
-                <span className="ml-3 flex-shrink-0" style={{ color: '#8aab8e' }}>→</span>
+                <p className="text-sm" style={{ color: t.muted }}>18 sober-friendly spots in New York City</p>
+                <span className="ml-3 flex-shrink-0" style={{ color: t.success }}>→</span>
               </div>
             </button>
           </>
         )}
 
-        {/* STREAK MODE layout */}
         {!isExploring && (
           <>
-            {/* Intention */}
             <div className="mt-8 mb-4">
               <IntentionCard />
             </div>
-
-            {/* Today's Move + Mood */}
             <div className="mb-4">
               <TodaysMove days={days || 1} />
             </div>
             <div className="mb-6">
               <MoodCheckin />
             </div>
-
-            {/* Stats */}
             <div className="flex gap-3">
               <StatCard label="Time" value={getYearsMonths()} />
               <StatCard label="Saved" value={`$${(moneySaved || 0).toLocaleString()}`} premium />
@@ -198,7 +187,6 @@ export default function Home() {
         )}
       </div>
 
-      {/* Exploring nudge — rendered outside padding container, no max-w */}
       <AnimatePresence>
         {isExploring && showNudge && (
           <ExploringNudge
