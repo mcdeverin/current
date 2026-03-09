@@ -118,30 +118,6 @@ export default function Onboarding() {
         {/* Step 0: Path choice */}
         {step === 0 && (
           <motion.div
-            key="welcome"
-            variants={slideVariants} initial="enter" animate="center" exit="exit"
-            transition={{ duration: 0.5 }}
-            className="flex-1 flex flex-col items-center justify-center px-8"
-          >
-            <h1 className="font-display text-5xl md:text-6xl font-medium mb-4" style={{ color: TEXT }}>
-              Current
-            </h1>
-            <p className="text-sm tracking-wide" style={{ color: MUTED }}>
-              Present tense.
-            </p>
-            <button
-              onClick={() => setStep(1)}
-              className="mt-16 px-10 py-3.5 rounded-xl text-sm font-medium transition-all"
-              style={{ backgroundColor: ACCENT, color: BG }}
-            >
-              Begin
-            </button>
-          </motion.div>
-        )}
-
-        {/* Step 0: Path choice */}
-        {step === 0 && (
-          <motion.div
             key="path"
             variants={slideVariants} initial="enter" animate="center" exit="exit"
             transition={{ duration: 0.5 }}
