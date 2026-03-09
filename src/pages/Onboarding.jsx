@@ -221,7 +221,7 @@ export default function Onboarding() {
             />
 
             <button
-              onClick={() => sobrietyDate && setStep(3)}
+              onClick={() => sobrietyDate && setStep(2)}
               disabled={!sobrietyDate}
               className="mt-12 px-10 py-3.5 rounded-xl text-sm font-medium transition-all disabled:opacity-30"
               style={{ backgroundColor: ACCENT, color: BG }}
@@ -229,7 +229,7 @@ export default function Onboarding() {
               Continue
             </button>
 
-            <button onClick={() => setStep(1)} className="mt-4 text-xs" style={{ color: MUTED }}>
+            <button onClick={() => setStep(0)} className="mt-4 text-xs" style={{ color: MUTED }}>
               ← Back
             </button>
           </motion.div>
