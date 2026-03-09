@@ -22,13 +22,11 @@ function getGreeting() {
 
 function getDailyHeadline() {
   const headlines = [
+    "Stay here.",
     "Present tense.",
     "Just today.",
-    "Stay here.",
-    "One moment at a time.",
-    "Breathe.",
-    "Still moving.",
-    "You made it to today."
+    "Keep going.",
+    "One moment at a time."
   ];
   const day = new Date().toDateString();
   const seed = day.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
