@@ -38,7 +38,7 @@ export default function PlaceCard({ place, distance, isOpen }) {
             {isOpen && (
               <span
                 className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full mt-2"
-                style={{ backgroundColor: 'rgba(74,183,117,0.15)', color: '#4ab775' }}
+                style={{ backgroundColor: 'rgba(111,143,164,0.15)', color: '#6F8FA4' }}
               >
                 Open now
               </span>
