@@ -136,14 +136,14 @@ export default function Home() {
           <div className="rounded-xl p-5 border text-center" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
            <p className="font-display text-lg mb-1" style={{ color: '#e8eaf0' }}>Track your days</p>
            <p className="text-sm mb-4" style={{ color: '#6a7280' }}>
-             Whenever you're ready, we'll keep count with you.
+             Whenever you're ready, we'll be here.
            </p>
             <button
               onClick={() => base44.auth.redirectToLogin(createPageUrl("Onboarding"))}
               className="text-sm font-medium hover:opacity-70 transition-opacity"
               style={{ color: '#6F8FA4' }}
             >
-              Get started
+              Start tracking →
             </button>
           </div>
         </div>
