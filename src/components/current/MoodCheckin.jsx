@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 const MOODS = [
-  { label: "Good", response: "That's worth something." },
-  { label: "Okay", response: "Okay is enough." },
-  { label: "Hard day", response: "You still showed up. That counts." },
+  { label: "Feeling steady", response: "That's worth something." },
+  { label: "Getting through", response: "You're showing up. That counts." },
+  { label: "Today's tough", response: "Still here. That matters." },
 ];
 
 function getTodayKey() {
