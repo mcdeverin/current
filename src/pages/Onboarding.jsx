@@ -102,7 +102,7 @@ export default function Onboarding() {
                className="relative flex-shrink-0"
              >
                <img 
-                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a74d93ee777abd7bf98d48/5edea7853_ChatGPTImageMar9202601_40_08PM.png"
+                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a74d93ee777abd7bf98d48/7b2bb610c_Untitleddesign.png"
                  alt="current present tense"
                  className="w-[280px] h-[280px]"
                />
