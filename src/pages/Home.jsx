@@ -27,10 +27,17 @@ export default function Home() {
   const [isGuest, setIsGuest] = useState(false);
   const [showMilestone, setShowMilestone] = useState(false);
   const [showNudge, setShowNudge] = useState(false);
+  const [spotsCount, setSpotsCount] = useState(0);
 
   useEffect(() => {
     loadProfile();
+    loadSpotsCount();
   }, []);
+
+  const loadSpotsCount = async () => {
+    const approved = await base44.entities.Places.filter({ status: "approved" });
+    setSpotsCount(approved.length);
+  };
 
   const loadProfile = async () => {
     const isAuth = await base44.auth.isAuthenticated();
@@ -227,7 +234,7 @@ export default function Home() {
                 NYC Spots
               </p>
               <div className="flex items-center justify-between">
-                <p className="text-sm" style={{ color: '#6a7280' }}>18 sober-friendly spots in New York City</p>
+                <p className="text-sm" style={{ color: '#6a7280' }}>{spotsCount} sober-friendly spots in New York City</p>
                 <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
               </div>
             </button>
@@ -249,7 +256,7 @@ export default function Home() {
             <div className="flex gap-3">
               <StatCard label="Time" value={getYearsMonths()} />
               <StatCard label="Saved" value={`$${(moneySaved || 0).toLocaleString()}`} premium />
-              <StatCard label="NYC Spots" value="18" sublabel="places" />
+              <StatCard label="NYC Spots" value={String(spotsCount)} sublabel="places" />
             </div>
           </>
         )}

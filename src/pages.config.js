@@ -52,8 +52,8 @@ import Home from './pages/Home';
 import Milestone from './pages/Milestone';
 import NearMe from './pages/NearMe';
 import Onboarding from './pages/Onboarding';
-import Profile from './pages/Profile';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import Profile from './pages/Profile';
 import TermsOfService from './pages/TermsOfService';
 import __Layout from './Layout.jsx';
 
@@ -64,8 +64,8 @@ export const PAGES = {
     "Milestone": Milestone,
     "NearMe": NearMe,
     "Onboarding": Onboarding,
-    "Profile": Profile,
     "PrivacyPolicy": PrivacyPolicy,
+    "Profile": Profile,
     "TermsOfService": TermsOfService,
 }
 
