@@ -26,11 +26,11 @@ export default function MoodCheckin({ bare = false }) {
   const response = selected ? MOODS.find(m => m.label === selected)?.response : null;
 
   if (bare) {
-    return (
-      <div>
-        <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#6a7280' }}>
-          How are you right now?
-        </p>
+   return (
+     <div className="text-center">
+       <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#6a7280' }}>
+         How are you right now?
+       </p>
         {!selected ? (
           <div className="flex gap-2">
             {MOODS.map(({ label }) => (
@@ -52,7 +52,7 @@ export default function MoodCheckin({ bare = false }) {
   }
 
   return (
-    <div className="rounded-xl p-5" style={{ backgroundColor: '#161b24' }}>
+    <div className="rounded-xl p-5 text-center" style={{ backgroundColor: '#161b24' }}>
       <p className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#6F8FA4' }}>
         How are you right now?
       </p>

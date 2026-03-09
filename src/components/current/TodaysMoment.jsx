@@ -44,7 +44,7 @@ export default function TodaysMoment() {
 
   return (
     <div 
-      className="rounded-xl p-5"
+      className="rounded-xl p-5 text-center"
       style={{ backgroundColor: '#1a2430' }}
     >
       <p className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#6F8FA4' }}>
