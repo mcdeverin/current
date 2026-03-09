@@ -127,7 +127,7 @@ export default function Home() {
               Discover
             </p>
             <div className="flex items-center justify-between">
-               <p className="text-sm flex-1" style={{ color: '#6a7280' }}>Discover alcohol-free places in NYC</p>
+               <p className="text-sm flex-1" style={{ color: '#6a7280' }}>Find places with great non-alcohol options</p>
                <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
              </div>
           </button>
@@ -259,7 +259,7 @@ export default function Home() {
                 Discover
               </p>
               <div className="flex items-center justify-between">
-                <p className="text-sm flex-1" style={{ color: '#6a7280' }}>Discover {spotsCount > 0 ? `${spotsCount} ` : ''}alcohol-free places in NYC</p>
+                <p className="text-sm flex-1" style={{ color: '#6a7280' }}>Find places with great non-alcohol options</p>
                 <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
               </div>
             </button>
