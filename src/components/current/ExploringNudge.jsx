@@ -34,17 +34,17 @@ export default function ExploringNudge({ profile, onDismiss }) {
     >
       <div className="flex-1">
         <p className="text-sm leading-relaxed" style={{ color: '#e8eaf0' }}>
-          Want to set a date?
+          Save your sober start date
         </p>
         <p className="text-xs mt-1 leading-relaxed" style={{ color: '#6a7280' }}>
-          No pressure. It's just for you.
+          We'll keep track of the days.
         </p>
         <button
           onClick={handleSetDate}
           className="text-xs font-medium mt-3 transition-colors"
           style={{ color: '#6F8FA4' }}
         >
-          Set a date →
+          Set start date →
         </button>
       </div>
       <button
