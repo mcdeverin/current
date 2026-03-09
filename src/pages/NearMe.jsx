@@ -44,7 +44,17 @@ export default function NearMe() {
     setLoading(false);
   };
 
-  const filtered = filter === "All" ? places : places.filter(p => p.type === filter);
+  const filtered = (filter === "All" ? places : places.filter(p => p.type === filter))
+    .map(p => ({
+      ...p,
+      _distance: (userLocation && p.latitude && p.longitude)
+        ? getDistanceMi(userLocation.lat, userLocation.lon, p.latitude, p.longitude)
+        : null,
+    }))
+    .sort((a, b) => {
+      if (a._distance != null && b._distance != null) return a._distance - b._distance;
+      return 0;
+    });
 
   const handleSuggest = async () => {
     if (!suggestName.trim()) return;
