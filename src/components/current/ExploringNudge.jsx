@@ -37,14 +37,14 @@ export default function ExploringNudge({ profile, onDismiss }) {
           Track your days
         </p>
         <p className="text-xs mt-1 leading-relaxed" style={{ color: '#6a7280' }}>
-          If you ever decide to start, we'll keep count for you.
+          Whenever you're ready, we'll be here.
         </p>
         <button
           onClick={handleSetDate}
           className="text-xs font-medium mt-3 transition-colors"
           style={{ color: '#6F8FA4' }}
         >
-          Set start date →
+          Start tracking →
         </button>
       </div>
       <button
