@@ -261,7 +261,7 @@ export default function Home() {
                 Discover
               </p>
               <div className="flex items-center justify-between">
-                <p className="text-sm flex-1" style={{ color: '#6a7280' }}>Places that don't need a drink to be good</p>
+                <p className="text-sm flex-1" style={{ color: '#9da3b3' }}>Places that don't need a drink to be good</p>
                 <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
               </div>
             </button>
