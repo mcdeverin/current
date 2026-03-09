@@ -3,10 +3,12 @@ import { base44 } from "@/api/base44Client";
 import { MapPin, Plus } from "lucide-react";
 import PlaceCard from "../components/current/PlaceCard";
 import BottomNav from "../components/current/BottomNav";
+import { useTheme } from "../components/current/ThemeContext";
 
 const FILTER_CHIPS = ["All", "Spots", "Mocktails", "Events", "Cafés", "Wellness"];
 
 export default function NearMe() {
+  const { t } = useTheme();
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("All");
@@ -30,7 +32,6 @@ export default function NearMe() {
 
   const handleSuggest = async () => {
     if (!suggestName.trim()) return;
-    // Get user profile for context
     const profiles = await base44.entities.UserProfile.list();
     const profile = profiles[0];
     const user = await base44.auth.me();
@@ -40,7 +41,6 @@ export default function NearMe() {
       neighborhood: suggestNeighborhood || "New York",
       city: "New York",
       tag: "Sober Friendly",
-      emoji: "📍",
       status: "pending",
       suggested_by: user?.email || "",
       suggested_by_name: profile?.first_name || "",
@@ -55,15 +55,14 @@ export default function NearMe() {
   };
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
-      {/* Header */}
+    <div className="min-h-screen pb-24" style={{ backgroundColor: t.bg }}>
       <div className="px-6 pt-14 pb-4">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="font-display text-2xl font-medium" style={{ color: '#e8eaf0' }}>Near Me</h1>
+            <h1 className="font-display text-2xl font-medium" style={{ color: t.text }}>Near Me</h1>
             <div className="flex items-center gap-1.5 mt-1">
-              <MapPin size={12} style={{ color: '#6a7280' }} />
-              <span className="text-xs" style={{ color: '#6a7280' }}>
+              <MapPin size={12} style={{ color: t.muted }} />
+              <span className="text-xs" style={{ color: t.muted }}>
                 New York · {filtered.length} places
               </span>
             </div>
@@ -71,7 +70,6 @@ export default function NearMe() {
         </div>
       </div>
 
-      {/* Filter chips */}
       <div className="px-6 pb-4 overflow-x-auto">
         <div className="flex gap-2">
           {FILTER_CHIPS.map(chip => (
@@ -80,9 +78,9 @@ export default function NearMe() {
               onClick={() => setFilter(chip)}
               className="px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all"
               style={{
-                backgroundColor: filter === chip ? '#8aab8e' : '#161b24',
-                color: filter === chip ? '#0f1219' : '#6a7280',
-                border: `1px solid ${filter === chip ? '#8aab8e' : '#232a35'}`,
+                backgroundColor: filter === chip ? t.success : t.bgSecondary,
+                color: filter === chip ? '#fff' : t.muted,
+                border: `1px solid ${filter === chip ? t.success : t.border}`,
               }}
             >
               {chip}
@@ -91,35 +89,33 @@ export default function NearMe() {
         </div>
       </div>
 
-      {/* Places list */}
       <div className="px-6">
         {loading ? (
           <div className="space-y-4 mt-4">
             {[1,2,3].map(i => (
-              <div key={i} className="h-20 rounded-xl animate-pulse" style={{ backgroundColor: '#232a35' }} />
+              <div key={i} className="h-20 rounded-xl animate-pulse" style={{ backgroundColor: t.bgTertiary }} />
             ))}
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-sm" style={{ color: '#6a7280' }}>No places found.</p>
+            <p className="text-sm" style={{ color: t.muted }}>No places found.</p>
           </div>
         ) : (
           filtered.map(place => <PlaceCard key={place.id} place={place} />)
         )}
       </div>
 
-      {/* Suggest a place */}
       <div className="px-6 mt-6">
         {submitted ? (
-          <div className="p-5 rounded-xl border text-center" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
-            <p className="text-sm font-medium mb-1" style={{ color: '#e8eaf0' }}>Thanks.</p>
-            <p className="text-sm leading-relaxed" style={{ color: '#6a7280' }}>
+          <div className="p-5 rounded-xl border text-center" style={{ backgroundColor: t.bgSecondary, borderColor: t.border }}>
+            <p className="text-sm font-medium mb-1" style={{ color: t.text }}>Thanks.</p>
+            <p className="text-sm leading-relaxed" style={{ color: t.muted }}>
               We review every suggestion personally.{"\n"}If it's a fit, we'll add it within 48 hours.
             </p>
             <button
               onClick={() => setSubmitted(false)}
               className="mt-4 text-xs"
-              style={{ color: '#8aab8e' }}
+              style={{ color: t.success }}
             >
               Suggest another
             </button>
@@ -128,44 +124,44 @@ export default function NearMe() {
           <button
             onClick={() => setShowSuggest(true)}
             className="w-full py-3 rounded-xl border-2 border-dashed flex items-center justify-center gap-2 text-sm font-medium transition-colors"
-            style={{ borderColor: '#232a35', color: '#6a7280' }}
+            style={{ borderColor: t.border, color: t.muted }}
           >
             <Plus size={16} />
             Suggest a place
           </button>
         ) : (
-          <div className="p-4 rounded-xl border" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
+          <div className="p-4 rounded-xl border" style={{ backgroundColor: t.bgSecondary, borderColor: t.border }}>
             <input
               type="text"
               value={suggestName}
               onChange={e => setSuggestName(e.target.value)}
               placeholder="Place name"
-              className="w-full text-sm bg-transparent border-b pb-2 mb-3 focus:outline-none placeholder-gray-600"
-              style={{ borderColor: '#232a35', color: '#e8eaf0' }}
+              className="w-full text-sm bg-transparent border-b pb-2 mb-3 focus:outline-none placeholder-gray-500"
+              style={{ borderColor: t.border, color: t.text }}
             />
             <input
               type="text"
               value={suggestNeighborhood}
               onChange={e => setSuggestNeighborhood(e.target.value)}
               placeholder="Neighborhood"
-              className="w-full text-sm bg-transparent border-b pb-2 mb-3 focus:outline-none placeholder-gray-600"
-              style={{ borderColor: '#232a35', color: '#e8eaf0' }}
+              className="w-full text-sm bg-transparent border-b pb-2 mb-3 focus:outline-none placeholder-gray-500"
+              style={{ borderColor: t.border, color: t.text }}
             />
             <select
               value={suggestType}
               onChange={e => setSuggestType(e.target.value)}
               className="w-full text-sm bg-transparent border-b pb-2 mb-4 focus:outline-none"
-              style={{ borderColor: '#232a35', color: '#e8eaf0', colorScheme: 'dark' }}
+              style={{ borderColor: t.border, color: t.text, colorScheme: t.bg === '#0E1113' ? 'dark' : 'light', backgroundColor: t.bgSecondary }}
             >
-              {["Spots", "Mocktails", "Events", "Cafés", "Wellness"].map(t => (
-                <option key={t} value={t}>{t}</option>
+              {["Spots", "Mocktails", "Events", "Cafés", "Wellness"].map(tp => (
+                <option key={tp} value={tp}>{tp}</option>
               ))}
             </select>
             <div className="flex gap-2">
               <button
                 onClick={() => setShowSuggest(false)}
                 className="flex-1 py-2.5 rounded-xl text-xs font-medium"
-                style={{ color: '#6a7280' }}
+                style={{ color: t.muted }}
               >
                 Cancel
               </button>
@@ -173,7 +169,7 @@ export default function NearMe() {
                 onClick={handleSuggest}
                 disabled={!suggestName.trim()}
                 className="flex-1 py-2.5 rounded-xl text-xs font-medium disabled:opacity-30"
-                style={{ backgroundColor: '#8aab8e', color: '#0f1219' }}
+                style={{ backgroundColor: t.success, color: '#fff' }}
               >
                 Submit
               </button>
