@@ -29,7 +29,7 @@ export default function PlaceCard({ place }) {
           {place.tag && (
             <span
               className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full mt-2"
-              style={{ backgroundColor: 'rgba(111,143,164,0.15)', color: '#8aab8e' }}
+              style={{ backgroundColor: 'rgba(111,143,164,0.15)', color: '#6F8FA4' }}
             >
               {place.tag}
             </span>
