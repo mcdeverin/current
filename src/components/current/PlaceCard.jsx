@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function PlaceCard({ place, distance }) {
+export default function PlaceCard({ place, distance, isOpen }) {
   return (
     <div className="py-4 border-b" style={{ borderColor: '#232a35' }}>
       <div className="flex items-start gap-3">

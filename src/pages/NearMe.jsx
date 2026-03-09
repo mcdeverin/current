@@ -6,6 +6,24 @@ import BottomNav from "../components/current/BottomNav";
 
 const FILTER_CHIPS = ["All", "Spots", "Mocktails", "Events", "Cafés", "Wellness"];
 
+const DAY_KEYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+
+function isPlaceOpenNow(place) {
+  const now = new Date();
+  const day = DAY_KEYS[now.getDay()];
+  const openStr = place[`${day}_open`];
+  const closeStr = place[`${day}_close`];
+  if (!openStr || !closeStr) return false;
+  const [oh, om] = openStr.split(":").map(Number);
+  const [ch, cm] = closeStr.split(":").map(Number);
+  const cur = now.getHours() * 60 + now.getMinutes();
+  const open = oh * 60 + om;
+  const close = ch * 60 + cm;
+  // handle midnight crossover (e.g. close = 00:00 treated as next day)
+  if (close <= open) return cur >= open || cur < close;
+  return cur >= open && cur < close;
+}
+
 function getDistanceMi(lat1, lon1, lat2, lon2) {
   const R = 3958.8;
   const dLat = (lat2 - lat1) * Math.PI / 180;
