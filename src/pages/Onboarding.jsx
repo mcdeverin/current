@@ -72,7 +72,7 @@ export default function Onboarding() {
     } else {
       await base44.entities.UserProfile.create(data);
     }
-    navigate(createPageUrl("Home"));
+    setStep(4); // Show greeting moment
   };
 
   return (
