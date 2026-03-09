@@ -9,7 +9,7 @@ export default function IntentionCard() {
       className="rounded-xl p-5"
       style={{ backgroundColor: '#161b24' }}
     >
-      <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#8aab8e' }}>
+      <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#6F8FA4' }}>
         Today's Intention
       </p>
       <p className="font-display text-lg italic leading-relaxed" style={{ color: '#f0f2ee' }}>
