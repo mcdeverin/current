@@ -8,24 +8,36 @@ import JourneySection from "../components/current/JourneySection.jsx";
 export default function Profile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isGuest, setIsGuest] = useState(false);
   const [editing, setEditing] = useState(null);
   const [editValue, setEditValue] = useState("");
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     loadProfile();
   }, []);
 
   const loadProfile = async () => {
+    const isAuth = await base44.auth.isAuthenticated();
+    if (!isAuth) {
+      setIsGuest(true);
+      setLoading(false);
+      return;
+    }
+
     const profiles = await base44.entities.UserProfile.list();
     if (profiles.length > 0) {
       const p = profiles[0];
       setProfile(p);
-      // Check if deep-linked from exploring nudge
       const params = new URLSearchParams(window.location.search);
       if (params.get("setDate") === "true") {
         setEditing("date");
         setEditValue("");
       }
+    } else {
+      // Authenticated but no profile — redirect to onboarding
+      base44.auth.redirectToLogin(window.location.href);
     }
     setLoading(false);
   };
@@ -37,7 +49,15 @@ export default function Profile() {
     setEditing(null);
   };
 
-  if (loading || !profile) {
+  const handleDeleteAccount = async () => {
+    setDeleting(true);
+    if (profile) {
+      await base44.entities.UserProfile.delete(profile.id);
+    }
+    base44.auth.logout();
+  };
+
+  if (loading) {
     return (
       <div className="min-h-screen" style={{ backgroundColor: '#0f1219' }}>
         <BottomNav />
@@ -45,6 +65,37 @@ export default function Profile() {
     );
   }
 
+  // ── GUEST MODE ───────────────────────────────────────────────────────────────
+  if (isGuest) {
+    return (
+      <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
+        <div className="px-6 pt-14 pb-8 max-w-lg mx-auto">
+          <h1 className="font-display text-2xl font-medium mb-2" style={{ color: '#e8eaf0' }}>You</h1>
+          <p className="text-sm mb-12" style={{ color: '#6a7280' }}>
+            Sign in to track your streak, save your reason, and personalize your experience.
+          </p>
+
+          <button
+            onClick={() => base44.auth.redirectToLogin(window.location.href)}
+            className="w-full py-3.5 rounded-xl text-sm font-medium mb-3"
+            style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
+          >
+            Sign in
+          </button>
+          <button
+            onClick={() => base44.auth.redirectToLogin(window.location.href)}
+            className="w-full py-3.5 rounded-xl text-sm font-medium border"
+            style={{ borderColor: '#232a35', color: '#6a7280' }}
+          >
+            Create account
+          </button>
+        </div>
+        <BottomNav />
+      </div>
+    );
+  }
+
+  // ── AUTHENTICATED MODE ───────────────────────────────────────────────────────
   const isExploring = profile.mode === "exploring";
   const days = profile.sobriety_date ? getDaysSince(profile.sobriety_date) : null;
   const sinceDate = profile.sobriety_date
@@ -72,7 +123,6 @@ export default function Profile() {
           <p className="text-xs mt-1 font-medium" style={{ color: '#6F8FA4' }}>Exploring</p>
         )}
 
-        {/* Streak large — only if streak mode */}
         {!isExploring && days != null && (
           <div className="mt-8 flex items-baseline gap-2">
             <span className="font-display text-6xl font-medium" style={{ color: '#e8eaf0' }}>{days}</span>
@@ -83,7 +133,7 @@ export default function Profile() {
 
       {/* Settings */}
       <div className="px-6">
-        {/* Sobriety Date — only show in streak mode */}
+        {/* Sobriety Date — streak mode only */}
         {!isExploring && (
           <>
             <SettingsItem
@@ -110,7 +160,7 @@ export default function Profile() {
           </>
         )}
 
-        {/* Daily Savings — only show in streak mode */}
+        {/* Daily Savings — streak mode only */}
         {!isExploring && (
           <>
             <SettingsItem
@@ -144,7 +194,6 @@ export default function Profile() {
           value={profile.notification_time || "8:00 AM"}
           onTap={() => { setEditing("notification"); setEditValue(profile.notification_time || "08:00"); }}
         />
-
         {editing === "notification" && (
           <EditPanel>
             <input
@@ -164,7 +213,6 @@ export default function Profile() {
           value={profile.why_i_started ? "Written" : "Add your reason"}
           onTap={() => { setEditing("why"); setEditValue(profile.why_i_started || ""); }}
         />
-
         {editing === "why" && (
           <EditPanel>
             <textarea
@@ -197,7 +245,7 @@ export default function Profile() {
             About Current
           </h3>
           <p className="text-sm leading-relaxed" style={{ color: '#6a7280' }}>
-            Current is for people who are proud of who they are today. 
+            Current is for people who are proud of who they are today.
             No labels. No programs. Just presence.
           </p>
           <p className="text-xs mt-4" style={{ color: '#6F8FA4' }}>
@@ -205,14 +253,49 @@ export default function Profile() {
           </p>
         </div>
 
-        {/* Logout */}
+        {/* Sign out */}
         <button
           onClick={() => base44.auth.logout()}
-          className="w-full py-3 text-sm font-medium text-center rounded-xl border transition-colors"
+          className="w-full py-3 text-sm font-medium text-center rounded-xl border transition-colors mb-3"
           style={{ borderColor: '#232a35', color: '#6a7280' }}
         >
           Sign out
         </button>
+
+        {/* Delete account */}
+        {!showDeleteConfirm ? (
+          <button
+            onClick={() => setShowDeleteConfirm(true)}
+            className="w-full py-3 text-sm font-medium text-center"
+            style={{ color: '#4a3030' }}
+          >
+            Delete account
+          </button>
+        ) : (
+          <div className="p-4 rounded-xl border mb-4" style={{ backgroundColor: '#161b24', borderColor: '#3a2020' }}>
+            <p className="text-sm font-medium mb-1" style={{ color: '#e8eaf0' }}>Delete your account?</p>
+            <p className="text-xs mb-4" style={{ color: '#6a7280' }}>
+              This will permanently delete your profile data and sign you out. This cannot be undone.
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                className="flex-1 py-2.5 rounded-xl text-xs font-medium"
+                style={{ color: '#6a7280' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteAccount}
+                disabled={deleting}
+                className="flex-1 py-2.5 rounded-xl text-xs font-medium disabled:opacity-40"
+                style={{ backgroundColor: '#7a2020', color: '#e8eaf0' }}
+              >
+                {deleting ? "Deleting..." : "Yes, delete"}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       <BottomNav />
@@ -257,7 +340,7 @@ function EditActions({ onCancel, onSave }) {
       </button>
       <button
         onClick={onSave}
-        className="flex-1 py-2 rounded-lg text-xs font-medium text-white"
+        className="flex-1 py-2 rounded-lg text-xs font-medium"
         style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
       >
         Save

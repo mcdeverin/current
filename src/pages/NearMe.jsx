@@ -77,6 +77,15 @@ export default function NearMe() {
       return 0;
     });
 
+  const openSuggest = async () => {
+    const isAuth = await base44.auth.isAuthenticated();
+    if (!isAuth) {
+      base44.auth.redirectToLogin(window.location.href);
+      return;
+    }
+    setShowSuggest(true);
+  };
+
   const handleSuggest = async () => {
     if (!suggestName.trim()) return;
     // Get user profile for context

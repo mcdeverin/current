@@ -30,6 +30,11 @@ export default function Onboarding() {
   }, []);
 
   const checkExisting = async () => {
+    const isAuth = await base44.auth.isAuthenticated();
+    if (!isAuth) {
+      navigate(createPageUrl("Home"));
+      return;
+    }
     const profiles = await base44.entities.UserProfile.list();
     if (profiles.length > 0 && profiles[0].onboarding_complete) {
       navigate(createPageUrl("Home"));

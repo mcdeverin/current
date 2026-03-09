@@ -13,10 +13,18 @@ import TodaysMove from "../components/current/TodaysMove";
 import MoodCheckin from "../components/current/MoodCheckin";
 import { getDaysSince, isMilestoneDay } from "../components/current/milestoneData";
 
+function getGreeting() {
+  const h = new Date().getHours();
+  if (h < 12) return "Good morning";
+  if (h < 17) return "Good afternoon";
+  return "Good evening";
+}
+
 export default function Home() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isGuest, setIsGuest] = useState(false);
   const [showMilestone, setShowMilestone] = useState(false);
   const [showNudge, setShowNudge] = useState(false);
 
@@ -25,13 +33,23 @@ export default function Home() {
   }, []);
 
   const loadProfile = async () => {
-    const profiles = await base44.entities.UserProfile.list();
-    if (profiles.length === 0 || !profiles[0].onboarding_complete) {
-      navigate(createPageUrl("Onboarding"));
+    const isAuth = await base44.auth.isAuthenticated();
+    if (!isAuth) {
+      setIsGuest(true);
+      setLoading(false);
       return;
     }
+
+    const profiles = await base44.entities.UserProfile.list();
+    if (profiles.length === 0 || !profiles[0].onboarding_complete) {
+      setIsGuest(true);
+      setLoading(false);
+      return;
+    }
+
     const p = profiles[0];
     setProfile(p);
+    setIsGuest(false);
 
     if (p.mode === "exploring" && !p.exploring_nudge_dismissed) {
       setShowNudge(true);
@@ -48,10 +66,66 @@ export default function Home() {
     setLoading(false);
   };
 
-  if (loading || !profile) {
+  if (loading) {
     return <div className="min-h-screen" style={{ backgroundColor: '#0f1219' }} />;
   }
 
+  // ── GUEST MODE ──────────────────────────────────────────────────────────────
+  if (isGuest) {
+    return (
+      <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
+        <div className="px-6 pt-14 pb-6 max-w-lg mx-auto">
+          <p className="font-display text-xl mb-10" style={{ color: '#e8eaf0' }}>
+            {getGreeting()}.
+          </p>
+
+          {/* Intention */}
+          <div className="mb-8">
+            <IntentionCard />
+          </div>
+
+          {/* Today's Move */}
+          <div className="border-t mb-6" style={{ borderColor: '#232a35' }} />
+          <div className="mb-8">
+            <TodaysMove days={1} bare />
+          </div>
+
+          {/* NYC Spots card */}
+          <button
+            onClick={() => navigate(createPageUrl("NearMe"))}
+            className="w-full rounded-xl p-4 text-left mb-8"
+            style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
+          >
+            <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#6F8FA4' }}>
+              NYC Spots
+            </p>
+            <div className="flex items-center justify-between">
+              <p className="text-sm" style={{ color: '#6a7280' }}>Sober-friendly spots in New York City</p>
+              <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
+            </div>
+          </button>
+
+          {/* Sign up CTA */}
+          <div className="rounded-xl p-5 border" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
+            <p className="font-display text-lg mb-1" style={{ color: '#e8eaf0' }}>Track your journey.</p>
+            <p className="text-sm mb-4" style={{ color: '#6a7280' }}>
+              Create a free account to track your streak, save your reason, and more.
+            </p>
+            <button
+              onClick={() => base44.auth.redirectToLogin(createPageUrl("Onboarding"))}
+              className="w-full py-3 rounded-xl text-sm font-medium"
+              style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
+            >
+              Get started
+            </button>
+          </div>
+        </div>
+        <BottomNav />
+      </div>
+    );
+  }
+
+  // ── AUTHENTICATED MODE ───────────────────────────────────────────────────────
   const isExploring = profile.mode === "exploring";
   const days = (!isExploring && profile.sobriety_date) ? getDaysSince(profile.sobriety_date) : null;
   const savingsRate = profile.daily_savings_rate || 15;
@@ -61,13 +135,6 @@ export default function Home() {
         month: "long", day: "numeric", year: "numeric",
       })
     : null;
-
-  const getGreeting = () => {
-    const h = new Date().getHours();
-    if (h < 12) return "Good morning";
-    if (h < 17) return "Good afternoon";
-    return "Good evening";
-  };
 
   const getYearsMonths = () => {
     if (days == null) return "—";
@@ -106,7 +173,7 @@ export default function Home() {
       </AnimatePresence>
 
       <div className="px-6 pt-14 pb-6 max-w-lg mx-auto">
-        {/* STREAK MODE: Greeting + Ring */}
+        {/* STREAK MODE */}
         {!isExploring && (
           <>
             <p className="font-display text-xl mb-10" style={{ color: '#e8eaf0' }}>
@@ -123,10 +190,9 @@ export default function Home() {
           </>
         )}
 
-        {/* EXPLORING MODE layout */}
+        {/* EXPLORING MODE */}
         {isExploring && (
           <>
-            {/* Hero — greeting + Present tense together */}
             <div className="mb-10 pt-4">
               <p className="text-xl mb-6 font-body" style={{ color: '#e8eaf0' }}>
                 {getGreeting()}, {profile.first_name}.
@@ -139,23 +205,19 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Intention — only card above the fold */}
             <div className="mb-8">
               <IntentionCard />
             </div>
 
-            {/* Divider + Today's Move (bare) */}
             <div className="border-t mb-6" style={{ borderColor: '#232a35' }} />
             <div className="mb-8">
               <TodaysMove days={1} bare />
             </div>
 
-            {/* Mood Check-in (bare) */}
             <div className="mb-6">
               <MoodCheckin bare />
             </div>
 
-            {/* NYC Spots card */}
             <button
               onClick={() => navigate(createPageUrl("NearMe"))}
               className="w-full rounded-xl p-4 text-left"
@@ -172,23 +234,18 @@ export default function Home() {
           </>
         )}
 
-        {/* STREAK MODE layout */}
+        {/* STREAK layout */}
         {!isExploring && (
           <>
-            {/* Intention */}
             <div className="mt-8 mb-4">
               <IntentionCard />
             </div>
-
-            {/* Today's Move + Mood */}
             <div className="mb-4">
               <TodaysMove days={days || 1} />
             </div>
             <div className="mb-6">
               <MoodCheckin />
             </div>
-
-            {/* Stats */}
             <div className="flex gap-3">
               <StatCard label="Time" value={getYearsMonths()} />
               <StatCard label="Saved" value={`$${(moneySaved || 0).toLocaleString()}`} premium />
@@ -198,7 +255,6 @@ export default function Home() {
         )}
       </div>
 
-      {/* Exploring nudge — rendered outside padding container, no max-w */}
       <AnimatePresence>
         {isExploring && showNudge && (
           <ExploringNudge
