@@ -269,22 +269,55 @@ export default function Onboarding() {
               {saving ? "..." : "Let's go"}
             </button>
 
-            <button onClick={() => setStep(mode === "streak" ? 2 : 1)} className="mt-4 text-xs" style={{ color: MUTED }}>
+            <button onClick={() => setStep(mode === "streak" ? 1 : 0)} className="mt-4 text-xs" style={{ color: MUTED }}>
               ← Back
             </button>
+          </motion.div>
+        )}
+
+        {/* Step 4: Greeting moment */}
+        {step === 4 && (
+          <motion.div
+            key="greeting"
+            variants={slideVariants} initial="enter" animate="center" exit="exit"
+            transition={{ duration: 0.5 }}
+            className="flex-1 flex flex-col items-center justify-center px-8"
+          >
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="font-display text-4xl font-medium text-center"
+              style={{ color: TEXT }}
+            >
+              Nice to meet you, {firstName}.
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-sm mt-6 text-center"
+              style={{ color: MUTED }}
+            >
+              Let's go.
+            </motion.p>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Progress dots */}
       <div className="flex justify-center gap-2 pb-12">
-        {Array.from({ length: mode === "streak" ? 4 : 3 }).map((_, i) => (
-          <div
-            key={i}
-            className="w-1.5 h-1.5 rounded-full transition-all duration-300"
-            style={{ backgroundColor: i <= step ? ACCENT : BORDER }}
-          />
-        ))}
+        {step >= 0 && step <= 2 && (
+          <>
+            {Array.from({ length: mode === "streak" ? 3 : 2 }).map((_, i) => (
+              <div
+                key={i}
+                className="w-1.5 h-1.5 rounded-full transition-all duration-300"
+                style={{ backgroundColor: i <= step ? ACCENT : BORDER }}
+              />
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
