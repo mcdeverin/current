@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function PlaceCard({ place }) {
+export default function PlaceCard({ place, distance }) {
   return (
     <div className="py-4 border-b" style={{ borderColor: '#232a35' }}>
       <div className="flex items-start gap-3">
@@ -19,7 +19,7 @@ export default function PlaceCard({ place }) {
             {place.name}
           </h3>
           <p className="text-xs mt-0.5" style={{ color: '#6a7280' }}>
-            {place.type} · {place.neighborhood}
+            {place.type}{distance != null ? ` · ${distance.toFixed(1)} mi · ${place.neighborhood}` : ` · ${place.neighborhood}`}
           </p>
           {place.description && (
             <p className="text-xs mt-1.5 leading-relaxed italic" style={{ color: '#6a7280' }}>
