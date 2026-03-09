@@ -34,7 +34,7 @@ export default function ExploringNudge({ profile, onDismiss }) {
     >
       <div className="flex-1">
         <p className="text-sm leading-relaxed" style={{ color: '#e8eaf0' }}>
-          Save your sober start date
+          Save your start date
         </p>
         <p className="text-xs mt-1 leading-relaxed" style={{ color: '#6a7280' }}>
           We'll keep track of the days.
