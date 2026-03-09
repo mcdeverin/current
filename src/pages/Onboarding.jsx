@@ -19,7 +19,7 @@ const slideVariants = {
 
 export default function Onboarding() {
   const navigate = useNavigate();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(-1); // -1 = splash
   const [mode, setMode] = useState(null); // 'streak' | 'exploring'
   const [sobrietyDate, setSobrietyDate] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -28,6 +28,14 @@ export default function Onboarding() {
   useEffect(() => {
     checkExisting();
   }, []);
+
+  useEffect(() => {
+    // Auto-advance from splash after 2 seconds
+    if (step === -1) {
+      const timer = setTimeout(() => setStep(0), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
 
   const checkExisting = async () => {
     const isAuth = await base44.auth.isAuthenticated();
