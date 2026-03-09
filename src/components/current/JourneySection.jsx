@@ -77,7 +77,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
             <ActionRow label="Switch to Just Exploring" onTap={() => setView("confirm_exploring")} />
           )}
           {isExploring && (
-            <ActionRow label="Set a sobriety date" onTap={handleSwitchBack} />
+            <ActionRow label="Start tracking →" onTap={handleSwitchBack} />
           )}
         </div>
       )}
