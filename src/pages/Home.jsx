@@ -251,7 +251,7 @@ export default function Home() {
 
             <button
               onClick={() => navigate(createPageUrl("NearMe"))}
-              className="w-full rounded-xl p-4 text-left"
+              className="w-full rounded-xl p-4 text-left mb-6"
               style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
             >
               <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#6F8FA4' }}>
