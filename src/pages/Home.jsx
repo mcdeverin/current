@@ -105,27 +105,31 @@ export default function Home() {
           </p>
 
           {/* Intention */}
-          <div className="mb-8">
-            <IntentionCard />
+          <div className="mb-8 flex justify-center">
+            <div className="w-full max-w-xs">
+              <IntentionCard />
+            </div>
           </div>
 
           {/* Today's Move */}
           <div className="border-t mb-6" style={{ borderColor: '#232a35' }} />
-          <div className="mb-8">
-            <TodaysMove days={1} bare />
+          <div className="mb-8 flex justify-center">
+            <div className="w-full max-w-xs">
+              <TodaysMove days={1} bare />
+            </div>
           </div>
 
           {/* NYC Spots card */}
           <button
             onClick={() => navigate(createPageUrl("NearMe"))}
-            className="w-full rounded-xl p-4 text-left mb-8"
+            className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-8"
             style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
           >
-            <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#6F8FA4' }}>
+            <p className="text-[10px] uppercase tracking-widest font-medium mb-2 text-center" style={{ color: '#6F8FA4' }}>
               Discover
             </p>
             <div className="flex items-center justify-between">
-               <p className="text-sm" style={{ color: '#6a7280' }}>Discover alcohol-free places in NYC</p>
+               <p className="text-sm flex-1" style={{ color: '#6a7280' }}>Discover alcohol-free places in NYC</p>
                <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
              </div>
           </button>
