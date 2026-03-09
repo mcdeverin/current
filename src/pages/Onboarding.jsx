@@ -100,11 +100,12 @@ export default function Onboarding() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6 }}
               className="relative flex-shrink-0 mb-8"
-              style={{ width: 140, height: 140 }}
             >
-              <svg width={140} height={140} viewBox="0 0 140 140" className="drop-shadow-lg">
-                <circle cx={70} cy={70} r={60} stroke="#6F8FA4" strokeWidth={18} fill="none" />
-              </svg>
+              <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a74d93ee777abd7bf98d48/5edea7853_ChatGPTImageMar9202601_40_08PM.png"
+                alt="Current logo"
+                className="w-[140px] h-[140px]"
+              />
             </motion.div>
             <h1 className="font-display text-5xl md:text-6xl font-medium mb-2" style={{ color: TEXT }}>
               Current
