@@ -47,24 +47,24 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import Milestone from './pages/Milestone';
-import Onboarding from './pages/Onboarding';
 import Admin from './pages/Admin';
-import Profile from './pages/Profile';
-import NearMe from './pages/NearMe';
 import Community from './pages/Community';
 import Home from './pages/Home';
+import Milestone from './pages/Milestone';
+import NearMe from './pages/NearMe';
+import Onboarding from './pages/Onboarding';
+import Profile from './pages/Profile';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Milestone": Milestone,
-    "Onboarding": Onboarding,
     "Admin": Admin,
-    "Profile": Profile,
-    "NearMe": NearMe,
     "Community": Community,
     "Home": Home,
+    "Milestone": Milestone,
+    "NearMe": NearMe,
+    "Onboarding": Onboarding,
+    "Profile": Profile,
 }
 
 export const pagesConfig = {

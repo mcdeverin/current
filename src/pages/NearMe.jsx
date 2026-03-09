@@ -6,6 +6,14 @@ import BottomNav from "../components/current/BottomNav";
 
 const FILTER_CHIPS = ["All", "Spots", "Mocktails", "Events", "Cafés", "Wellness"];
 
+function getDistanceMi(lat1, lon1, lat2, lon2) {
+  const R = 3958.8;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
 export default function NearMe() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,6 +23,16 @@ export default function NearMe() {
   const [suggestNeighborhood, setSuggestNeighborhood] = useState("");
   const [suggestType, setSuggestType] = useState("Spots");
   const [submitted, setSubmitted] = useState(false);
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationDismissed, setLocationDismissed] = useState(false);
+
+  const requestLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => setUserLocation({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+      () => setLocationDismissed(true)
+    );
+    setLocationDismissed(true);
+  };
 
   useEffect(() => {
     loadPlaces();
