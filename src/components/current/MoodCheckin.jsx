@@ -38,7 +38,7 @@ export default function MoodCheckin({ bare = false }) {
                 key={label}
                 onClick={() => handleSelect(label)}
                 className="px-4 py-1.5 rounded-full text-xs font-medium border transition-all"
-                style={{ borderColor: '#232a35', color: '#6a7280', backgroundColor: 'transparent' }}
+                style={{ borderColor: '#e8eaf0', color: '#6F8FA4', backgroundColor: '#e8eaf0' }}
               >
                 {label}
               </button>
