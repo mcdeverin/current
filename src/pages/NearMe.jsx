@@ -99,6 +99,20 @@ export default function NearMe() {
         </div>
       </div>
 
+      {/* Location prompt */}
+      {!userLocation && !locationDismissed && (
+        <div className="px-6 pb-3 flex items-center justify-between gap-3">
+          <span className="text-xs" style={{ color: '#6a7280' }}>Enable location to sort spots by distance.</span>
+          <button
+            onClick={requestLocation}
+            className="text-xs font-medium whitespace-nowrap"
+            style={{ color: '#6F8FA4' }}
+          >
+            Use current location
+          </button>
+        </div>
+      )}
+
       {/* Filter chips */}
       <div className="px-6 pb-4 overflow-x-auto">
         <div className="flex gap-2">
