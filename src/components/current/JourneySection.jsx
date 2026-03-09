@@ -56,6 +56,15 @@ export default function JourneySection({ profile, onProfileUpdate }) {
 
   const handleKeepDate = async () => {
     await update({ mode: "streak" });
+    const user = await base44.auth.me();
+    await trackModeChange({
+      user_email: user?.email,
+      user_name: profile.first_name,
+      from_mode: "exploring",
+      to_mode: "streak",
+      sobriety_date_set: profile.sobriety_date,
+      profile_created_date: profile.created_date,
+    });
     setView("idle");
   };
 
