@@ -224,7 +224,7 @@ export default function Home() {
         {/* EXPLORING MODE */}
         {isExploring && (
           <>
-            <div className="mb-10 pt-4">
+            <div className="mb-10 pt-4 text-center">
               <p className="text-xl mb-6 font-body" style={{ color: '#e8eaf0' }}>
                 {getGreeting()}, {profile.first_name}.
               </p>
