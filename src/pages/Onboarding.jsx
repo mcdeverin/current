@@ -131,8 +131,8 @@ export default function Onboarding() {
           </motion.div>
         )}
 
-        {/* Step 1: Path choice */}
-        {step === 1 && (
+        {/* Step 0: Path choice */}
+        {step === 0 && (
           <motion.div
             key="path"
             variants={slideVariants} initial="enter" animate="center" exit="exit"
@@ -189,7 +189,7 @@ export default function Onboarding() {
                   <p className="text-base font-medium" style={{ color: TEXT }}>I'm exploring.</p>
                 </div>
                 <p className="text-xs leading-relaxed pl-11" style={{ color: MUTED }}>
-                  I'm curious about sobriety. No pressure.
+                  I'm curious about drinking less. No pressure.
                 </p>
               </button>
             </div>
