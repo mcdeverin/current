@@ -88,6 +88,12 @@ export default function NearMe() {
 
   const handleSuggest = async () => {
     if (!suggestName.trim()) return;
+    // Check for duplicates
+    const existing = await base44.entities.Places.filter({ name: suggestName.trim() });
+    if (existing.length > 0) {
+      alert("This place has already been suggested.");
+      return;
+    }
     // Get user profile for context
     const profiles = await base44.entities.UserProfile.list();
     const profile = profiles[0];
