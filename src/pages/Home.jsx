@@ -49,7 +49,7 @@ export default function Home() {
   };
 
   if (loading || !profile) {
-    return <div className="min-h-screen" style={{ backgroundColor: '#0f1219' }} />;
+    return <div className="min-h-screen" style={{ backgroundColor: 'var(--bg)' }} />;
   }
 
   const isExploring = profile.mode === "exploring";
@@ -89,7 +89,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--bg)' }}>
       <AnimatePresence>
         {showMilestone && days != null && (
           <MilestoneOverlay
@@ -109,13 +109,13 @@ export default function Home() {
         {/* STREAK MODE: Greeting + Ring */}
         {!isExploring && (
           <>
-            <p className="font-display text-xl mb-10" style={{ color: '#e8eaf0' }}>
+            <p className="font-display text-xl mb-10" style={{ color: 'var(--text)' }}>
               {getGreeting()}, {profile.first_name}.
             </p>
             {days != null && (
               <div className="flex flex-col items-center mb-3">
                 <StreakRing days={days} />
-                <p className="text-xs mt-4" style={{ color: '#6a7280' }}>
+                <p className="text-xs mt-4" style={{ color: 'var(--subtext)' }}>
                   Since {sinceDate}
                 </p>
               </div>
@@ -126,47 +126,42 @@ export default function Home() {
         {/* EXPLORING MODE layout */}
         {isExploring && (
           <>
-            {/* Hero — greeting + Present tense together */}
             <div className="mb-10 pt-4">
-              <p className="text-xl mb-6 font-body" style={{ color: '#e8eaf0' }}>
+              <p className="text-xl mb-6 font-body" style={{ color: 'var(--text)' }}>
                 {getGreeting()}, {profile.first_name}.
               </p>
-              <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: '#e8eaf0', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
+              <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: 'var(--text)', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
                 Present tense.
               </p>
-              <p className="text-sm" style={{ color: '#6a7280' }}>
+              <p className="text-sm" style={{ color: 'var(--subtext)' }}>
                 You're here. That's enough.
               </p>
             </div>
 
-            {/* Intention — only card above the fold */}
             <div className="mb-8">
               <IntentionCard />
             </div>
 
-            {/* Divider + Today's Move (bare) */}
-            <div className="border-t mb-6" style={{ borderColor: '#232a35' }} />
+            <div className="border-t mb-6" style={{ borderColor: 'var(--card-border)' }} />
             <div className="mb-8">
               <TodaysMove days={1} bare />
             </div>
 
-            {/* Mood Check-in (bare) */}
             <div className="mb-6">
               <MoodCheckin bare />
             </div>
 
-            {/* NYC Spots card */}
             <button
               onClick={() => navigate(createPageUrl("NearMe"))}
               className="w-full rounded-xl p-4 text-left"
-              style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
+              style={{ backgroundColor: 'var(--card)', border: '1px solid var(--card-border)' }}
             >
-              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#8aab8e' }}>
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--accent)' }}>
                 NYC Spots
               </p>
               <div className="flex items-center justify-between">
-                <p className="text-sm" style={{ color: '#6a7280' }}>18 sober-friendly spots in New York City</p>
-                <span className="ml-3 flex-shrink-0" style={{ color: '#8aab8e' }}>→</span>
+                <p className="text-sm" style={{ color: 'var(--subtext)' }}>18 sober-friendly spots in New York City</p>
+                <span className="ml-3 flex-shrink-0" style={{ color: 'var(--accent)' }}>→</span>
               </div>
             </button>
           </>
@@ -175,12 +170,10 @@ export default function Home() {
         {/* STREAK MODE layout */}
         {!isExploring && (
           <>
-            {/* Intention */}
             <div className="mt-8 mb-4">
               <IntentionCard />
             </div>
 
-            {/* Today's Move + Mood */}
             <div className="mb-4">
               <TodaysMove days={days || 1} />
             </div>
@@ -188,7 +181,6 @@ export default function Home() {
               <MoodCheckin />
             </div>
 
-            {/* Stats */}
             <div className="flex gap-3">
               <StatCard label="Time" value={getYearsMonths()} />
               <StatCard label="Saved" value={`$${(moneySaved || 0).toLocaleString()}`} premium />
@@ -198,7 +190,6 @@ export default function Home() {
         )}
       </div>
 
-      {/* Exploring nudge — rendered outside padding container, no max-w */}
       <AnimatePresence>
         {isExploring && showNudge && (
           <ExploringNudge
