@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Sun, Moon } from "lucide-react";
 import BottomNav from "../components/current/BottomNav";
 import { getDaysSince } from "../components/current/milestoneData";
 import JourneySection from "../components/current/JourneySection.jsx";
+import { useTheme } from "../components/current/ThemeContext";
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(null);
   const [editValue, setEditValue] = useState("");
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     loadProfile();
@@ -20,7 +22,6 @@ export default function Profile() {
     if (profiles.length > 0) {
       const p = profiles[0];
       setProfile(p);
-      // Check if deep-linked from exploring nudge
       const params = new URLSearchParams(window.location.search);
       if (params.get("setDate") === "true") {
         setEditing("date");
@@ -39,7 +40,7 @@ export default function Profile() {
 
   if (loading || !profile) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#0f1219' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--bg)' }}>
         <BottomNav />
       </div>
     );
@@ -63,20 +64,32 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--bg)' }}>
       {/* Header */}
       <div className="px-6 pt-14 pb-8">
-        <h1 className="font-display text-2xl font-medium" style={{ color: '#e8eaf0' }}>{profile.first_name}</h1>
-        {!isExploring && sinceDate && <p className="text-xs mt-1" style={{ color: '#6a7280' }}>Since {sinceDate}</p>}
-        {isExploring && (
-          <p className="text-xs mt-1 font-medium" style={{ color: '#8aab8e' }}>Exploring</p>
-        )}
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="font-display text-2xl font-medium" style={{ color: 'var(--text)' }}>{profile.first_name}</h1>
+            {!isExploring && sinceDate && <p className="text-xs mt-1" style={{ color: 'var(--subtext)' }}>Since {sinceDate}</p>}
+            {isExploring && (
+              <p className="text-xs mt-1 font-medium" style={{ color: 'var(--accent)' }}>Exploring</p>
+            )}
+          </div>
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-xl border transition-all"
+            style={{ borderColor: 'var(--card-border)', backgroundColor: 'var(--card)', color: 'var(--subtext)' }}
+          >
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+        </div>
 
         {/* Streak large — only if streak mode */}
         {!isExploring && days != null && (
           <div className="mt-8 flex items-baseline gap-2">
-            <span className="font-display text-6xl font-medium" style={{ color: '#e8eaf0' }}>{days}</span>
-            <span className="small-caps text-sm tracking-widest" style={{ color: '#6a7280' }}>days</span>
+            <span className="font-display text-6xl font-medium" style={{ color: 'var(--text)' }}>{days}</span>
+            <span className="small-caps text-sm tracking-widest" style={{ color: 'var(--subtext)' }}>days</span>
           </div>
         )}
       </div>
@@ -99,7 +112,7 @@ export default function Profile() {
                   onChange={e => setEditValue(e.target.value)}
                   max={new Date().toISOString().split("T")[0]}
                   className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-                  style={{ borderColor: '#232a35', color: '#e8eaf0', colorScheme: 'dark' }}
+                  style={{ borderColor: 'var(--card-border)', color: 'var(--text)', colorScheme: 'inherit' }}
                 />
                 <EditActions
                   onCancel={() => setEditing(null)}
@@ -122,15 +135,15 @@ export default function Profile() {
             {editing === "savings" && (
               <EditPanel>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm" style={{ color: '#6a7280' }}>$</span>
+                  <span className="text-sm" style={{ color: 'var(--subtext)' }}>$</span>
                   <input
                     type="number"
                     value={editValue}
                     onChange={e => setEditValue(e.target.value)}
                     className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-                    style={{ borderColor: '#232a35', color: '#e8eaf0' }}
+                    style={{ borderColor: 'var(--card-border)', color: 'var(--text)' }}
                   />
-                  <span className="text-sm" style={{ color: '#6a7280' }}>/day</span>
+                  <span className="text-sm" style={{ color: 'var(--subtext)' }}>/day</span>
                 </div>
                 <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("daily_savings_rate", Number(editValue))} />
               </EditPanel>
@@ -144,7 +157,6 @@ export default function Profile() {
           value={profile.notification_time || "8:00 AM"}
           onTap={() => { setEditing("notification"); setEditValue(profile.notification_time || "08:00"); }}
         />
-
         {editing === "notification" && (
           <EditPanel>
             <input
@@ -152,7 +164,7 @@ export default function Profile() {
               value={editValue}
               onChange={e => setEditValue(e.target.value)}
               className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-              style={{ borderColor: '#232a35', color: '#e8eaf0', colorScheme: 'dark' }}
+              style={{ borderColor: 'var(--card-border)', color: 'var(--text)', colorScheme: 'inherit' }}
             />
             <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("notification_time", editValue)} />
           </EditPanel>
@@ -164,7 +176,6 @@ export default function Profile() {
           value={profile.why_i_started ? "Written" : "Add your reason"}
           onTap={() => { setEditing("why"); setEditValue(profile.why_i_started || ""); }}
         />
-
         {editing === "why" && (
           <EditPanel>
             <textarea
@@ -173,43 +184,38 @@ export default function Profile() {
               placeholder="This is private. Only you can see this."
               rows={4}
               className="w-full text-sm bg-transparent border rounded-lg p-3 focus:outline-none resize-none placeholder-gray-600"
-              style={{ borderColor: '#232a35', color: '#e8eaf0' }}
+              style={{ borderColor: 'var(--card-border)', color: 'var(--text)' }}
             />
-            <p className="text-[10px] mt-1 mb-3" style={{ color: '#6a7280' }}>
+            <p className="text-[10px] mt-1 mb-3" style={{ color: 'var(--subtext)' }}>
               This is never shared. It's yours alone.
             </p>
             <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("why_i_started", editValue)} />
           </EditPanel>
         )}
 
-        {/* Divider */}
-        <div className="my-6 border-t" style={{ borderColor: '#232a35' }} />
+        <div className="my-6 border-t" style={{ borderColor: 'var(--card-border)' }} />
 
-        {/* Your Journey */}
         <JourneySection profile={profile} onProfileUpdate={(updated) => setProfile(prev => ({ ...prev, ...updated }))} />
 
-        {/* Divider */}
-        <div className="my-6 border-t" style={{ borderColor: '#232a35' }} />
+        <div className="my-6 border-t" style={{ borderColor: 'var(--card-border)' }} />
 
-        {/* About */}
         <div className="mb-6">
-          <h3 className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#6a7280' }}>
+          <h3 className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: 'var(--subtext)' }}>
             About Current
           </h3>
-          <p className="text-sm leading-relaxed" style={{ color: '#6a7280' }}>
+          <p className="text-sm leading-relaxed" style={{ color: 'var(--subtext)' }}>
             Current is for people who are proud of who they are today. 
             No labels. No programs. Just presence.
           </p>
-          <p className="text-xs mt-4" style={{ color: '#8aab8e' }}>
+          <p className="text-xs mt-4" style={{ color: 'var(--accent)' }}>
             Present tense. Always.
           </p>
         </div>
 
-        {/* Logout */}
         <button
           onClick={() => base44.auth.logout()}
           className="w-full py-3 text-sm font-medium text-center rounded-xl border transition-colors"
-          style={{ borderColor: '#232a35', color: '#6a7280' }}
+          style={{ borderColor: 'var(--card-border)', color: 'var(--subtext)' }}
         >
           Sign out
         </button>
@@ -225,17 +231,17 @@ function SettingsItem({ label, value, onTap, premium }) {
     <button
       onClick={onTap}
       className="w-full flex items-center justify-between py-4 border-b text-left"
-      style={{ borderColor: '#232a35' }}
+      style={{ borderColor: 'var(--card-border)' }}
     >
       <div className="flex items-center gap-2">
-        <span className="text-sm" style={{ color: '#e8eaf0' }}>{label}</span>
+        <span className="text-sm" style={{ color: 'var(--text)' }}>{label}</span>
         {premium && (
-          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#8aab8e' }} />
+          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--accent)' }} />
         )}
       </div>
       <div className="flex items-center gap-2">
-        <span className="text-sm" style={{ color: '#6a7280' }}>{value}</span>
-        <ChevronRight size={14} style={{ color: '#b8c9ba' }} />
+        <span className="text-sm" style={{ color: 'var(--subtext)' }}>{value}</span>
+        <ChevronRight size={14} style={{ color: 'var(--subtext)' }} />
       </div>
     </button>
   );
@@ -243,7 +249,7 @@ function SettingsItem({ label, value, onTap, premium }) {
 
 function EditPanel({ children }) {
   return (
-    <div className="py-4 px-4 mb-2 rounded-xl border" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
+    <div className="py-4 px-4 mb-2 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
       {children}
     </div>
   );
@@ -252,13 +258,13 @@ function EditPanel({ children }) {
 function EditActions({ onCancel, onSave }) {
   return (
     <div className="flex gap-2 mt-4">
-      <button onClick={onCancel} className="flex-1 py-2 text-xs font-medium" style={{ color: '#6a7280' }}>
+      <button onClick={onCancel} className="flex-1 py-2 text-xs font-medium" style={{ color: 'var(--subtext)' }}>
         Cancel
       </button>
       <button
         onClick={onSave}
-        className="flex-1 py-2 rounded-lg text-xs font-medium text-white"
-        style={{ backgroundColor: '#8aab8e', color: '#0f1219' }}
+        className="flex-1 py-2 rounded-lg text-xs font-medium"
+        style={{ backgroundColor: 'var(--accent)', color: '#fff' }}
       >
         Save
       </button>
