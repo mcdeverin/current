@@ -28,7 +28,7 @@ export default function MoodCheckin({ bare = false }) {
   if (bare) {
    return (
      <div className="text-center">
-       <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#6a7280' }}>
+       <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#6F8FA4' }}>
          How are you right now?
        </p>
         {!selected ? (
