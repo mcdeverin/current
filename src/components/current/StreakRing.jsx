@@ -34,7 +34,7 @@ export default function StreakRing({ days, size = 220, strokeWidth = 4 }) {
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="#8aab8e"
+          stroke="#6F8FA4"
           strokeWidth={strokeWidth}
           fill="none"
           strokeLinecap="round"
@@ -47,7 +47,7 @@ export default function StreakRing({ days, size = 220, strokeWidth = 4 }) {
         <span className="font-display text-6xl font-medium leading-none" style={{ color: '#e8eaf0' }}>
           {days.toLocaleString()}
         </span>
-        <span className="small-caps text-xs tracking-widest-custom mt-2" style={{ color: '#8aab8e' }}>
+        <span className="small-caps text-xs tracking-widest-custom mt-2" style={{ color: '#6F8FA4' }}>
           Days
         </span>
       </div>

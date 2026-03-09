@@ -5,7 +5,7 @@ import { createPageUrl } from "@/utils";
 import { useNavigate } from "react-router-dom";
 
 const BG = '#0f1219';
-const ACCENT = '#8aab8e';
+const ACCENT = '#6F8FA4';
 const MUTED = '#6a7280';
 const CARD_BG = '#161b24';
 const BORDER = '#232a35';

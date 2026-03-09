@@ -42,7 +42,7 @@ export default function ExploringNudge({ profile, onDismiss }) {
         <button
           onClick={handleSetDate}
           className="text-xs font-medium mt-3 transition-colors"
-          style={{ color: '#8aab8e' }}
+          style={{ color: '#6F8FA4' }}
         >
           Set a date →
         </button>

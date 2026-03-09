@@ -80,9 +80,9 @@ export default function NearMe() {
               onClick={() => setFilter(chip)}
               className="px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all"
               style={{
-                backgroundColor: filter === chip ? '#8aab8e' : '#161b24',
+                backgroundColor: filter === chip ? '#6F8FA4' : '#161b24',
                 color: filter === chip ? '#0f1219' : '#6a7280',
-                border: `1px solid ${filter === chip ? '#8aab8e' : '#232a35'}`,
+                border: `1px solid ${filter === chip ? '#6F8FA4' : '#232a35'}`,
               }}
             >
               {chip}
@@ -119,7 +119,7 @@ export default function NearMe() {
             <button
               onClick={() => setSubmitted(false)}
               className="mt-4 text-xs"
-              style={{ color: '#8aab8e' }}
+              style={{ color: '#6F8FA4' }}
             >
               Suggest another
             </button>
@@ -173,7 +173,7 @@ export default function NearMe() {
                 onClick={handleSuggest}
                 disabled={!suggestName.trim()}
                 className="flex-1 py-2.5 rounded-xl text-xs font-medium disabled:opacity-30"
-                style={{ backgroundColor: '#8aab8e', color: '#0f1219' }}
+                style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
               >
                 Submit
               </button>

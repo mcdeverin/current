@@ -5,7 +5,7 @@ export default function PlaceCard({ place }) {
     <div className="py-4 border-b" style={{ borderColor: '#232a35' }}>
       <div className="flex items-start gap-3">
         <div className="w-10 h-10 rounded-xl flex-shrink-0 overflow-hidden"
-          style={{ backgroundColor: '#1e3024' }}>
+          style={{ backgroundColor: '#1A2530' }}>
           {place.profile_image ? (
             <img src={place.profile_image} alt={place.name} className="w-full h-full object-cover" />
           ) : (
@@ -29,7 +29,7 @@ export default function PlaceCard({ place }) {
           {place.tag && (
             <span
               className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full mt-2"
-              style={{ backgroundColor: 'rgba(138,171,142,0.15)', color: '#8aab8e' }}
+              style={{ backgroundColor: 'rgba(111,143,164,0.15)', color: '#8aab8e' }}
             >
               {place.tag}
             </span>

@@ -62,7 +62,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
           <p className="text-sm" style={{ color: '#e8eaf0' }}>Exploring — no date set</p>
         ) : (
           <p className="text-sm" style={{ color: '#e8eaf0' }}>
-            Tracking since <span style={{ color: '#8aab8e' }}>{sinceDate}</span>
+            Tracking since <span style={{ color: '#6F8FA4' }}>{sinceDate}</span>
           </p>
         )}
       </div>
@@ -108,7 +108,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
                   onClick={handleSaveDate}
                   disabled={!dateValue}
                   className="flex-1 py-2 rounded-lg text-xs font-medium"
-                  style={{ backgroundColor: dateValue ? '#8aab8e' : '#232a35', color: dateValue ? '#0f1219' : '#6a7280' }}
+                  style={{ backgroundColor: dateValue ? '#6F8FA4' : '#232a35', color: dateValue ? '#0f1219' : '#6a7280' }}
                 >
                   Save
                 </button>
@@ -122,7 +122,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
               <button
                 onClick={() => setView("idle")}
                 className="w-full py-2 rounded-lg text-xs font-medium"
-                style={{ backgroundColor: '#8aab8e', color: '#0f1219' }}
+                style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
               >
                 Got it
               </button>
@@ -144,7 +144,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
             <button
               onClick={handleSwitchToExploring}
               className="flex-1 py-2 rounded-lg text-xs font-medium"
-              style={{ backgroundColor: '#8aab8e', color: '#0f1219' }}
+              style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
             >
               Got it
             </button>
@@ -158,7 +158,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
           <p className="text-sm leading-relaxed mb-1" style={{ color: '#e8eaf0' }}>
             Welcome back. Your date is still here.
           </p>
-          <p className="text-xs mb-5" style={{ color: '#8aab8e' }}>{sinceDate}</p>
+          <p className="text-xs mb-5" style={{ color: '#6F8FA4' }}>{sinceDate}</p>
           <div className="flex gap-2">
             <button
               onClick={handleChangeDate}
@@ -170,7 +170,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
             <button
               onClick={handleKeepDate}
               className="flex-1 py-2 rounded-lg text-xs font-medium"
-              style={{ backgroundColor: '#8aab8e', color: '#0f1219' }}
+              style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
             >
               Keep it
             </button>

@@ -161,12 +161,12 @@ export default function Home() {
               className="w-full rounded-xl p-4 text-left"
               style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
             >
-              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#8aab8e' }}>
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#6F8FA4' }}>
                 NYC Spots
               </p>
               <div className="flex items-center justify-between">
                 <p className="text-sm" style={{ color: '#6a7280' }}>18 sober-friendly spots in New York City</p>
-                <span className="ml-3 flex-shrink-0" style={{ color: '#8aab8e' }}>→</span>
+                <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
               </div>
             </button>
           </>

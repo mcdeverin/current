@@ -45,7 +45,7 @@ export default function MoodCheckin({ bare = false }) {
             ))}
           </div>
         ) : (
-          <p className="text-sm" style={{ color: '#8aab8e' }}>{response}</p>
+          <p className="text-sm" style={{ color: '#6F8FA4' }}>{response}</p>
         )}
       </div>
     );
@@ -53,7 +53,7 @@ export default function MoodCheckin({ bare = false }) {
 
   return (
     <div className="rounded-xl p-5" style={{ backgroundColor: '#161b24' }}>
-      <p className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#8aab8e' }}>
+      <p className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#6F8FA4' }}>
         How are you right now?
       </p>
       {!selected ? (

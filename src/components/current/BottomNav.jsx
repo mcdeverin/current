@@ -33,11 +33,11 @@ export default function BottomNav() {
               <Icon
                 size={20}
                 strokeWidth={isActive ? 2 : 1.5}
-                style={{ color: isActive ? '#8aab8e' : '#6a7280' }}
+                style={{ color: isActive ? '#6F8FA4' : '#6a7280' }}
               />
               <span
                 className="text-[10px] font-medium"
-                style={{ color: isActive ? '#8aab8e' : '#6a7280' }}
+                style={{ color: isActive ? '#6F8FA4' : '#6a7280' }}
               >
                 {name}
               </span>

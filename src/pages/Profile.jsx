@@ -69,7 +69,7 @@ export default function Profile() {
         <h1 className="font-display text-2xl font-medium" style={{ color: '#e8eaf0' }}>{profile.first_name}</h1>
         {!isExploring && sinceDate && <p className="text-xs mt-1" style={{ color: '#6a7280' }}>Since {sinceDate}</p>}
         {isExploring && (
-          <p className="text-xs mt-1 font-medium" style={{ color: '#8aab8e' }}>Exploring</p>
+          <p className="text-xs mt-1 font-medium" style={{ color: '#6F8FA4' }}>Exploring</p>
         )}
 
         {/* Streak large — only if streak mode */}
@@ -200,7 +200,7 @@ export default function Profile() {
             Current is for people who are proud of who they are today. 
             No labels. No programs. Just presence.
           </p>
-          <p className="text-xs mt-4" style={{ color: '#8aab8e' }}>
+          <p className="text-xs mt-4" style={{ color: '#6F8FA4' }}>
             Present tense. Always.
           </p>
         </div>
@@ -230,12 +230,12 @@ function SettingsItem({ label, value, onTap, premium }) {
       <div className="flex items-center gap-2">
         <span className="text-sm" style={{ color: '#e8eaf0' }}>{label}</span>
         {premium && (
-          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#8aab8e' }} />
+          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#6F8FA4' }} />
         )}
       </div>
       <div className="flex items-center gap-2">
         <span className="text-sm" style={{ color: '#6a7280' }}>{value}</span>
-        <ChevronRight size={14} style={{ color: '#b8c9ba' }} />
+        <ChevronRight size={14} style={{ color: '#a0b8c8' }} />
       </div>
     </button>
   );
@@ -258,7 +258,7 @@ function EditActions({ onCancel, onSave }) {
       <button
         onClick={onSave}
         className="flex-1 py-2 rounded-lg text-xs font-medium text-white"
-        style={{ backgroundColor: '#8aab8e', color: '#0f1219' }}
+        style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
       >
         Save
       </button>

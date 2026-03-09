@@ -23,7 +23,7 @@ export default function MilestoneOverlay({ days, sobrietyDate, savingsRate, onDi
         transition={{ delay: 0.3, duration: 0.8 }}
         className="flex flex-col items-center text-center max-w-sm"
       >
-        <p className="text-[10px] uppercase tracking-widest font-medium mb-6" style={{ color: '#8aab8e' }}>
+        <p className="text-[10px] uppercase tracking-widest font-medium mb-6" style={{ color: '#6F8FA4' }}>
           Milestone Reached
         </p>
 
@@ -38,9 +38,9 @@ export default function MilestoneOverlay({ days, sobrietyDate, savingsRate, onDi
         {/* Badge */}
         <div 
           className="w-32 h-32 rounded-full flex flex-col items-center justify-center mb-10 border-2"
-          style={{ borderColor: '#8aab8e', backgroundColor: '#0f1219' }}
+          style={{ borderColor: '#6F8FA4', backgroundColor: '#0f1219' }}
         >
-          <span className="font-display text-3xl font-medium" style={{ color: '#8aab8e' }}>
+          <span className="font-display text-3xl font-medium" style={{ color: '#6F8FA4' }}>
             {days}
           </span>
           <span className="small-caps text-[10px] tracking-widest mt-1" style={{ color: '#6a7280' }}>
@@ -71,7 +71,7 @@ export default function MilestoneOverlay({ days, sobrietyDate, savingsRate, onDi
         <button
           onClick={onShare}
           className="text-sm font-medium mb-4 transition-colors"
-          style={{ color: '#8aab8e' }}
+          style={{ color: '#6F8FA4' }}
         >
           Share this moment →
         </button>
