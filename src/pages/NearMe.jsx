@@ -92,7 +92,7 @@ export default function NearMe() {
             <div className="flex items-center gap-1.5 mt-1">
               <MapPin size={12} style={{ color: '#6a7280' }} />
               <span className="text-xs" style={{ color: '#6a7280' }}>
-                New York · {filtered.length} places
+                {userLocation ? `Using current location` : `New York`} · {filtered.length} places
               </span>
             </div>
           </div>
