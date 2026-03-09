@@ -150,6 +150,17 @@ export default function NearMe() {
               {chip}
             </button>
           ))}
+          <button
+            onClick={() => setOpenNow(v => !v)}
+            className="px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all"
+            style={{
+              backgroundColor: openNow ? '#6F8FA4' : '#161b24',
+              color: openNow ? '#0f1219' : '#6a7280',
+              border: `1px solid ${openNow ? '#6F8FA4' : '#232a35'}`,
+            }}
+          >
+            Open now
+          </button>
         </div>
       </div>
 
@@ -166,7 +177,7 @@ export default function NearMe() {
             <p className="text-sm" style={{ color: '#6a7280' }}>No places found.</p>
           </div>
         ) : (
-          filtered.map(place => <PlaceCard key={place.id} place={place} distance={place._distance} />)
+          filtered.map(place => <PlaceCard key={place.id} place={place} distance={place._distance} isOpen={place._isOpen} />)
         )}
       </div>
 
