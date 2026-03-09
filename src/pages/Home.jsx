@@ -134,7 +134,7 @@ export default function Home() {
 
           {/* Sign up CTA */}
           <div className="rounded-xl p-5 border text-center" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
-           <p className="font-display text-lg mb-1" style={{ color: '#e8eaf0' }}>Track your days.</p>
+           <p className="font-display text-lg mb-1" style={{ color: '#e8eaf0' }}>Track your days</p>
            <p className="text-sm mb-4" style={{ color: '#6a7280' }}>
              Whenever you're ready, we'll keep count with you.
            </p>
