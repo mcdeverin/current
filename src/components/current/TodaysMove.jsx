@@ -46,10 +46,10 @@ export default function TodaysMove({ days, bare = false }) {
   if (bare) {
     return (
       <div>
-        <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--accent)' }}>
+        <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#8aab8e' }}>
           Today's Move
         </p>
-        <p className="text-sm leading-relaxed" style={{ color: 'var(--text)', fontFamily: 'DM Sans, sans-serif' }}>
+        <p className="text-sm leading-relaxed" style={{ color: '#e8eaf0', fontFamily: 'DM Sans, sans-serif' }}>
           {move} →
         </p>
       </div>
@@ -57,11 +57,11 @@ export default function TodaysMove({ days, bare = false }) {
   }
 
   return (
-    <div className="rounded-xl p-5" style={{ backgroundColor: 'var(--card)', border: '1px solid var(--card-border)' }}>
-      <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: 'var(--accent)' }}>
+    <div className="rounded-xl p-5" style={{ backgroundColor: '#161b24' }}>
+      <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: '#8aab8e' }}>
         Today's Move
       </p>
-      <p className="text-base leading-relaxed" style={{ color: 'var(--text)', fontFamily: 'DM Sans, sans-serif' }}>
+      <p className="text-base leading-relaxed" style={{ color: '#f0f2ee', fontFamily: 'DM Sans, sans-serif' }}>
         {move}
       </p>
     </div>
