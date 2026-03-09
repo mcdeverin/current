@@ -43,6 +43,7 @@ export default function NearMe() {
   const [submitted, setSubmitted] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
   const [locationDismissed, setLocationDismissed] = useState(false);
+  const [openNow, setOpenNow] = useState(false);
 
   const requestLocation = () => {
     navigator.geolocation.getCurrentPosition(
@@ -68,7 +69,9 @@ export default function NearMe() {
       _distance: (userLocation && p.latitude && p.longitude)
         ? getDistanceMi(userLocation.lat, userLocation.lon, p.latitude, p.longitude)
         : null,
+      _isOpen: isPlaceOpenNow(p),
     }))
+    .filter(p => !openNow || p._isOpen)
     .sort((a, b) => {
       if (a._distance != null && b._distance != null) return a._distance - b._distance;
       return 0;
