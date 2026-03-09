@@ -4,12 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { AnimatePresence } from "framer-motion";
 import StreakRing from "../components/current/StreakRing";
-import IntentionCard from "../components/current/IntentionCard";
 import StatCard from "../components/current/StatCard";
 import BottomNav from "../components/current/BottomNav";
 import MilestoneOverlay from "../components/current/MilestoneOverlay";
 import ExploringNudge from "../components/current/ExploringNudge";
-import TodaysMove from "../components/current/TodaysMove";
+import TodaysMoment from "../components/current/TodaysMoment";
 import MoodCheckin from "../components/current/MoodCheckin";
 import { getDaysSince, isMilestoneDay } from "../components/current/milestoneData";
 
@@ -104,18 +103,17 @@ export default function Home() {
             {getGreeting()}.
           </p>
 
-          {/* Intention */}
+          {/* Mood Check-in */}
           <div className="mb-8 flex justify-center">
             <div className="w-full max-w-xs">
-              <IntentionCard />
+              <MoodCheckin bare />
             </div>
           </div>
 
-          {/* Today's Move */}
-          <div className="border-t mb-6" style={{ borderColor: '#232a35' }} />
-          <div className="mb-8 flex justify-center">
+          {/* Today's Moment */}
+          <div className="mb-12 flex justify-center">
             <div className="w-full max-w-xs">
-              <TodaysMove days={1} bare />
+              <TodaysMoment />
             </div>
           </div>
 
@@ -242,26 +240,19 @@ export default function Home() {
 
             <div className="mb-8 flex justify-center">
               <div className="w-full max-w-xs">
-                <IntentionCard />
+                <MoodCheckin bare />
               </div>
             </div>
 
-            <div className="border-t mb-6" style={{ borderColor: '#232a35' }} />
             <div className="mb-8 flex justify-center">
               <div className="w-full max-w-xs">
-                <TodaysMove days={1} bare />
-              </div>
-            </div>
-
-            <div className="mb-6 flex justify-center">
-              <div className="w-full max-w-xs">
-                <MoodCheckin bare />
+                <TodaysMoment />
               </div>
             </div>
 
             <button
               onClick={() => navigate(createPageUrl("NearMe"))}
-              className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-6"
+              className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-6 mt-12"
               style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
             >
               <p className="text-[10px] uppercase tracking-widest font-medium mb-2 text-center" style={{ color: '#6F8FA4' }}>
@@ -278,19 +269,14 @@ export default function Home() {
         {/* STREAK layout */}
         {!isExploring && (
           <>
-            <div className="mt-8 mb-4 flex justify-center">
-              <div className="w-full max-w-xs">
-                <IntentionCard />
-              </div>
-            </div>
-            <div className="mb-4 flex justify-center">
-              <div className="w-full max-w-xs">
-                <TodaysMove days={days || 1} />
-              </div>
-            </div>
-            <div className="mb-6 flex justify-center">
+            <div className="mt-8 mb-8 flex justify-center">
               <div className="w-full max-w-xs">
                 <MoodCheckin />
+              </div>
+            </div>
+            <div className="mb-8 flex justify-center">
+              <div className="w-full max-w-xs">
+                <TodaysMoment />
               </div>
             </div>
             <div className="flex gap-3 justify-center">
