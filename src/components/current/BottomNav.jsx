@@ -5,7 +5,7 @@ import { Home, MapPin, User } from "lucide-react";
 
 const tabs = [
   { name: "Home", icon: Home, page: "Home" },
-  { name: "NYC Spots", icon: MapPin, page: "NearMe" },
+  { name: "Spots", icon: MapPin, page: "NearMe" },
   { name: "You", icon: User, page: "Profile" },
 ];
 
