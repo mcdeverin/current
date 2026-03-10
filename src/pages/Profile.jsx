@@ -173,7 +173,7 @@ export default function Profile() {
                   onChange={e => setEditValue(e.target.value)}
                   max={new Date().toISOString().split("T")[0]}
                   className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-                  style={{ borderColor: '#232a35', color: '#e8eaf0', colorScheme: 'dark' }}
+                  style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)', colorScheme: 'inherit' }}
                 />
                 <EditActions
                   onCancel={() => setEditing(null)}
@@ -198,9 +198,9 @@ export default function Profile() {
               placeholder="This is private. Only you can see this."
               rows={4}
               className="w-full text-sm bg-transparent border rounded-lg p-3 focus:outline-none resize-none placeholder-gray-600"
-              style={{ borderColor: '#232a35', color: '#e8eaf0' }}
+              style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)' }}
             />
-            <p className="text-[10px] mt-1 mb-3" style={{ color: '#6a7280' }}>
+            <p className="text-[10px] mt-1 mb-3" style={{ color: 'var(--t-muted)' }}>
               This is never shared. It's yours alone.
             </p>
             <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("why_i_started", editValue)} />

@@ -30,13 +30,13 @@ export default function ExploringNudge({ profile, onDismiss }) {
       exit={{ opacity: 0, y: 8 }}
       transition={{ delay: 0.4 }}
       className="mx-6 mt-4 rounded-xl p-4 flex items-start gap-3"
-      style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
+      style={{ backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)' }}
     >
       <div className="flex-1">
-        <p className="text-sm leading-relaxed" style={{ color: '#e8eaf0' }}>
+        <p className="text-sm leading-relaxed" style={{ color: 'var(--t-text)' }}>
           Track your days
         </p>
-        <p className="text-xs mt-1 leading-relaxed" style={{ color: '#6a7280' }}>
+        <p className="text-xs mt-1 leading-relaxed" style={{ color: 'var(--t-muted)' }}>
           Whenever you're ready, we'll be here.
         </p>
         <button

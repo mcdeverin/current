@@ -45,15 +45,15 @@ export default function TodaysMoment() {
   return (
     <div 
       className="rounded-xl p-5 text-center"
-      style={{ backgroundColor: '#1a2430' }}
+      style={{ backgroundColor: 'var(--t-card-alt)' }}
     >
       <p className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#6F8FA4' }}>
         Today's Moment
       </p>
-      <p className="font-display text-lg italic leading-relaxed mb-3 text-center" style={{ color: '#f0f2ee' }}>
+      <p className="font-display text-lg italic leading-relaxed mb-3 text-center" style={{ color: 'var(--t-text-warm)' }}>
         {intention}
       </p>
-      <p className="text-base leading-relaxed text-center" style={{ color: '#f0f2ee', fontFamily: 'DM Sans, sans-serif' }}>
+      <p className="text-base leading-relaxed text-center" style={{ color: 'var(--t-text-warm)', fontFamily: 'DM Sans, sans-serif' }}>
         {move}
       </p>
     </div>

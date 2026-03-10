@@ -52,7 +52,7 @@ export default function MoodCheckin({ bare = false }) {
   }
 
   return (
-    <div className="rounded-xl p-5 text-center" style={{ backgroundColor: '#161b24' }}>
+    <div className="rounded-xl p-5 text-center" style={{ backgroundColor: 'var(--t-card)' }}>
       <p className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#6F8FA4' }}>
         How are you right now?
       </p>
@@ -63,14 +63,14 @@ export default function MoodCheckin({ bare = false }) {
               key={label}
               onClick={() => handleSelect(label)}
               className="flex-1 py-2.5 rounded-lg text-xs font-medium transition-all"
-              style={{ backgroundColor: '#232a35', color: '#e8eaf0' }}
+              style={{ backgroundColor: 'var(--t-border)', color: 'var(--t-text)' }}
             >
               {label}
             </button>
           ))}
         </div>
       ) : (
-        <p className="font-display text-base italic leading-relaxed" style={{ color: '#f0f2ee' }}>
+        <p className="font-display text-base italic leading-relaxed" style={{ color: 'var(--t-text-warm)' }}>
           "{response}"
         </p>
       )}
