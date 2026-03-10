@@ -62,11 +62,6 @@ export default function PrivacyPolicy() {
           <p className="mt-2">We take reasonable steps to protect personal information.</p>
         </Section>
 
-        <Section title="Guest Mode">
-          <p>Current can be used without creating an account.</p>
-          <p className="mt-2">In this case, no personal profile information is stored.</p>
-        </Section>
-
         <Section title="Account Deletion">
           <p>Users may delete their account at any time from the app's settings page.</p>
           <p className="mt-2">When an account is deleted:</p>
