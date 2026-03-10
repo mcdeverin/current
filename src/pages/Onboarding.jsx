@@ -196,7 +196,7 @@ export default function Onboarding() {
               onChange={e => setSobrietyDate(e.target.value)}
               max={new Date().toISOString().split("T")[0]}
               className="w-full max-w-xs text-center text-lg font-display bg-transparent border-b-2 pb-3 focus:outline-none appearance-none"
-              style={{ borderColor: BORDER, color: TEXT, colorScheme: 'dark' }}
+              style={{ borderColor: BORDER, color: TEXT, colorScheme: 'dark', WebkitAppearance: 'none', fontSize: '16px' }}
             />
 
             <button

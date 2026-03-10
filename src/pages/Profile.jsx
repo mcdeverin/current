@@ -168,7 +168,7 @@ export default function Profile() {
                   onChange={e => setEditValue(e.target.value)}
                   max={new Date().toISOString().split("T")[0]}
                   className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-                  style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)', colorScheme: 'inherit' }}
+                  style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)', colorScheme: 'inherit', WebkitAppearance: 'none', fontSize: '16px' }}
                 />
                 <EditActions
                   onCancel={() => setEditing(null)}

@@ -38,8 +38,25 @@ const ThemeContext = createContext({ isDark: true, toggleTheme: () => {} });
 
 export function ThemeProvider({ children }) {
   const [isDark, setIsDark] = useState(() => {
-    try { return localStorage.getItem('current-theme') !== 'light'; } catch { return true; }
+    try {
+      const saved = localStorage.getItem('current-theme');
+      if (saved === 'light') return false;
+      if (saved === 'dark') return true;
+      // No manual override — use system preference
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } catch { return true; }
   });
+
+  // Listen for system preference changes (only when no manual override is set)
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = (e) => {
+      const saved = localStorage.getItem('current-theme');
+      if (!saved) setIsDark(e.matches);
+    };
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   const toggleTheme = () => {
     setIsDark(v => {
