@@ -28,12 +28,13 @@ export default function BottomNav() {
             <Link
               key={name}
               to={url}
-              className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 transition-colors"
+              className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 transition-colors select-none"
+              style={{ WebkitUserSelect: 'none', userSelect: 'none' }}
             >
               <Icon
                 size={20}
                 strokeWidth={isActive ? 2 : 1.5}
-                style={{ color: isActive ? '#6F8FA4' : '#6a7280' }}
+                style={{ color: isActive ? '#6F8FA4' : '#6a7280', pointerEvents: 'none' }}
               />
               <span
                 className="text-[10px] font-medium"
