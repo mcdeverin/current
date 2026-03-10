@@ -125,10 +125,35 @@ export default function NearMe() {
   };
 
   return (
+    {/* Type picker bottom sheet */}
+    {showTypeSheet && (
+      <div className="fixed inset-0 z-50" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }} onClick={() => setShowTypeSheet(false)}>
+        <div
+          className="absolute bottom-0 left-0 right-0 rounded-t-2xl pb-8"
+          style={{ backgroundColor: '#161b24', borderTop: '1px solid #232a35' }}
+          onClick={e => e.stopPropagation()}
+        >
+          <div className="w-10 h-1 rounded-full mx-auto mt-3 mb-5" style={{ backgroundColor: '#232a35' }} />
+          <p className="text-xs uppercase tracking-widest font-medium text-center mb-4" style={{ color: '#6a7280' }}>Type</p>
+          {["Spots", "Mocktails", "Events", "Cafés", "Wellness"].map(t => (
+            <button
+              key={t}
+              onClick={() => { setSuggestType(t); setShowTypeSheet(false); }}
+              className="w-full flex items-center justify-between px-6 py-4 border-b text-sm font-medium"
+              style={{ borderColor: '#232a35', color: suggestType === t ? '#6F8FA4' : '#e8eaf0' }}
+            >
+              {t}
+              {suggestType === t && <Check size={16} style={{ color: '#6F8FA4' }} />}
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+
     <PullToRefresh onRefresh={loadPlaces}>
     <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
       {/* Header */}
-      <div className="px-6 pt-10 pb-3">
+      <div className="px-6 pb-3" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 40px)' }}>
         <h1 className="font-display text-2xl font-medium mb-3" style={{ color: '#e8eaf0' }}>Spots</h1>
         <div className="flex gap-2 mb-1">
           {["NYC", "LA"].map(city => (
