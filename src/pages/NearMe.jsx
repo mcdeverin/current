@@ -36,6 +36,7 @@ export default function NearMe() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("All");
+  const [cityFilter, setCityFilter] = useState("NYC");
   const [showSuggest, setShowSuggest] = useState(false);
   const [suggestName, setSuggestName] = useState("");
   const [suggestNeighborhood, setSuggestNeighborhood] = useState("");
