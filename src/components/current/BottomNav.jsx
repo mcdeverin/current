@@ -4,7 +4,7 @@ import { createPageUrl } from "@/utils";
 import { Home, MapPin, User } from "lucide-react";
 
 const tabs = [
-  { name: "Home", icon: Home, page: "Home" },
+  { name: "Today", icon: Home, page: "Home" },
   { name: "Spots", icon: MapPin, page: "NearMe" },
   { name: "You", icon: User, page: "Profile" },
 ];
