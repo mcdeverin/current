@@ -124,7 +124,7 @@ export default function NearMe() {
       <div className="px-6 pt-14 pb-4">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="font-display text-2xl font-medium" style={{ color: '#e8eaf0' }}>Near Me</h1>
+            <h1 className="font-display text-2xl font-medium" style={{ color: '#e8eaf0' }}>Spots</h1>
             <div className="flex items-center gap-1.5 mt-1">
               <MapPin size={12} style={{ color: '#6a7280' }} />
               <span className="text-xs" style={{ color: '#6a7280' }}>
