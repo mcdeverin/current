@@ -168,34 +168,6 @@ export default function Profile() {
           </>
         )}
 
-        {/* Daily Savings — streak mode only */}
-        {!isExploring && (
-          <>
-            <SettingsItem
-              label="Daily savings rate"
-              value={`$${profile.daily_savings_rate || 15}/day`}
-              onTap={() => { setEditing("savings"); setEditValue(String(profile.daily_savings_rate || 15)); }}
-              premium
-            />
-            {editing === "savings" && (
-              <EditPanel>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm" style={{ color: '#6a7280' }}>$</span>
-                  <input
-                    type="number"
-                    value={editValue}
-                    onChange={e => setEditValue(e.target.value)}
-                    className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-                    style={{ borderColor: '#232a35', color: '#e8eaf0' }}
-                  />
-                  <span className="text-sm" style={{ color: '#6a7280' }}>/day</span>
-                </div>
-                <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("daily_savings_rate", Number(editValue))} />
-              </EditPanel>
-            )}
-          </>
-        )}
-
         {/* Why I Started */}
         <SettingsItem
           label={isExploring ? "What brought me here" : "Why I started"}
