@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { getDaysSince } from "./milestoneData";
+import DatePickerDrawer from "./DatePickerDrawer";
 
 // view states: idle | change_date | confirm_exploring | switching_back
 export default function JourneySection({ profile, onProfileUpdate }) {
   const [view, setView] = useState("idle");
   const [dateValue, setDateValue] = useState(profile.sobriety_date || "");
   const [dateConfirmed, setDateConfirmed] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const isExploring = profile.mode === "exploring";
   const hasDate = !!profile.sobriety_date;
@@ -92,13 +94,20 @@ export default function JourneySection({ profile, onProfileUpdate }) {
           )}
           {!dateConfirmed ? (
             <>
-              <input
-                type="date"
+              <button
+                onClick={() => setDrawerOpen(true)}
+                className="w-full text-left border-b pb-2 text-sm focus:outline-none"
+                style={{ borderColor: 'var(--t-border)', color: dateValue ? 'var(--t-text)' : 'var(--t-muted)' }}
+              >
+                {dateValue
+                  ? (() => { const [y,m,d] = dateValue.split("-").map(Number); return new Date(y,m-1,d).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }); })()
+                  : "Tap to select a date"}
+              </button>
+              <DatePickerDrawer
+                open={drawerOpen}
+                onClose={() => setDrawerOpen(false)}
                 value={dateValue}
-                onChange={e => setDateValue(e.target.value)}
-                max={new Date().toISOString().split("T")[0]}
-                className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-                style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)', colorScheme: 'inherit' }}
+                onSelect={setDateValue}
               />
               <div className="flex gap-2 mt-4">
                 <button onClick={() => setView("idle")} className="flex-1 py-2 text-xs font-medium" style={{ color: '#6a7280' }}>
