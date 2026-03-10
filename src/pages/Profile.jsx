@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Sun, Moon } from "lucide-react";
+import { useTheme } from "../components/current/ThemeContext";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import BottomNav from "../components/current/BottomNav";
@@ -15,6 +16,7 @@ export default function Profile() {
   const [editValue, setEditValue] = useState("");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     loadProfile();
@@ -108,7 +110,7 @@ export default function Profile() {
   const isExploring = profile.mode === "exploring";
   const days = profile.sobriety_date ? getDaysSince(profile.sobriety_date) : null;
   const sinceDate = profile.sobriety_date
-    ? (() => { const [y,m,d] = profile.sobriety_date.split("-").map(Number); return new Date(y,m-1,d).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }); })()
+    ? new Date(profile.sobriety_date + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
     : null;
 
   const handleSaveDateAndSwitchMode = async () => {
@@ -142,6 +144,19 @@ export default function Profile() {
 
       {/* Settings */}
       <div className="px-6">
+        {/* Appearance */}
+        <button
+          onClick={toggleTheme}
+          className="w-full flex items-center justify-between py-4 border-b text-left"
+          style={{ borderColor: 'var(--t-border)' }}
+        >
+          <span className="text-sm" style={{ color: 'var(--t-text)' }}>Appearance</span>
+          <div className="flex items-center gap-2">
+            <span className="text-sm" style={{ color: 'var(--t-muted)' }}>{isDark ? 'Dark' : 'Light'}</span>
+            {isDark ? <Moon size={14} style={{ color: 'var(--t-muted)' }} /> : <Sun size={14} style={{ color: 'var(--t-muted)' }} />}
+          </div>
+        </button>
+
         {/* Sobriety Date — streak mode only */}
         {!isExploring && (
           <>
