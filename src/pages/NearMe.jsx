@@ -3,6 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { MapPin, Plus } from "lucide-react";
 import PlaceCard from "../components/current/PlaceCard";
 import BottomNav from "../components/current/BottomNav";
+import PullToRefresh from "../components/current/PullToRefresh";
 
 const FILTER_CHIPS = ["All", "Spots", "Mocktails", "Events", "Cafés", "Wellness"];
 
