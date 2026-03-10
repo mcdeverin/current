@@ -71,7 +71,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
       {view === "idle" && (
         <div className="space-y-1">
           {!isExploring && (
-            <ActionRow label="Change my sobriety date" onTap={() => { setDateValue(profile.sobriety_date || ""); setDateConfirmed(false); setView("change_date"); }} />
+            <ActionRow label="Change my start date" onTap={() => { setDateValue(profile.sobriety_date || ""); setDateConfirmed(false); setView("change_date"); }} />
           )}
           {!isExploring && (
             <ActionRow label="Switch to Just Exploring" onTap={() => setView("confirm_exploring")} />
