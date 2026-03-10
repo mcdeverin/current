@@ -144,7 +144,7 @@ export default function Profile() {
 
         {!isExploring && days != null && (
           <div className="mt-8 flex items-baseline gap-2">
-            <span className="font-display text-6xl font-medium" style={{ color: 'var(--t-text)' }}>{days}</span>
+            <span className="font-display text-6xl font-medium" style={{ color: 'var(--t-accent)' }}>{days}</span>
             <span className="small-caps text-sm tracking-widest" style={{ color: 'var(--t-muted)' }}>days</span>
           </div>
         )}
