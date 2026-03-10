@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { Home, MapPin, User } from "lucide-react";
+import { Sun, MapPin, User } from "lucide-react";
 
 const tabs = [
-  { name: "Today", icon: Home, page: "Home" },
+  { name: "Today", icon: Sun, page: "Home" },
   { name: "Spots", icon: MapPin, page: "NearMe" },
   { name: "You", icon: User, page: "Profile" },
 ];
