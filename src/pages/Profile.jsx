@@ -46,9 +46,10 @@ export default function Profile() {
 
   const saveField = async (field, value) => {
     if (!profile) return;
-    await base44.entities.UserProfile.update(profile.id, { [field]: value });
+    // Optimistic update — close UI instantly
     setProfile(prev => ({ ...prev, [field]: value }));
     setEditing(null);
+    await base44.entities.UserProfile.update(profile.id, { [field]: value });
   };
 
   const handleDeleteAccount = async () => {
@@ -71,7 +72,7 @@ export default function Profile() {
   if (isGuest) {
     return (
       <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
-        <div className="px-6 pt-14 pb-8 max-w-lg mx-auto">
+        <div className="px-6 pb-8 max-w-lg mx-auto" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
           <h1 className="font-display text-2xl font-medium mb-2" style={{ color: '#e8eaf0' }}>You</h1>
           <p className="text-sm mb-12" style={{ color: '#6a7280' }}>
             Sign in to track your streak, save your reason, and personalize your experience.
@@ -124,7 +125,7 @@ export default function Profile() {
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
       {/* Header */}
-      <div className="px-6 pt-14 pb-8">
+      <div className="px-6 pb-8" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
         <h1 className="font-display text-2xl font-medium" style={{ color: '#e8eaf0' }}>{profile.first_name}</h1>
         {!isExploring && sinceDate && <p className="text-xs mt-1" style={{ color: '#6a7280' }}>Since {sinceDate}</p>}
         {isExploring && (

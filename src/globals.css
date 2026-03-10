@@ -20,6 +20,17 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+button, a, nav, [role="button"], label {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+svg {
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
 body {
   font-family: 'DM Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
