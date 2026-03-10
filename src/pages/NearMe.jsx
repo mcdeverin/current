@@ -122,17 +122,23 @@ export default function NearMe() {
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
       {/* Header */}
-      <div className="px-6 pt-14 pb-4">
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 className="font-display text-2xl font-medium" style={{ color: '#e8eaf0' }}>Spots</h1>
-            <div className="flex items-center gap-1.5 mt-1">
-              <MapPin size={12} style={{ color: '#6a7280' }} />
-              <span className="text-xs" style={{ color: '#6a7280' }}>
-                {userLocation ? `Using current location` : `New York`} · {filtered.length} places
-              </span>
-            </div>
-          </div>
+      <div className="px-6 pt-10 pb-3">
+        <h1 className="font-display text-2xl font-medium mb-3" style={{ color: '#e8eaf0' }}>Spots</h1>
+        <div className="flex gap-2 mb-1">
+          {["NYC", "LA"].map(city => (
+            <button
+              key={city}
+              onClick={() => setCityFilter(city)}
+              className="px-4 py-1.5 rounded-full text-xs font-medium transition-all"
+              style={{
+                backgroundColor: cityFilter === city ? '#6F8FA4' : '#161b24',
+                color: cityFilter === city ? '#0f1219' : '#6a7280',
+                border: `1px solid ${cityFilter === city ? '#6F8FA4' : '#232a35'}`,
+              }}
+            >
+              {city}
+            </button>
+          ))}
         </div>
       </div>
 
