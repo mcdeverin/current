@@ -145,7 +145,7 @@ export default function Profile() {
         {!isExploring && (
           <>
             <SettingsItem
-              label="Sobriety date"
+              label="Start date"
               value={sinceDate || "Not set"}
               onTap={() => { setEditing("date"); setEditValue(profile.sobriety_date || ""); }}
             />
