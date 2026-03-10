@@ -127,7 +127,15 @@ export default function Profile() {
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
       {/* Header */}
-      <div className="px-6 pb-8" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
+      <div className="px-6 pb-8 relative" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
+        <button
+          onClick={toggleTheme}
+          className="absolute right-6 flex items-center gap-1.5 px-3 py-1.5 rounded-full border"
+          style={{ top: 'calc(env(safe-area-inset-top, 0px) + 56px)', borderColor: 'var(--t-border)', backgroundColor: 'var(--t-card)' }}
+        >
+          {isDark ? <Moon size={13} style={{ color: 'var(--t-muted)' }} /> : <Sun size={13} style={{ color: 'var(--t-muted)' }} />}
+          <span className="text-xs" style={{ color: 'var(--t-muted)' }}>{isDark ? 'Dark' : 'Light'}</span>
+        </button>
         <h1 className="font-display text-2xl font-medium" style={{ color: 'var(--t-text)' }}>{profile.first_name}</h1>
         {!isExploring && sinceDate && <p className="text-xs mt-1" style={{ color: 'var(--t-muted)' }}>Since {sinceDate}</p>}
         {isExploring && (
