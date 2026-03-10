@@ -164,13 +164,20 @@ export default function Profile() {
             />
             {editing === "date" && (
               <EditPanel>
-                <input
-                  type="date"
+                <button
+                  onClick={() => setDateDrawerOpen(true)}
+                  className="w-full text-left border-b pb-2 text-sm focus:outline-none"
+                  style={{ borderColor: 'var(--t-border)', color: editValue ? 'var(--t-text)' : 'var(--t-muted)' }}
+                >
+                  {editValue
+                    ? (() => { const [y,m,d] = editValue.split("-").map(Number); return new Date(y,m-1,d).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }); })()
+                    : "Tap to select a date"}
+                </button>
+                <DatePickerDrawer
+                  open={dateDrawerOpen}
+                  onClose={() => setDateDrawerOpen(false)}
                   value={editValue}
-                  onChange={e => setEditValue(e.target.value)}
-                  max={new Date().toISOString().split("T")[0]}
-                  className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-                  style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)', colorScheme: 'inherit', WebkitAppearance: 'none', fontSize: '16px' }}
+                  onSelect={setEditValue}
                 />
                 <EditActions
                   onCancel={() => setEditing(null)}
