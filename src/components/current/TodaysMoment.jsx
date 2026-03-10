@@ -45,7 +45,7 @@ export default function TodaysMoment() {
   return (
     <div 
       className="rounded-xl p-5 text-center"
-      style={{ backgroundColor: 'var(--t-card-alt)' }}
+      style={{ backgroundColor: 'var(--t-primary-card)' }}
     >
       <p className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#6F8FA4' }}>
         Today's Moment

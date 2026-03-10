@@ -9,7 +9,7 @@ export default function StatCard({ label, value, sublabel, premium }) {
       {premium && (
         <div className="absolute top-3 right-3 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#6F8FA4' }} />
       )}
-      <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--t-muted)' }}>
+      <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--t-label)' }}>
         {label}
       </p>
       <p className="font-display text-2xl font-medium leading-none" style={{ color: 'var(--t-text)' }}>

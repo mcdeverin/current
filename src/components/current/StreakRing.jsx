@@ -34,7 +34,7 @@ export default function StreakRing({ days, size = 220, strokeWidth = 4 }) {
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="#6F8FA4"
+          stroke="#6E8FA3"
           strokeWidth={strokeWidth}
           fill="none"
           strokeLinecap="round"
