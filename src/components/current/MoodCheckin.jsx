@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const MOODS = [
   { label: "Feeling steady", response: "That's worth something." },
-  { label: "Getting through", response: "You're showing up. That counts." },
+  { label: "Getting by", response: "You're showing up. That counts." },
   { label: "Today's tough", response: "Still here. That matters." },
 ];
 
