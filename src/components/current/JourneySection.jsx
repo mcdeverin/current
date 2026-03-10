@@ -59,7 +59,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
       {/* Current status */}
       <div className="mb-5 py-3 px-4 rounded-xl border" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
         {isExploring ? (
-          <p className="text-sm" style={{ color: '#e8eaf0' }}>Exploring — no date set</p>
+          <p className="text-sm" style={{ color: '#e8eaf0' }}>Exploring</p>
         ) : (
           <p className="text-sm" style={{ color: '#e8eaf0' }}>
             Tracking since <span style={{ color: '#6F8FA4' }}>{sinceDate}</span>
