@@ -15,6 +15,7 @@ export default function Profile() {
   const [isGuest, setIsGuest] = useState(false);
   const [editing, setEditing] = useState(null);
   const [editValue, setEditValue] = useState("");
+  const [dateDrawerOpen, setDateDrawerOpen] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const { isDark, toggleTheme } = useTheme();
