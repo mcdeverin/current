@@ -211,7 +211,7 @@ export default function Home() {
             {days != null && (
               <div className="flex flex-col items-center mb-3">
                 <StreakRing days={days} />
-                <p className="text-xs mt-4 font-medium" style={{ color: 'var(--t-text)' }}>
+                <p className="text-xs mt-2 font-medium" style={{ color: 'var(--t-text)' }}>
                   {getClearDayText(days)}
                 </p>
                 <p className="text-xs mt-1" style={{ color: 'var(--t-muted)' }}>
