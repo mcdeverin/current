@@ -208,7 +208,7 @@ export default function Profile() {
         )}
 
         {/* Divider */}
-        <div className="my-6 border-t" style={{ borderColor: '#232a35' }} />
+        <div className="my-6 border-t" style={{ borderColor: 'var(--t-border)' }} />
 
         {/* Your Journey */}
         <JourneySection profile={profile} onProfileUpdate={(updated) => setProfile(prev => ({ ...prev, ...updated }))} />
@@ -301,17 +301,17 @@ function SettingsItem({ label, value, onTap, premium }) {
     <button
       onClick={onTap}
       className="w-full flex items-center justify-between py-4 border-b text-left"
-      style={{ borderColor: '#232a35' }}
+      style={{ borderColor: 'var(--t-border)' }}
     >
       <div className="flex items-center gap-2">
-        <span className="text-sm" style={{ color: '#e8eaf0' }}>{label}</span>
+        <span className="text-sm" style={{ color: 'var(--t-text)' }}>{label}</span>
         {premium && (
-          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#6F8FA4' }} />
+          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--t-accent)' }} />
         )}
       </div>
       <div className="flex items-center gap-2">
-        <span className="text-sm" style={{ color: '#6a7280' }}>{value}</span>
-        <ChevronRight size={14} style={{ color: '#a0b8c8' }} />
+        <span className="text-sm" style={{ color: 'var(--t-muted)' }}>{value}</span>
+        <ChevronRight size={14} style={{ color: 'var(--t-accent)' }} />
       </div>
     </button>
   );
@@ -319,7 +319,7 @@ function SettingsItem({ label, value, onTap, premium }) {
 
 function EditPanel({ children }) {
   return (
-    <div className="py-4 px-4 mb-2 rounded-xl border" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
+    <div className="py-4 px-4 mb-2 rounded-xl border" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
       {children}
     </div>
   );
@@ -328,13 +328,13 @@ function EditPanel({ children }) {
 function EditActions({ onCancel, onSave }) {
   return (
     <div className="flex gap-2 mt-4">
-      <button onClick={onCancel} className="flex-1 py-2 text-xs font-medium" style={{ color: '#6a7280' }}>
+      <button onClick={onCancel} className="flex-1 py-2 text-xs font-medium" style={{ color: 'var(--t-muted)' }}>
         Cancel
       </button>
       <button
         onClick={onSave}
         className="flex-1 py-2 rounded-lg text-xs font-medium"
-        style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
+        style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}
       >
         Save
       </button>
