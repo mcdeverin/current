@@ -74,7 +74,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
             <ActionRow label="Change my start date" onTap={() => { setDateValue(profile.sobriety_date || ""); setDateConfirmed(false); setView("change_date"); }} />
           )}
           {!isExploring && (
-            <ActionRow label="Switch to Just Exploring" onTap={() => setView("confirm_exploring")} />
+            <ActionRow label="Switch to Exploring" onTap={() => setView("confirm_exploring")} />
           )}
           {isExploring && (
             <ActionRow label="Set your start date →" onTap={handleSwitchBack} />
