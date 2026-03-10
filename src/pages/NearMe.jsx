@@ -287,16 +287,14 @@ export default function NearMe() {
               className="w-full text-sm bg-transparent border-b pb-2 mb-3 focus:outline-none placeholder-gray-600"
               style={{ borderColor: '#232a35', color: '#e8eaf0' }}
             />
-            <select
-              value={suggestType}
-              onChange={e => setSuggestType(e.target.value)}
-              className="w-full text-sm bg-transparent border-b pb-2 mb-4 focus:outline-none"
-              style={{ borderColor: '#232a35', color: '#e8eaf0', colorScheme: 'dark' }}
+            <button
+              onClick={() => setShowTypeSheet(true)}
+              className="w-full text-sm text-left border-b pb-2 mb-4 flex items-center justify-between"
+              style={{ borderColor: '#232a35', color: '#e8eaf0' }}
             >
-              {["Spots", "Mocktails", "Events", "Cafés", "Wellness"].map(t => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
+              <span>{suggestType}</span>
+              <span style={{ color: '#6a7280', fontSize: '10px' }}>▼</span>
+            </button>
             <div className="flex gap-2">
               <button
                 onClick={() => setShowSuggest(false)}
