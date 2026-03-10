@@ -32,7 +32,7 @@
   --t-danger-border: #3a2020;
 }
 
-.theme-light {
+:root.theme-light, .theme-light {
   --t-bg: #f5f4ef;
   --t-card: #ffffff;
   --t-card-alt: #ede9e2;
