@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { MapPin, Plus } from "lucide-react";
+import { MapPin, Plus, Check } from "lucide-react";
 import PlaceCard from "../components/current/PlaceCard";
 import BottomNav from "../components/current/BottomNav";
 import PullToRefresh from "../components/current/PullToRefresh";
