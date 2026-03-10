@@ -44,7 +44,7 @@ export default function StreakRing({ days, size = 220, strokeWidth = 4 }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-display text-6xl font-medium leading-none" style={{ color: 'var(--t-text)' }}>
+        <span className="font-display text-6xl font-medium leading-none" style={{ color: 'var(--t-accent)' }}>
           {days.toLocaleString()}
         </span>
         <span className="small-caps text-xs tracking-widest-custom mt-2" style={{ color: '#6F8FA4' }}>
