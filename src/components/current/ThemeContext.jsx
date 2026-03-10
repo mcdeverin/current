@@ -7,17 +7,21 @@ export function ThemeProvider({ children }) {
     try { return localStorage.getItem('current-theme') !== 'light'; } catch { return true; }
   });
 
-  const toggleTheme = () => setIsDark(v => {
-    const next = !v;
-    try { localStorage.setItem('current-theme', next ? 'dark' : 'light'); } catch {}
-    return next;
-  });
+  useEffect(() => {
+    const el = document.documentElement;
+    if (isDark) {
+      el.classList.remove('theme-light');
+    } else {
+      el.classList.add('theme-light');
+    }
+    try { localStorage.setItem('current-theme', isDark ? 'dark' : 'light'); } catch {}
+  }, [isDark]);
+
+  const toggleTheme = () => setIsDark(v => !v);
 
   return (
     <ThemeContext.Provider value={{ isDark, toggleTheme }}>
-      <div className={isDark ? '' : 'theme-light'} style={{ minHeight: '100vh' }}>
-        {children}
-      </div>
+      {children}
     </ThemeContext.Provider>
   );
 }
