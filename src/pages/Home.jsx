@@ -281,8 +281,7 @@ export default function Home() {
             </div>
             <div className="flex gap-3 justify-center">
               <StatCard label="Time" value={getYearsMonths()} />
-              <StatCard label="Saved" value={`$${(moneySaved || 0).toLocaleString()}`} premium />
-              <StatCard label="NYC Spots" value={String(spotsCount)} sublabel="places" />
+<StatCard label="NYC Spots" value={String(spotsCount)} sublabel="places" />
             </div>
           </>
         )}
