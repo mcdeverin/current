@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ThemeProvider } from "./components/current/ThemeContext";
+import GlobalHeader from "./components/current/GlobalHeader";
 
 const pageVariants = {
   initial: { opacity: 0, x: 30 },
@@ -14,6 +15,7 @@ export default function Layout({ children, currentPageName }) {
 
   return (
     <ThemeProvider>
+      <GlobalHeader />
       <AnimatePresence mode="wait">
         <motion.div
           key={location.pathname}

@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { Sun, MapPin, User } from "lucide-react";
+import { useTheme } from "./ThemeContext";
 
 const tabs = [
   { name: "Today", icon: Sun, page: "Home" },
@@ -11,6 +12,7 @@ const tabs = [
 
 export default function BottomNav() {
   const location = useLocation();
+  const { isDark } = useTheme();
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t"
