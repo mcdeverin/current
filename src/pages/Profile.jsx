@@ -170,7 +170,7 @@ export default function Profile() {
 
         {/* Why I Started */}
         <SettingsItem
-          label={isExploring ? "What brought me here" : "Why I started"}
+          label="What brought me here"
           value={profile.why_i_started ? "Written" : "Add your reason"}
           onTap={() => { setEditing("why"); setEditValue(profile.why_i_started || ""); }}
         />
