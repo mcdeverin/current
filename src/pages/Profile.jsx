@@ -152,19 +152,6 @@ export default function Profile() {
 
       {/* Settings */}
       <div className="px-6">
-        {/* Appearance */}
-        <button
-          onClick={toggleTheme}
-          className="w-full flex items-center justify-between py-4 border-b text-left"
-          style={{ borderColor: 'var(--t-border)' }}
-        >
-          <span className="text-sm" style={{ color: 'var(--t-text)' }}>Appearance</span>
-          <div className="flex items-center gap-2">
-            <span className="text-sm" style={{ color: 'var(--t-muted)' }}>{isDark ? 'Dark' : 'Light'}</span>
-            {isDark ? <Moon size={14} style={{ color: 'var(--t-muted)' }} /> : <Sun size={14} style={{ color: 'var(--t-muted)' }} />}
-          </div>
-        </button>
-
         {/* Sobriety Date — streak mode only */}
         {!isExploring && (
           <>
