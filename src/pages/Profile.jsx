@@ -196,25 +196,6 @@ export default function Profile() {
           </>
         )}
 
-        {/* Notification Time */}
-        <SettingsItem
-          label="Daily intention time"
-          value={profile.notification_time || "8:00 AM"}
-          onTap={() => { setEditing("notification"); setEditValue(profile.notification_time || "08:00"); }}
-        />
-        {editing === "notification" && (
-          <EditPanel>
-            <input
-              type="time"
-              value={editValue}
-              onChange={e => setEditValue(e.target.value)}
-              className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-              style={{ borderColor: '#232a35', color: '#e8eaf0', colorScheme: 'dark' }}
-            />
-            <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("notification_time", editValue)} />
-          </EditPanel>
-        )}
-
         {/* Why I Started */}
         <SettingsItem
           label={isExploring ? "What brought me here" : "Why I started"}
