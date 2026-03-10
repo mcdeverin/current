@@ -316,7 +316,6 @@ export default function NearMe() {
 
       <BottomNav />
     </div>
-    </div>
   </PullToRefresh>
   );
 }
