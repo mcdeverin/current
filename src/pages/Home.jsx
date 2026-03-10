@@ -158,9 +158,7 @@ export default function Home() {
   const savingsRate = profile.daily_savings_rate || 15;
   const moneySaved = days != null ? days * savingsRate : null;
   const sinceDate = profile.sobriety_date
-    ? new Date(profile.sobriety_date).toLocaleDateString("en-US", {
-        month: "long", day: "numeric", year: "numeric",
-      })
+    ? (() => { const [y,m,d] = profile.sobriety_date.split("-").map(Number); return new Date(y,m-1,d).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }); })()
     : null;
 
   const getYearsMonths = () => {
