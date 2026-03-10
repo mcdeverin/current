@@ -56,17 +56,17 @@ export default function NearMe() {
 
   useEffect(() => {
     loadPlaces();
-  }, []);
+  }, [cityFilter]);
 
   const loadPlaces = async () => {
-    const data = await base44.entities.Places.filter({ status: "approved" });
+    setLoading(true);
+    const entity = cityFilter === "LA" ? base44.entities.PlacesLA : base44.entities.Places;
+    const data = await entity.filter({ status: "approved" });
     setPlaces(data);
     setLoading(false);
   };
 
-  const cityMap = { NYC: "New York", LA: "Los Angeles" };
   const filtered = places
-    .filter(p => !p.city || p.city === cityMap[cityFilter] || (cityFilter === "NYC" && (!p.city || p.city === "New York")))
     .filter(p => filter === "All" || p.type === filter)
     .map(p => ({
       ...p,
