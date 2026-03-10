@@ -161,7 +161,7 @@ export default function Home() {
   const savingsRate = profile.daily_savings_rate || 15;
   const moneySaved = days != null ? days * savingsRate : null;
   const sinceDate = profile.sobriety_date
-    ? (() => { const [y,m,d] = profile.sobriety_date.split("-").map(Number); return new Date(y,m-1,d).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }); })()
+    ? new Date(profile.sobriety_date + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
     : null;
 
   const getYearsMonths = () => {

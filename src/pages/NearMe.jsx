@@ -125,9 +125,10 @@ export default function NearMe() {
   };
 
   return (
-    <>
+    <PullToRefresh onRefresh={loadPlaces}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
     {showTypeSheet && (
-      <div className="fixed inset-0 z-50" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }} onClick={() => setShowTypeSheet(false)}>
+      <div className="fixed inset-0 z-50" style={{ backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 100 }} onClick={() => setShowTypeSheet(false)}>
         <div
           className="absolute bottom-0 left-0 right-0 rounded-t-2xl pb-8"
           style={{ backgroundColor: '#161b24', borderTop: '1px solid #232a35' }}
@@ -149,9 +150,6 @@ export default function NearMe() {
         </div>
       </div>
     )}
-
-    <PullToRefresh onRefresh={loadPlaces}>
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
       {/* Header */}
       <div className="px-6 pb-3" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 40px)' }}>
         <h1 className="font-display text-2xl font-medium mb-3" style={{ color: '#e8eaf0' }}>Spots</h1>
