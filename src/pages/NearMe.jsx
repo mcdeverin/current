@@ -64,7 +64,10 @@ export default function NearMe() {
     setLoading(false);
   };
 
-  const filtered = (filter === "All" ? places : places.filter(p => p.type === filter))
+  const cityMap = { NYC: "New York", LA: "Los Angeles" };
+  const filtered = places
+    .filter(p => !p.city || p.city === cityMap[cityFilter] || (cityFilter === "NYC" && (!p.city || p.city === "New York")))
+    .filter(p => filter === "All" || p.type === filter)
     .map(p => ({
       ...p,
       _distance: (userLocation && p.latitude && p.longitude)
