@@ -3,6 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { AnimatePresence } from "framer-motion";
+import PullToRefresh from "../components/current/PullToRefresh";
 import StreakRing from "../components/current/StreakRing";
 import StatCard from "../components/current/StatCard";
 import BottomNav from "../components/current/BottomNav";
@@ -97,8 +98,9 @@ export default function Home() {
   // ── GUEST MODE ──────────────────────────────────────────────────────────────
   if (isGuest) {
     return (
+      <PullToRefresh onRefresh={loadProfile}>
       <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
-        <div className="px-6 pt-14 pb-6 max-w-lg mx-auto">
+        <div className="px-6 pb-6 max-w-lg mx-auto" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
           <p className="font-display text-xl mb-10" style={{ color: '#e8eaf0' }}>
             {getGreeting()}.
           </p>
