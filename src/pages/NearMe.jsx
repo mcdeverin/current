@@ -125,7 +125,7 @@ export default function NearMe() {
   };
 
   return (
-    {/* Type picker bottom sheet */}
+    <>
     {showTypeSheet && (
       <div className="fixed inset-0 z-50" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }} onClick={() => setShowTypeSheet(false)}>
         <div
