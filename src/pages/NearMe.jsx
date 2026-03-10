@@ -42,6 +42,7 @@ export default function NearMe() {
   const [suggestName, setSuggestName] = useState("");
   const [suggestNeighborhood, setSuggestNeighborhood] = useState("");
   const [suggestType, setSuggestType] = useState("Spots");
+  const [showTypeSheet, setShowTypeSheet] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
   const [locationDismissed, setLocationDismissed] = useState(false);
