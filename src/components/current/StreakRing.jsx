@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function StreakRing({ days, size = 220, strokeWidth = 5 }) {
+export default function StreakRing({ days, size = 220, strokeWidth = 4 }) {
   const radius = (size - strokeWidth * 2) / 2;
   const circumference = 2 * Math.PI * radius;
   // Cap at 365 for full ring, then reset visual
