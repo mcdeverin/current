@@ -52,16 +52,16 @@ export default function JourneySection({ profile, onProfileUpdate }) {
 
   return (
     <div className="mb-2">
-      <h3 className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#6a7280' }}>
+      <h3 className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: 'var(--t-muted)' }}>
         Your Journey
       </h3>
 
       {/* Current status */}
-      <div className="mb-5 py-3 px-4 rounded-xl border" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
+      <div className="mb-5 py-3 px-4 rounded-xl border" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
         {isExploring ? (
-          <p className="text-sm" style={{ color: '#e8eaf0' }}>Exploring</p>
+          <p className="text-sm" style={{ color: 'var(--t-text)' }}>Exploring</p>
         ) : (
-          <p className="text-sm" style={{ color: '#e8eaf0' }}>
+          <p className="text-sm" style={{ color: 'var(--t-text)' }}>
             Tracking since <span style={{ color: '#6F8FA4' }}>{sinceDate}</span>
           </p>
         )}
@@ -84,9 +84,9 @@ export default function JourneySection({ profile, onProfileUpdate }) {
 
       {/* Change date panel */}
       {view === "change_date" && (
-        <div className="py-4 px-4 rounded-xl border" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
+        <div className="py-4 px-4 rounded-xl border" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
           {!hasDate && (
-            <p className="text-xs mb-3 leading-relaxed" style={{ color: '#6a7280' }}>
+            <p className="text-xs mb-3 leading-relaxed" style={{ color: 'var(--t-muted)' }}>
               Ready to set a date? It's just for you.
             </p>
           )}
@@ -98,7 +98,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
                 onChange={e => setDateValue(e.target.value)}
                 max={new Date().toISOString().split("T")[0]}
                 className="w-full text-sm bg-transparent border-b pb-2 focus:outline-none"
-                style={{ borderColor: '#232a35', color: '#e8eaf0', colorScheme: 'dark' }}
+                style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)', colorScheme: 'inherit' }}
               />
               <div className="flex gap-2 mt-4">
                 <button onClick={() => setView("idle")} className="flex-1 py-2 text-xs font-medium" style={{ color: '#6a7280' }}>
@@ -108,7 +108,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
                   onClick={handleSaveDate}
                   disabled={!dateValue}
                   className="flex-1 py-2 rounded-lg text-xs font-medium"
-                  style={{ backgroundColor: dateValue ? '#6F8FA4' : '#232a35', color: dateValue ? '#0f1219' : '#6a7280' }}
+                  style={{ backgroundColor: dateValue ? 'var(--t-accent)' : 'var(--t-border)', color: dateValue ? 'var(--t-bg)' : 'var(--t-muted)' }}
                 >
                   Save
                 </button>
@@ -116,13 +116,13 @@ export default function JourneySection({ profile, onProfileUpdate }) {
             </>
           ) : (
             <>
-              <p className="text-sm leading-relaxed mb-4" style={{ color: '#e8eaf0' }}>
+              <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--t-text)' }}>
                 Starting fresh. That's still a choice.
               </p>
               <button
                 onClick={() => setView("idle")}
                 className="w-full py-2 rounded-lg text-xs font-medium"
-                style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
+                style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}
               >
                 Got it
               </button>
@@ -133,8 +133,8 @@ export default function JourneySection({ profile, onProfileUpdate }) {
 
       {/* Confirm exploring panel */}
       {view === "confirm_exploring" && (
-        <div className="py-4 px-4 rounded-xl border" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
-          <p className="text-sm leading-relaxed mb-4" style={{ color: '#e8eaf0' }}>
+        <div className="py-4 px-4 rounded-xl border" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
+          <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--t-text)' }}>
             No streak, no clock. Just the app. Your call.
           </p>
           <div className="flex gap-2">
@@ -144,7 +144,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
             <button
               onClick={handleSwitchToExploring}
               className="flex-1 py-2 rounded-lg text-xs font-medium"
-              style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
+              style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}
             >
               Got it
             </button>
@@ -154,8 +154,8 @@ export default function JourneySection({ profile, onProfileUpdate }) {
 
       {/* Switching back panel — has a stored date */}
       {view === "switching_back" && (
-        <div className="py-4 px-4 rounded-xl border" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
-          <p className="text-sm leading-relaxed mb-1" style={{ color: '#e8eaf0' }}>
+        <div className="py-4 px-4 rounded-xl border" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
+          <p className="text-sm leading-relaxed mb-1" style={{ color: 'var(--t-text)' }}>
             Welcome back. Your date is still here.
           </p>
           <p className="text-xs mb-5" style={{ color: '#6F8FA4' }}>{sinceDate}</p>
@@ -163,14 +163,14 @@ export default function JourneySection({ profile, onProfileUpdate }) {
             <button
               onClick={handleChangeDate}
               className="flex-1 py-2 rounded-lg text-xs font-medium border"
-              style={{ borderColor: '#232a35', color: '#e8eaf0' }}
+              style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)' }}
             >
               Change it
             </button>
             <button
               onClick={handleKeepDate}
               className="flex-1 py-2 rounded-lg text-xs font-medium"
-              style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
+              style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}
             >
               Keep it
             </button>
@@ -186,9 +186,9 @@ function ActionRow({ label, onTap }) {
     <button
       onClick={onTap}
       className="w-full flex items-center justify-between py-4 border-b text-left"
-      style={{ borderColor: '#232a35' }}
+      style={{ borderColor: 'var(--t-border)' }}
     >
-      <span className="text-sm" style={{ color: '#e8eaf0' }}>{label}</span>
+      <span className="text-sm" style={{ color: 'var(--t-text)' }}>{label}</span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6a7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="9 18 15 12 9 6" />
       </svg>

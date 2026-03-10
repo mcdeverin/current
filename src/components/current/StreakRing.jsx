@@ -18,14 +18,14 @@ export default function StreakRing({ days, size = 220, strokeWidth = 4 }) {
           cx={size / 2}
           cy={size / 2}
           r={innerR}
-          fill="#0f1219"
+          fill="var(--t-bg)"
         />
         {/* Background ring track */}
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="#232a35"
+          stroke="var(--t-border)"
           strokeWidth={strokeWidth}
           fill="none"
         />
@@ -44,7 +44,7 @@ export default function StreakRing({ days, size = 220, strokeWidth = 4 }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-display text-6xl font-medium leading-none" style={{ color: '#e8eaf0' }}>
+        <span className="font-display text-6xl font-medium leading-none" style={{ color: 'var(--t-text)' }}>
           {days.toLocaleString()}
         </span>
         <span className="small-caps text-xs tracking-widest-custom mt-2" style={{ color: '#6F8FA4' }}>
