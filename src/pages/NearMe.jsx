@@ -124,6 +124,7 @@ export default function NearMe() {
   };
 
   return (
+    <PullToRefresh onRefresh={loadPlaces}>
     <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
       {/* Header */}
       <div className="px-6 pt-10 pb-3">
