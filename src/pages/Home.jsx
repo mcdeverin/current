@@ -92,16 +92,16 @@ export default function Home() {
   };
 
   if (loading) {
-    return <div className="min-h-screen" style={{ backgroundColor: '#0f1219' }} />;
+    return <div className="min-h-screen" style={{ backgroundColor: 'var(--t-bg)' }} />;
   }
 
   // ── GUEST MODE ──────────────────────────────────────────────────────────────
   if (isGuest) {
     return (
       <PullToRefresh onRefresh={loadProfile}>
-      <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
+      <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
         <div className="px-6 pb-6 max-w-lg mx-auto" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
-          <p className="font-display text-xl mb-10" style={{ color: '#e8eaf0' }}>
+          <p className="font-display text-xl mb-10" style={{ color: 'var(--t-text)' }}>
             {getGreeting()}.
           </p>
 
@@ -123,21 +123,21 @@ export default function Home() {
           <button
            onClick={() => navigate(createPageUrl("NearMe"))}
            className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-8"
-           style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
-          >
-           <p className="text-[10px] uppercase tracking-widest font-medium mb-2 text-center" style={{ color: '#6F8FA4' }}>
+           style={{ backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)' }}
+           >
+           <p className="text-[10px] uppercase tracking-widest font-medium mb-2 text-center" style={{ color: 'var(--t-accent)' }}>
              Discover
            </p>
            <div className="flex items-center justify-between">
-              <p className="text-sm flex-1" style={{ color: '#6a7280' }}>Places that don't need a drink to be good</p>
-              <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
+              <p className="text-sm flex-1" style={{ color: 'var(--t-muted)' }}>Places that don't need a drink to be good</p>
+              <span className="ml-3 flex-shrink-0" style={{ color: 'var(--t-accent)' }}>→</span>
             </div>
           </button>
 
           {/* Sign up CTA */}
-          <div className="rounded-xl p-5 border text-center" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
-           <p className="font-display text-lg mb-1" style={{ color: '#e8eaf0' }}>Track your days</p>
-           <p className="text-sm mb-4" style={{ color: '#6a7280' }}>
+          <div className="rounded-xl p-5 border text-center" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
+          <p className="font-display text-lg mb-1" style={{ color: 'var(--t-text)' }}>Track your days</p>
+          <p className="text-sm mb-4" style={{ color: 'var(--t-muted)' }}>
              Whenever you're ready, we'll be here.
            </p>
             <button
@@ -185,7 +185,7 @@ export default function Home() {
 
   return (
     <PullToRefresh onRefresh={loadProfile}>
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
       <AnimatePresence>
         {showMilestone && days != null && (
           <MilestoneOverlay
@@ -205,19 +205,19 @@ export default function Home() {
         {/* STREAK MODE */}
         {!isExploring && (
           <>
-            <p className="font-display text-xl mb-10 text-center" style={{ color: '#e8eaf0' }}>
+            <p className="font-display text-xl mb-10 text-center" style={{ color: 'var(--t-text)' }}>
               {getGreeting()}, {profile.first_name}.
             </p>
             {days != null && (
               <div className="flex flex-col items-center mb-3">
                 <StreakRing days={days} />
-                <p className="text-xs mt-4 font-medium" style={{ color: '#e8eaf0' }}>
+                <p className="text-xs mt-4 font-medium" style={{ color: 'var(--t-text)' }}>
                   {getClearDayText(days)}
                 </p>
-                <p className="text-xs mt-1" style={{ color: '#6a7280' }}>
+                <p className="text-xs mt-1" style={{ color: 'var(--t-muted)' }}>
                   That matters.
                 </p>
-                <p className="text-xs mt-3" style={{ color: '#6a7280' }}>
+                <p className="text-xs mt-3" style={{ color: 'var(--t-muted)' }}>
                   Since {sinceDate}
                 </p>
               </div>
@@ -229,15 +229,15 @@ export default function Home() {
         {isExploring && (
           <>
             <div className="mb-12 pt-4 text-center">
-              <p className="text-sm mb-4 font-body" style={{ color: '#6a7280' }}>
+              <p className="text-sm mb-4 font-body" style={{ color: 'var(--t-muted)' }}>
                 {getGreeting()}, {profile.first_name}.
               </p>
               <div className="max-w-sm mx-auto">
-                <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: '#e8eaf0', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
+                <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: 'var(--t-text)', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
                   {getDailyHeadline()}
                 </p>
               </div>
-              <p className="text-sm" style={{ color: '#6a7280' }}>
+              <p className="text-sm" style={{ color: 'var(--t-muted)' }}>
                 You're here. That's enough.
               </p>
             </div>
@@ -257,14 +257,14 @@ export default function Home() {
             <button
               onClick={() => navigate(createPageUrl("NearMe"))}
               className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-6 mt-8"
-              style={{ backgroundColor: '#161b24', border: '1px solid #232a35' }}
+              style={{ backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)' }}
             >
-              <p className="text-[10px] uppercase tracking-widest font-medium mb-2 text-center" style={{ color: '#6F8FA4' }}>
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2 text-center" style={{ color: 'var(--t-accent)' }}>
                 Discover
               </p>
               <div className="flex items-center justify-between">
-                <p className="text-sm flex-1" style={{ color: '#9da3b3' }}>Places that don't need a drink to be good</p>
-                <span className="ml-3 flex-shrink-0" style={{ color: '#6F8FA4' }}>→</span>
+                <p className="text-sm flex-1" style={{ color: 'var(--t-muted)' }}>Places that don't need a drink to be good</p>
+                <span className="ml-3 flex-shrink-0" style={{ color: 'var(--t-accent)' }}>→</span>
               </div>
             </button>
           </>

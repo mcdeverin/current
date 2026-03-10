@@ -126,15 +126,15 @@ export default function NearMe() {
 
   return (
     <PullToRefresh onRefresh={loadPlaces}>
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
     {showTypeSheet && (
       <div className="fixed inset-0 z-50" style={{ backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 100 }} onClick={() => setShowTypeSheet(false)}>
-        <div
-          className="absolute bottom-0 left-0 right-0 rounded-t-2xl pb-8"
-          style={{ backgroundColor: '#161b24', borderTop: '1px solid #232a35' }}
+      <div
+        className="absolute bottom-0 left-0 right-0 rounded-t-2xl pb-8"
+        style={{ backgroundColor: 'var(--t-card)', borderTop: '1px solid var(--t-border)' }}
           onClick={e => e.stopPropagation()}
         >
-          <div className="w-10 h-1 rounded-full mx-auto mt-3 mb-5" style={{ backgroundColor: '#232a35' }} />
+          <div className="w-10 h-1 rounded-full mx-auto mt-3 mb-5" style={{ backgroundColor: 'var(--t-border)' }} />
           <p className="text-xs uppercase tracking-widest font-medium text-center mb-4" style={{ color: '#6a7280' }}>Type</p>
           {["Spots", "Mocktails", "Events", "Cafés", "Wellness"].map(t => (
             <button
@@ -152,7 +152,7 @@ export default function NearMe() {
     )}
       {/* Header */}
       <div className="px-6 pb-3" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 40px)' }}>
-        <h1 className="font-display text-2xl font-medium mb-3" style={{ color: '#e8eaf0' }}>Spots</h1>
+        <h1 className="font-display text-2xl font-medium mb-3" style={{ color: 'var(--t-text)' }}>Spots</h1>
         <div className="flex gap-2 mb-1">
           {["NYC", "LA"].map(city => (
             <button
@@ -160,9 +160,9 @@ export default function NearMe() {
               onClick={() => setCityFilter(city)}
               className="px-4 py-1.5 rounded-full text-xs font-medium transition-all"
               style={{
-                backgroundColor: cityFilter === city ? '#6F8FA4' : '#161b24',
-                color: cityFilter === city ? '#0f1219' : '#6a7280',
-                border: `1px solid ${cityFilter === city ? '#6F8FA4' : '#232a35'}`,
+                backgroundColor: cityFilter === city ? 'var(--t-accent)' : 'var(--t-card)',
+                color: cityFilter === city ? 'var(--t-bg)' : 'var(--t-muted)',
+                border: `1px solid ${cityFilter === city ? 'var(--t-accent)' : 'var(--t-border)'}`,
               }}
             >
               {city}
@@ -213,9 +213,9 @@ export default function NearMe() {
               onClick={() => setFilter(chip)}
               className="px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all"
               style={{
-                backgroundColor: filter === chip ? '#6F8FA4' : '#161b24',
-                color: filter === chip ? '#0f1219' : '#6a7280',
-                border: `1px solid ${filter === chip ? '#6F8FA4' : '#232a35'}`,
+                backgroundColor: filter === chip ? 'var(--t-accent)' : 'var(--t-card)',
+                color: filter === chip ? 'var(--t-bg)' : 'var(--t-muted)',
+                border: `1px solid ${filter === chip ? 'var(--t-accent)' : 'var(--t-border)'}`,
               }}
             >
               {chip}
@@ -230,12 +230,12 @@ export default function NearMe() {
         {loading ? (
           <div className="space-y-4 mt-4">
             {[1,2,3].map(i => (
-              <div key={i} className="h-20 rounded-xl animate-pulse" style={{ backgroundColor: '#232a35' }} />
+              <div key={i} className="h-20 rounded-xl animate-pulse" style={{ backgroundColor: 'var(--t-border)' }} />
             ))}
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-sm" style={{ color: '#6a7280' }}>No places found.</p>
+            <p className="text-sm" style={{ color: 'var(--t-muted)' }}>No places found.</p>
           </div>
         ) : (
           filtered.map(place => <PlaceCard key={place.id} place={place} distance={place._distance} isOpen={place._isOpen} />)
@@ -245,9 +245,9 @@ export default function NearMe() {
       {/* Suggest a place */}
       <div className="px-6 mt-6">
         {submitted ? (
-          <div className="p-5 rounded-xl border text-center" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
-            <p className="text-sm font-medium mb-1" style={{ color: '#e8eaf0' }}>Thanks.</p>
-            <p className="text-sm leading-relaxed" style={{ color: '#6a7280' }}>
+          <div className="p-5 rounded-xl border text-center" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
+            <p className="text-sm font-medium mb-1" style={{ color: 'var(--t-text)' }}>Thanks.</p>
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--t-muted)' }}>
               We review every suggestion personally.{"\n"}If it's a fit, we'll add it within 48 hours.
             </p>
             <button
@@ -262,20 +262,20 @@ export default function NearMe() {
           <button
             onClick={openSuggest}
             className="w-full py-3 rounded-xl border-2 border-dashed flex items-center justify-center gap-2 text-sm font-medium transition-colors"
-            style={{ borderColor: '#232a35', color: '#6a7280' }}
+            style={{ borderColor: 'var(--t-border)', color: 'var(--t-muted)' }}
           >
             <Plus size={16} />
             Suggest a place
           </button>
         ) : (
-          <div className="p-4 rounded-xl border" style={{ backgroundColor: '#161b24', borderColor: '#232a35' }}>
+          <div className="p-4 rounded-xl border" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
             <input
               type="text"
               value={suggestName}
               onChange={e => setSuggestName(e.target.value)}
               placeholder="Place name"
               className="w-full text-sm bg-transparent border-b pb-2 mb-3 focus:outline-none placeholder-gray-600"
-              style={{ borderColor: '#232a35', color: '#e8eaf0' }}
+              style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)' }}
             />
             <input
               type="text"
@@ -283,15 +283,15 @@ export default function NearMe() {
               onChange={e => setSuggestNeighborhood(e.target.value)}
               placeholder="Neighborhood"
               className="w-full text-sm bg-transparent border-b pb-2 mb-3 focus:outline-none placeholder-gray-600"
-              style={{ borderColor: '#232a35', color: '#e8eaf0' }}
+              style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)' }}
             />
             <button
               onClick={() => setShowTypeSheet(true)}
               className="w-full text-sm text-left border-b pb-2 mb-4 flex items-center justify-between"
-              style={{ borderColor: '#232a35', color: '#e8eaf0' }}
+              style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)' }}
             >
               <span>{suggestType}</span>
-              <span style={{ color: '#6a7280', fontSize: '10px' }}>▼</span>
+              <span style={{ color: 'var(--t-muted)', fontSize: '10px' }}>▼</span>
             </button>
             <div className="flex gap-2">
               <button
@@ -305,7 +305,7 @@ export default function NearMe() {
                 onClick={handleSuggest}
                 disabled={!suggestName.trim()}
                 className="flex-1 py-2.5 rounded-xl text-xs font-medium disabled:opacity-30"
-                style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
+                style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}
               >
                 Submit
               </button>
