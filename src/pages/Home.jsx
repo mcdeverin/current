@@ -151,6 +151,7 @@ export default function Home() {
         </div>
         <BottomNav />
       </div>
+      </PullToRefresh>
     );
   }
 
@@ -183,6 +184,7 @@ export default function Home() {
   };
 
   return (
+    <PullToRefresh onRefresh={loadProfile}>
     <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
       <AnimatePresence>
         {showMilestone && days != null && (
@@ -199,7 +201,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      <div className="px-6 pt-14 pb-6 max-w-lg mx-auto">
+      <div className="px-6 pb-6 max-w-lg mx-auto" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
         {/* STREAK MODE */}
         {!isExploring && (
           <>
