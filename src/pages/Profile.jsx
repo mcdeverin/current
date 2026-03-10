@@ -64,7 +64,7 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#0f1219' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--t-bg)' }}>
         <BottomNav />
       </div>
     );
@@ -73,32 +73,32 @@ export default function Profile() {
   // ── GUEST MODE ───────────────────────────────────────────────────────────────
   if (isGuest) {
     return (
-      <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
+      <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
         <div className="px-6 pb-8 max-w-lg mx-auto" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
-          <h1 className="font-display text-2xl font-medium mb-2" style={{ color: '#e8eaf0' }}>You</h1>
-          <p className="text-sm mb-12" style={{ color: '#6a7280' }}>
+          <h1 className="font-display text-2xl font-medium mb-2" style={{ color: 'var(--t-text)' }}>You</h1>
+          <p className="text-sm mb-12" style={{ color: 'var(--t-muted)' }}>
             Sign in to track your streak, save your reason, and personalize your experience.
           </p>
 
           <button
             onClick={() => base44.auth.redirectToLogin(window.location.href)}
             className="w-full py-3.5 rounded-xl text-sm font-medium mb-3"
-            style={{ backgroundColor: '#6F8FA4', color: '#0f1219' }}
+            style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}
           >
             Sign in
           </button>
           <button
             onClick={() => base44.auth.redirectToLogin(window.location.href)}
             className="w-full py-3.5 rounded-xl text-sm font-medium border"
-            style={{ borderColor: '#232a35', color: '#6a7280' }}
+            style={{ borderColor: 'var(--t-border)', color: 'var(--t-muted)' }}
           >
             Create account
           </button>
 
-          <div className="mt-12 border-t pt-6 flex flex-col gap-3" style={{ borderColor: '#232a35' }}>
-            <a href="mailto:hello@currentapp.studio" className="text-xs font-medium" style={{ color: '#6F8FA4' }}>Contact</a>
-            <Link to={createPageUrl("PrivacyPolicy")} className="text-xs font-medium" style={{ color: '#6F8FA4' }}>Privacy Policy</Link>
-            <Link to={createPageUrl("TermsOfService")} className="text-xs font-medium" style={{ color: '#6F8FA4' }}>Terms of Service</Link>
+          <div className="mt-12 border-t pt-6 flex flex-col gap-3" style={{ borderColor: 'var(--t-border)' }}>
+            <a href="mailto:hello@currentapp.studio" className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>Contact</a>
+            <Link to={createPageUrl("PrivacyPolicy")} className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>Privacy Policy</Link>
+            <Link to={createPageUrl("TermsOfService")} className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>Terms of Service</Link>
           </div>
         </div>
         <BottomNav />
@@ -125,19 +125,19 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen pb-24" style={{ backgroundColor: '#0f1219' }}>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
       {/* Header */}
       <div className="px-6 pb-8" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
-        <h1 className="font-display text-2xl font-medium" style={{ color: '#e8eaf0' }}>{profile.first_name}</h1>
-        {!isExploring && sinceDate && <p className="text-xs mt-1" style={{ color: '#6a7280' }}>Since {sinceDate}</p>}
+        <h1 className="font-display text-2xl font-medium" style={{ color: 'var(--t-text)' }}>{profile.first_name}</h1>
+        {!isExploring && sinceDate && <p className="text-xs mt-1" style={{ color: 'var(--t-muted)' }}>Since {sinceDate}</p>}
         {isExploring && (
-          <p className="text-xs mt-1 font-medium" style={{ color: '#6F8FA4' }}>Exploring</p>
+          <p className="text-xs mt-1 font-medium" style={{ color: 'var(--t-accent)' }}>Exploring</p>
         )}
 
         {!isExploring && days != null && (
           <div className="mt-8 flex items-baseline gap-2">
-            <span className="font-display text-6xl font-medium" style={{ color: '#e8eaf0' }}>{days}</span>
-            <span className="small-caps text-sm tracking-widest" style={{ color: '#6a7280' }}>days</span>
+            <span className="font-display text-6xl font-medium" style={{ color: 'var(--t-text)' }}>{days}</span>
+            <span className="small-caps text-sm tracking-widest" style={{ color: 'var(--t-muted)' }}>days</span>
           </div>
         )}
       </div>
@@ -214,46 +214,34 @@ export default function Profile() {
         <JourneySection profile={profile} onProfileUpdate={(updated) => setProfile(prev => ({ ...prev, ...updated }))} />
 
         {/* Divider */}
-        <div className="my-6 border-t" style={{ borderColor: '#232a35' }} />
+        <div className="my-6 border-t" style={{ borderColor: 'var(--t-border)' }} />
 
         {/* About */}
         <div className="mb-6">
-          <h3 className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#6a7280' }}>
+          <h3 className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: 'var(--t-muted)' }}>
             About Current
           </h3>
-          <p className="text-sm leading-relaxed" style={{ color: '#6a7280' }}>
+          <p className="text-sm leading-relaxed" style={{ color: 'var(--t-muted)' }}>
             Current is for people who are proud of who they are today.
             No labels. No programs. Just presence.
           </p>
-          <p className="text-xs mt-4" style={{ color: '#6F8FA4' }}>
+          <p className="text-xs mt-4" style={{ color: 'var(--t-accent)' }}>
             Present tense. Always.
           </p>
         </div>
 
         {/* Separator */}
-        <div className="my-6 border-t" style={{ borderColor: '#232a35' }} />
+        <div className="my-6 border-t" style={{ borderColor: 'var(--t-border)' }} />
 
         {/* Legal & Contact links */}
         <div className="flex flex-col gap-3 mb-4">
-          <a
-            href="mailto:hello@currentapp.studio"
-            className="text-xs font-medium"
-            style={{ color: '#6F8FA4' }}
-          >
+          <a href="mailto:hello@currentapp.studio" className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>
             Contact
           </a>
-          <Link
-            to={createPageUrl("PrivacyPolicy")}
-            className="text-xs font-medium"
-            style={{ color: '#6F8FA4' }}
-          >
+          <Link to={createPageUrl("PrivacyPolicy")} className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>
             Privacy Policy
           </Link>
-          <Link
-            to={createPageUrl("TermsOfService")}
-            className="text-xs font-medium"
-            style={{ color: '#6F8FA4' }}
-          >
+          <Link to={createPageUrl("TermsOfService")} className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>
             Terms of Service
           </Link>
         </div>
@@ -262,7 +250,7 @@ export default function Profile() {
         <button
           onClick={() => base44.auth.logout()}
           className="w-full py-3 text-sm font-medium text-center rounded-xl border transition-colors mb-3"
-          style={{ borderColor: '#232a35', color: '#6a7280' }}
+          style={{ borderColor: 'var(--t-border)', color: 'var(--t-muted)' }}
         >
           Sign out
         </button>
@@ -272,21 +260,21 @@ export default function Profile() {
           <button
             onClick={() => setShowDeleteConfirm(true)}
             className="w-full py-3 text-sm font-medium text-center"
-            style={{ color: '#4a3030' }}
+            style={{ color: 'var(--t-danger-muted)' }}
           >
             Delete account
           </button>
         ) : (
-          <div className="p-4 rounded-xl border mb-4" style={{ backgroundColor: '#161b24', borderColor: '#3a2020' }}>
-            <p className="text-sm font-medium mb-1" style={{ color: '#e8eaf0' }}>Delete your account?</p>
-            <p className="text-xs mb-4" style={{ color: '#6a7280' }}>
+          <div className="p-4 rounded-xl border mb-4" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-danger-border)' }}>
+            <p className="text-sm font-medium mb-1" style={{ color: 'var(--t-text)' }}>Delete your account?</p>
+            <p className="text-xs mb-4" style={{ color: 'var(--t-muted)' }}>
               This will permanently delete your profile data and sign you out. This cannot be undone.
             </p>
             <div className="flex gap-2">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
                 className="flex-1 py-2.5 rounded-xl text-xs font-medium"
-                style={{ color: '#6a7280' }}
+                style={{ color: 'var(--t-muted)' }}
               >
                 Cancel
               </button>
@@ -294,7 +282,7 @@ export default function Profile() {
                 onClick={handleDeleteAccount}
                 disabled={deleting}
                 className="flex-1 py-2.5 rounded-xl text-xs font-medium disabled:opacity-40"
-                style={{ backgroundColor: '#7a2020', color: '#e8eaf0' }}
+                style={{ backgroundColor: 'var(--t-danger)', color: '#e8eaf0' }}
               >
                 {deleting ? "Deleting..." : "Yes, delete"}
               </button>
