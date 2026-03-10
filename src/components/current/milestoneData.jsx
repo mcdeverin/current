@@ -46,8 +46,13 @@ export function isMilestoneDay(days) {
   return false;
 }
 
+function parseLocalDate(dateString) {
+  const [year, month, day] = dateString.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
 export function getDaysSince(dateString) {
-  const start = new Date(dateString);
+  const start = parseLocalDate(dateString);
   const now = new Date();
   start.setHours(0, 0, 0, 0);
   now.setHours(0, 0, 0, 0);
@@ -55,7 +60,7 @@ export function getDaysSince(dateString) {
 }
 
 export function formatDateRange(dateString) {
-  const start = new Date(dateString);
+  const start = parseLocalDate(dateString);
   const now = new Date();
   const options = { month: 'short', day: 'numeric', year: 'numeric' };
   return `${start.toLocaleDateString('en-US', options)} — ${now.toLocaleDateString('en-US', options)}`;
