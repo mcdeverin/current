@@ -62,8 +62,10 @@ export default function MoodCheckin({ bare = false }) {
             <button
               key={label}
               onClick={() => handleSelect(label)}
-              className="flex-1 py-2.5 rounded-lg text-xs font-medium transition-all"
-              style={{ backgroundColor: 'var(--t-border)', color: 'var(--t-text)' }}
+              className="flex-1 py-2.5 rounded-lg text-xs font-medium transition-all border"
+              style={selected === label
+                ? { backgroundColor: '#6E8FA3', color: '#ffffff', borderColor: '#6E8FA3' }
+                : { backgroundColor: '#ffffff', color: '#4F6775', borderColor: '#A8BCC8' }}
             >
               {label}
             </button>
