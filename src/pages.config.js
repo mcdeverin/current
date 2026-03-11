@@ -55,6 +55,7 @@ import Onboarding from './pages/Onboarding';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Profile from './pages/Profile';
 import TermsOfService from './pages/TermsOfService';
+import Auth from './pages/Auth';
 import __Layout from './Layout.jsx';
 
 
@@ -67,6 +68,7 @@ export const PAGES = {
     "PrivacyPolicy": PrivacyPolicy,
     "Profile": Profile,
     "TermsOfService": TermsOfService,
+    "Auth": Auth,
 }
 
 export const pagesConfig = {
