@@ -226,7 +226,7 @@ export default function Profile() {
         <JourneySection profile={profile} onProfileUpdate={(updated) => setProfile(prev => ({ ...prev, ...updated }))} />
 
         {/* Divider */}
-        <div className="h-6" />
+        <div className="h-10" />
 
         {/* About */}
         <div className="mb-6">
