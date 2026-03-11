@@ -151,7 +151,7 @@ export default function NearMe() {
       </div>
     )}
       {/* Header */}
-      <div className="px-6 pb-3" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 40px)' }}>
+      <div className="px-6 pb-3" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 72px)' }}>
         <h1 className="font-display text-2xl font-medium mb-3" style={{ color: 'var(--t-text)' }}>Spots</h1>
         <div className="flex gap-2 mb-1">
           {["NYC", "LA"].map(city => (
