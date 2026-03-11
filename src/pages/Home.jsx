@@ -101,7 +101,7 @@ export default function Home() {
       <PullToRefresh onRefresh={loadProfile}>
       <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
         <div className="px-6 pb-6 max-w-lg mx-auto" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
-          <p className="font-display text-xl mb-10" style={{ color: 'var(--t-text)' }}>
+          <p className="font-display text-xl mb-10 text-center" style={{ color: 'var(--t-text)' }}>
             {getGreeting()}.
           </p>
 
