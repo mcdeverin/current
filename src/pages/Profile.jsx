@@ -250,12 +250,6 @@ export default function Profile() {
           <a href="mailto:hello@currentapp.studio" className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>
             Contact
           </a>
-          <Link to={createPageUrl("PrivacyPolicy")} className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>
-            Privacy Policy
-          </Link>
-          <Link to={createPageUrl("TermsOfService")} className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>
-            Terms of Service
-          </Link>
         </div>
 
         {/* Sign out */}
