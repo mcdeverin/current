@@ -59,7 +59,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
       </h3>
 
       {/* Current status */}
-      <div className="mb-5 py-3 px-4 rounded-xl border" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
+      <div className="mb-8 py-3 px-4 rounded-xl border" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
         {isExploring ? (
           <p className="text-sm" style={{ color: 'var(--t-text)' }}>Exploring</p>
         ) : (
