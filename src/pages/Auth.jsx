@@ -94,14 +94,32 @@ export default function Auth() {
 
             {/* Logo */}
             <div className="text-center mb-12">
-              <img
-                src="https://media.base44.com/images/public/69a74d93ee777abd7bf98d48/4b54ce6c1_1.png"
-                alt="current"
-                className="w-64 h-64 mx-auto object-contain"
-              />
-              <p className="text-sm mt-2" style={{ color: "var(--t-muted)" }}>
-                A space to explore alcohol free living.
-              </p>
+              {isDark ? (
+                <>
+                  <img
+                    src="https://media.base44.com/images/public/69a74d93ee777abd7bf98d48/4b54ce6c1_1.png"
+                    alt="current"
+                    className="w-64 h-64 mx-auto object-contain"
+                  />
+                  <p className="text-sm mt-2" style={{ color: "var(--t-muted)" }}>
+                    A space to explore alcohol free living.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <img
+                    src="https://media.base44.com/images/public/69a74d93ee777abd7bf98d48/87c1126ed_5.png"
+                    alt="current"
+                    className="w-32 h-32 mx-auto object-contain mb-4"
+                  />
+                  <h1 className="font-display text-5xl font-light tracking-wide mb-2" style={{ color: "var(--t-accent)" }}>
+                    current
+                  </h1>
+                  <p className="text-sm" style={{ color: "var(--t-accent)" }}>
+                    present tense.
+                  </p>
+                </>
+              )}
             </div>
 
             {errors.general && <ErrorBox msg={errors.general} />}
