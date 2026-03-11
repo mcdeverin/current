@@ -105,7 +105,7 @@ export default function Auth() {
               <p className="text-sm mb-1" style={{ color: isDark ? "var(--t-muted)" : "var(--t-accent)" }}>
                 present tense.
               </p>
-              <p className="text-xs" style={{ color: "var(--t-muted)" }}>
+              <p className="text-sm mt-3" style={{ color: "var(--t-muted)" }}>
                 A space to explore alcohol free living.
               </p>
             </div>
