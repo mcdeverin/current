@@ -4,6 +4,7 @@ import { ChevronLeft, Mail, Lock, Loader } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { toast } from "sonner";
 import { createPageUrl } from "@/utils";
+import { useTheme } from "@/components/current/ThemeContext";
 
 const inputClass = (hasError) =>
   `w-full pl-10 pr-4 py-3 rounded-xl border text-sm focus:outline-none transition placeholder-[#6a7280]` +
