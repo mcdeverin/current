@@ -106,7 +106,7 @@ export default function Profile() {
             <ChevronRight size={14} style={{ color: 'var(--t-accent)' }} />
           </button>
 
-          <div className="mt-12 border-t pt-6 flex flex-col gap-3" style={{ borderColor: 'var(--t-border)' }}>
+          <div className="mt-12 pt-6 flex flex-col gap-3">
             <a href="mailto:hello@currentapp.studio" className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>Contact</a>
 
           </div>
