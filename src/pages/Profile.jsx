@@ -76,7 +76,7 @@ export default function Profile() {
   if (isGuest) {
     return (
       <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
-        <div className="px-6 pb-8 max-w-lg mx-auto relative" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
+        <div className="px-6 pb-8 max-w-lg mx-auto relative" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 72px)' }}>
           <button
             onClick={toggleTheme}
             className="absolute right-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border"
@@ -137,7 +137,7 @@ export default function Profile() {
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
       {/* Header */}
-      <div className="px-6 pb-8 relative" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
+      <div className="px-6 pb-8 relative" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 72px)' }}>
         <button
           onClick={toggleTheme}
           className="absolute right-6 flex items-center gap-1.5 px-3 py-1.5 rounded-full border"
