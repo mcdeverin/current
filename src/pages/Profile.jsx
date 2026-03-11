@@ -141,7 +141,7 @@ export default function Profile() {
         <button
           onClick={toggleTheme}
           className="absolute right-6 flex items-center gap-1.5 px-3 py-1.5 rounded-full border"
-          style={{ top: 'calc(env(safe-area-inset-top, 0px) + 56px)', borderColor: 'var(--t-border)', backgroundColor: 'var(--t-card)' }}
+          style={{ top: 'calc(env(safe-area-inset-top, 0px) + 72px)', borderColor: 'var(--t-border)', backgroundColor: 'var(--t-card)' }}
         >
           {isDark ? <Moon size={13} style={{ color: 'var(--t-muted)' }} /> : <Sun size={13} style={{ color: 'var(--t-muted)' }} />}
           <span className="text-xs" style={{ color: 'var(--t-muted)' }}>{isDark ? 'Dark' : 'Light'}</span>
