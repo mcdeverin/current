@@ -79,7 +79,7 @@ export default function Profile() {
         <div className="px-6 pb-8 max-w-lg mx-auto relative" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 72px)' }}>
           <button
             onClick={toggleTheme}
-            className="absolute right-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border"
+            className="absolute right-6 flex items-center gap-1.5 px-3 py-1.5 rounded-full border"
             style={{ top: 'calc(env(safe-area-inset-top, 0px) + 72px)', borderColor: 'var(--t-border)', backgroundColor: 'var(--t-card)' }}
           >
             {isDark ? <Moon size={13} style={{ color: 'var(--t-muted)' }} /> : <Sun size={13} style={{ color: 'var(--t-muted)' }} />}
