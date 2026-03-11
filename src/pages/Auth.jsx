@@ -97,7 +97,7 @@ export default function Auth() {
               {isDark ? (
                 <>
                   <img
-                    src="https://media.base44.com/images/public/69a74d93ee777abd7bf98d48/6871cd21a_4.png"
+                    src="https://media.base44.com/images/public/69a74d93ee777abd7bf98d48/9284328ab_Untitleddesign3.png"
                     alt="current"
                     className="w-32 h-32 mx-auto object-contain mb-4"
                   />
