@@ -93,36 +93,21 @@ export default function Auth() {
             className="w-full max-w-md py-12 pb-24">
 
             {/* Logo */}
-            <div className="text-center mb-12">
-              {isDark ? (
-                <>
-                  <img
-                    src="https://media.base44.com/images/public/69a74d93ee777abd7bf98d48/9284328ab_Untitleddesign3.png"
-                    alt="current"
-                    className="w-32 h-32 mx-auto object-contain mb-4"
-                  />
-                  <h1 className="font-display text-5xl font-light tracking-wide mb-2" style={{ color: "var(--t-text)" }}>
-                    current
-                  </h1>
-                  <p className="text-sm" style={{ color: "var(--t-muted)" }}>
-                    present tense.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <img
-                    src="https://media.base44.com/images/public/69a74d93ee777abd7bf98d48/9284328ab_Untitleddesign3.png"
-                    alt="current"
-                    className="w-32 h-32 mx-auto object-contain mb-4"
-                  />
-                  <h1 className="font-display text-5xl font-light tracking-wide mb-2" style={{ color: "var(--t-accent)" }}>
-                    current
-                  </h1>
-                  <p className="text-sm" style={{ color: "var(--t-accent)" }}>
-                    present tense.
-                  </p>
-                </>
-              )}
+            <div className="text-center mb-12 -mt-8">
+              <img
+                src="https://media.base44.com/images/public/69a74d93ee777abd7bf98d48/9284328ab_Untitleddesign3.png"
+                alt="current"
+                className="w-32 h-32 mx-auto object-contain mb-4"
+              />
+              <h1 className="font-display text-5xl font-light tracking-wide mb-2" style={{ color: isDark ? "var(--t-text)" : "var(--t-accent)" }}>
+                current
+              </h1>
+              <p className="text-sm mb-1" style={{ color: isDark ? "var(--t-muted)" : "var(--t-accent)" }}>
+                present tense.
+              </p>
+              <p className="text-xs" style={{ color: "var(--t-muted)" }}>
+                A space to explore alcohol free living.
+              </p>
             </div>
 
             {errors.general && <ErrorBox msg={errors.general} />}
