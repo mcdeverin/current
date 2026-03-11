@@ -76,7 +76,15 @@ export default function Profile() {
   if (isGuest) {
     return (
       <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
-        <div className="px-6 pb-8 max-w-lg mx-auto" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
+        <div className="px-6 pb-8 max-w-lg mx-auto relative" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
+          <button
+            onClick={toggleTheme}
+            className="absolute right-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border"
+            style={{ top: 0, borderColor: 'var(--t-border)', backgroundColor: 'var(--t-card)' }}
+          >
+            {isDark ? <Moon size={13} style={{ color: 'var(--t-muted)' }} /> : <Sun size={13} style={{ color: 'var(--t-muted)' }} />}
+            <span className="text-xs" style={{ color: 'var(--t-muted)' }}>{isDark ? 'Dark' : 'Light'}</span>
+          </button>
           <h1 className="font-display text-2xl font-medium mb-2" style={{ color: 'var(--t-text)' }}>You</h1>
           <p className="text-sm mb-12" style={{ color: 'var(--t-muted)' }}>
             Sign in to track your streak, save your reason, and personalize your experience.
