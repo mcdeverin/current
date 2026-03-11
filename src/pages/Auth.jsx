@@ -97,6 +97,9 @@ export default function Auth() {
                 alt="current"
                 className="w-64 h-64 mx-auto object-contain"
               />
+              <p className="text-sm mt-2" style={{ color: "var(--t-muted)" }}>
+                A space to explore alcohol free living.
+              </p>
             </div>
 
             {errors.general && <ErrorBox msg={errors.general} />}
