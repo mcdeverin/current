@@ -92,10 +92,11 @@ export default function Auth() {
 
             {/* Logo */}
             <div className="text-center mb-12">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: "var(--t-accent-bg)", border: "1px solid var(--t-border)" }}>
-                <span className="font-display text-2xl font-medium" style={{ color: "var(--t-accent)" }}>c</span>
-              </div>
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a74d93ee777abd7bf98d48/7b2bb610c_Untitleddesign.png"
+                alt="current"
+                className="w-24 h-24 mx-auto mb-6 object-contain"
+              />
               <h1 className="font-display text-5xl font-light tracking-wide mb-3" style={{ color: "var(--t-text)" }}>
                 current
               </h1>
