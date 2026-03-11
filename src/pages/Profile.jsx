@@ -220,13 +220,13 @@ export default function Profile() {
         )}
 
         {/* Divider */}
-        <div className="my-6" />
+        <div className="h-6" />
 
         {/* Your Journey */}
         <JourneySection profile={profile} onProfileUpdate={(updated) => setProfile(prev => ({ ...prev, ...updated }))} />
 
         {/* Divider */}
-        <div className="my-6" />
+        <div className="h-6" />
 
         {/* About */}
         <div className="mb-6">
@@ -243,7 +243,7 @@ export default function Profile() {
         </div>
 
         {/* Separator */}
-        <div className="my-6" />
+        <div className="h-6" />
 
         {/* Legal & Contact links */}
         <div className="flex flex-col gap-3 mb-4">
