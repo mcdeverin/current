@@ -13,6 +13,7 @@ const inputClass = (hasError) =>
     : " border-[var(--t-border)] bg-transparent focus:border-[var(--t-accent)]");
 
 export default function Auth() {
+  const { isDark } = useTheme();
   const [mode, setMode] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
