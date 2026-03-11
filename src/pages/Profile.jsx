@@ -331,7 +331,7 @@ function SettingsItem({ label, value, onTap, premium }) {
 
 function EditPanel({ children }) {
   return (
-    <div className="py-4 px-4 mb-2 rounded-xl border" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
+    <div className="py-4 px-4 mb-2 rounded-xl border" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)', borderTopColor: 'var(--t-bg)' }}>
       {children}
     </div>
   );
