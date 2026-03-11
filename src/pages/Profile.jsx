@@ -220,10 +220,9 @@ export default function Profile() {
         )}
 
         {/* Divider */}
-        <div className="h-10" />
+        <div className="h-16" />
 
         {/* Your Journey */}
-        <div className="h-6" />
         <JourneySection profile={profile} onProfileUpdate={(updated) => setProfile(prev => ({ ...prev, ...updated }))} />
 
         {/* Divider */}
