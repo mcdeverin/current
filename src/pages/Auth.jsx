@@ -97,12 +97,15 @@ export default function Auth() {
               {isDark ? (
                 <>
                   <img
-                    src="https://media.base44.com/images/public/69a74d93ee777abd7bf98d48/4b54ce6c1_1.png"
+                    src="https://media.base44.com/images/public/69a74d93ee777abd7bf98d48/6871cd21a_4.png"
                     alt="current"
-                    className="w-64 h-64 mx-auto object-contain"
+                    className="w-32 h-32 mx-auto object-contain mb-4"
                   />
-                  <p className="text-sm mt-2" style={{ color: "var(--t-muted)" }}>
-                    A space to explore alcohol free living.
+                  <h1 className="font-display text-5xl font-light tracking-wide mb-2" style={{ color: "var(--t-text)" }}>
+                    current
+                  </h1>
+                  <p className="text-sm" style={{ color: "var(--t-muted)" }}>
+                    present tense.
                   </p>
                 </>
               ) : (
