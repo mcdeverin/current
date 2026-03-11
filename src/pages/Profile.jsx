@@ -91,10 +91,11 @@ export default function Profile() {
           </button>
           <button
             onClick={() => base44.auth.redirectToLogin(window.location.href)}
-            className="w-full py-3.5 rounded-xl text-sm font-medium border"
-            style={{ borderColor: 'var(--t-border)', color: 'var(--t-muted)' }}
+            className="w-full flex items-center justify-between py-4 border-b text-left"
+            style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)' }}
           >
-            Create account
+            <span className="text-sm">Create an account</span>
+            <ChevronRight size={14} style={{ color: 'var(--t-accent)' }} />
           </button>
 
           <div className="mt-12 border-t pt-6 flex flex-col gap-3" style={{ borderColor: 'var(--t-border)' }}>
