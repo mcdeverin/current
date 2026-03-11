@@ -93,16 +93,10 @@ export default function Auth() {
             {/* Logo */}
             <div className="text-center mb-12">
               <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a74d93ee777abd7bf98d48/7b2bb610c_Untitleddesign.png"
+                src="https://media.base44.com/images/public/69a74d93ee777abd7bf98d48/4b54ce6c1_1.png"
                 alt="current"
-                className="w-24 h-24 mx-auto mb-6 object-contain"
+                className="w-64 h-64 mx-auto object-contain"
               />
-              <h1 className="font-display text-5xl font-light tracking-wide mb-3" style={{ color: "var(--t-text)" }}>
-                current
-              </h1>
-              <p className="text-sm" style={{ color: "var(--t-muted)" }}>
-                Your sober life, one day at a time.
-              </p>
             </div>
 
             {errors.general && <ErrorBox msg={errors.general} />}
