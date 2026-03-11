@@ -108,14 +108,7 @@ export default function Profile() {
 
           <div className="mt-12 border-t pt-6 flex flex-col gap-3" style={{ borderColor: 'var(--t-border)' }}>
             <a href="mailto:hello@currentapp.studio" className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>Contact</a>
-            <button
-              onClick={toggleTheme}
-              className="flex items-center gap-1.5 text-xs font-medium"
-              style={{ color: 'var(--t-accent)' }}
-            >
-              {isDark ? <Sun size={12} /> : <Moon size={12} />}
-              {isDark ? 'Switch to Light mode' : 'Switch to Dark mode'}
-            </button>
+
           </div>
         </div>
         <BottomNav />
