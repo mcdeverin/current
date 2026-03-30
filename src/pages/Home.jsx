@@ -141,7 +141,14 @@ export default function Home() {
              Whenever you're ready, we'll be here.
            </p>
             <button
-              onClick={() => base44.auth.redirectToLogin(createPageUrl("Onboarding"))}
+              onClick={async () => {
+                const isAuth = await base44.auth.isAuthenticated();
+                if (isAuth) {
+                  navigate(createPageUrl("Onboarding"));
+                } else {
+                  base44.auth.redirectToLogin(createPageUrl("Onboarding"));
+                }
+              }}
               className="text-sm font-medium hover:opacity-70 transition-opacity"
               style={{ color: '#6F8FA4' }}
             >

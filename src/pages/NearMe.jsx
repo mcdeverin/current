@@ -36,17 +36,7 @@ function getDistanceMi(lat1, lon1, lat2, lon2) {
 export default function NearMe() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState("All");
-  const [cityFilter, setCityFilter] = useState("NYC");
-  const [showSuggest, setShowSuggest] = useState(false);
-  const [suggestName, setSuggestName] = useState("");
-  const [suggestNeighborhood, setSuggestNeighborhood] = useState("");
-  const [suggestType, setSuggestType] = useState("Spots");
-  const [showTypeSheet, setShowTypeSheet] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [userLocation, setUserLocation] = useState(null);
-  const [locationDismissed, setLocationDismissed] = useState(false);
-  const [openNow, setOpenNow] = useState(false);
+  const [loadError, setLoadError] = useState(false);
 
   const requestLocation = () => {
     navigator.geolocation.getCurrentPosition(
@@ -62,9 +52,15 @@ export default function NearMe() {
 
   const loadPlaces = async () => {
     setLoading(true);
-    const entity = cityFilter === "LA" ? base44.entities.PlacesLA : base44.entities.Places;
-    const data = await entity.filter({ status: "approved" });
-    setPlaces(data);
+    setLoadError(false);
+    try {
+      const entity = cityFilter === "LA" ? base44.entities.PlacesLA : base44.entities.Places;
+      const data = await entity.filter({ status: "approved" });
+      setPlaces(data);
+    } catch (err) {
+      console.error("loadPlaces error:", err);
+      setLoadError(true);
+    }
     setLoading(false);
   };
 
@@ -227,7 +223,12 @@ export default function NearMe() {
 
       {/* Places list */}
       <div className="px-6">
-        {loading ? (
+        {loadError ? (
+          <div className="text-center py-16">
+            <p className="text-sm mb-3" style={{ color: 'var(--t-muted)' }}>Couldn't load places.</p>
+            <button onClick={loadPlaces} className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>Try again</button>
+          </div>
+        ) : loading ? (
           <div className="space-y-4 mt-4">
             {[1,2,3].map(i => (
               <div key={i} className="h-20 rounded-xl animate-pulse" style={{ backgroundColor: 'var(--t-border)' }} />

@@ -64,23 +64,28 @@ export default function Onboarding() {
 
   const handleComplete = async () => {
     setSaving(true);
-    const data = {
-      first_name: firstName,
-      mode: mode || "exploring",
-      onboarding_complete: true,
-      daily_savings_rate: 15,
-      notification_time: "08:00",
-    };
-    if (mode === "streak" && sobrietyDate) {
-      data.sobriety_date = sobrietyDate;
+    try {
+      const data = {
+        first_name: firstName,
+        mode: mode || "exploring",
+        onboarding_complete: true,
+        daily_savings_rate: 15,
+        notification_time: "08:00",
+      };
+      if (mode === "streak" && sobrietyDate) {
+        data.sobriety_date = sobrietyDate;
+      }
+      const profiles = await base44.entities.UserProfile.list();
+      if (profiles.length > 0) {
+        await base44.entities.UserProfile.update(profiles[0].id, data);
+      } else {
+        await base44.entities.UserProfile.create(data);
+      }
+      setStep(4);
+    } catch (err) {
+      console.error("handleComplete error:", err);
+      setSaving(false);
     }
-    const profiles = await base44.entities.UserProfile.list();
-    if (profiles.length > 0) {
-      await base44.entities.UserProfile.update(profiles[0].id, data);
-    } else {
-      await base44.entities.UserProfile.create(data);
-    }
-    setStep(4); // Show greeting moment
   };
 
   return (
