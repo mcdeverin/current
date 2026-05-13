@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Network } from "@capacitor/network";
 import { Capacitor } from "@capacitor/core";
 
 export default function OfflineBanner() {
@@ -10,11 +9,14 @@ export default function OfflineBanner() {
 
     let listener;
     const setup = async () => {
-      const status = await Network.getStatus();
-      setIsOffline(!status.connected);
-      listener = await Network.addListener("networkStatusChange", (s) => {
-        setIsOffline(!s.connected);
-      });
+      try {
+        const { Network } = await (new Function('p', 'return import(p)'))("@capacitor/network");
+        const status = await Network.getStatus();
+        setIsOffline(!status.connected);
+        listener = await Network.addListener("networkStatusChange", (s) => {
+          setIsOffline(!s.connected);
+        });
+      } catch {}
     };
     setup();
 
