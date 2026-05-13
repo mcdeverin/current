@@ -7,8 +7,7 @@ async function getPlugin() {
   if (SecureStoragePlugin) return SecureStoragePlugin;
   if (!Capacitor.isNativePlatform()) return null;
   try {
-    // Use Function constructor to prevent Vite/Rollup from statically analysing this import
-    const mod = await (new Function('p', 'return import(p)'))("capacitor-secure-storage-plugin");
+    const mod = await import("capacitor-secure-storage-plugin");
     SecureStoragePlugin = mod.SecureStoragePlugin;
     return SecureStoragePlugin;
   } catch {

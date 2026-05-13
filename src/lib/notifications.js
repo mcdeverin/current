@@ -1,22 +1,12 @@
 import { Capacitor } from "@capacitor/core";
+import { PushNotifications } from "@capacitor/push-notifications";
+import { LocalNotifications } from "@capacitor/local-notifications";
 
 const isNative = Capacitor.isNativePlatform();
-const dynImport = (p) => (new Function('p', 'return import(p)'))(p);
-
-async function getPush() {
-  const mod = await dynImport("@capacitor/push-notifications");
-  return mod.PushNotifications;
-}
-
-async function getLocal() {
-  const mod = await dynImport("@capacitor/local-notifications");
-  return mod.LocalNotifications;
-}
 
 export async function registerPushNotifications() {
   if (!isNative) return;
   try {
-    const PushNotifications = await getPush();
     const permResult = await PushNotifications.requestPermissions();
     if (permResult.receive === "granted") {
       await PushNotifications.register();
@@ -29,10 +19,10 @@ export async function registerPushNotifications() {
 export async function scheduleDailyReminder(timeStr = "08:00") {
   if (!isNative) return;
   try {
-    const LocalNotifications = await getLocal();
     const permResult = await LocalNotifications.requestPermissions();
     if (permResult.display !== "granted") return;
 
+    // Cancel existing daily reminder first
     const pending = await LocalNotifications.getPending();
     const existing = pending.notifications.filter(n => n.id === 1001);
     if (existing.length > 0) {
@@ -64,7 +54,6 @@ export async function scheduleDailyReminder(timeStr = "08:00") {
 export async function cancelDailyReminder() {
   if (!isNative) return;
   try {
-    const LocalNotifications = await getLocal();
     await LocalNotifications.cancel({ notifications: [{ id: 1001 }] });
   } catch {}
 }
