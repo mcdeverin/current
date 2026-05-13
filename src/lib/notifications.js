@@ -51,40 +51,6 @@ export async function scheduleDailyReminder(timeStr = "08:00") {
   }
 }
 
-export async function scheduleReflectionReminder(timeStr = "21:00") {
-  if (!isNative) return;
-  try {
-    const permResult = await LocalNotifications.requestPermissions();
-    if (permResult.display !== "granted") return;
-
-    const pending = await LocalNotifications.getPending();
-    const existing = pending.notifications.filter(n => n.id === 1002);
-    if (existing.length > 0) {
-      await LocalNotifications.cancel({ notifications: existing });
-    }
-
-    const [hours, minutes] = timeStr.split(":").map(Number);
-
-    await LocalNotifications.schedule({
-      notifications: [
-        {
-          id: 1002,
-          title: "current",
-          body: "One word, one tap, then sleep.",
-          schedule: {
-            on: { hour: hours, minute: minutes },
-            repeats: true,
-            allowWhileIdle: true,
-          },
-          sound: "default",
-        },
-      ],
-    });
-  } catch (err) {
-    console.error("Reflection reminder scheduling failed:", err);
-  }
-}
-
 export async function cancelDailyReminder() {
   if (!isNative) return;
   try {

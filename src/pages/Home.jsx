@@ -3,8 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { AnimatePresence } from "framer-motion";
-import { Anchor, Sparkles, ChevronRight } from "lucide-react";
-import { scheduleDailyReminder, scheduleReflectionReminder } from "@/lib/notifications";
+import { scheduleDailyReminder } from "@/lib/notifications";
 import PullToRefresh from "../components/current/PullToRefresh";
 import StreakRing from "../components/current/StreakRing";
 import StatCard from "../components/current/StatCard";
@@ -12,11 +11,8 @@ import BottomNav from "../components/current/BottomNav";
 import MilestoneOverlay from "../components/current/MilestoneOverlay";
 import ExploringNudge from "../components/current/ExploringNudge";
 import TodaysMoment from "../components/current/TodaysMoment";
-import MoodScale from "../components/current/MoodScale";
-import QuietHoursOverlay from "../components/current/QuietHoursOverlay";
-import { getDaysSince, isMilestoneDay, isPaused } from "../components/current/milestoneData";
-import { isQuietNow } from "@/lib/quietHours";
-// MoodCheckin replaced by MoodScale (feature 11)
+import MoodCheckin from "../components/current/MoodCheckin";
+import { getDaysSince, isMilestoneDay } from "../components/current/milestoneData";
 
 function getGreeting() {
   const h = new Date().getHours();
@@ -51,8 +47,6 @@ export default function Home() {
   const [showMilestone, setShowMilestone] = useState(false);
   const [showNudge, setShowNudge] = useState(false);
   const [spotsCount, setSpotsCount] = useState(0);
-  const [userEmail, setUserEmail] = useState(null);
-  const [todayHasReflection, setTodayHasReflection] = useState(false);
 
   useEffect(() => {
     loadProfile();
@@ -88,21 +82,11 @@ export default function Home() {
       setProfile(p);
       setIsGuest(false);
 
-      const me = await base44.auth.me();
-      if (me?.email) {
-        setUserEmail(me.email);
-        const today = new Date();
-        const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
-        const refs = await base44.entities.Reflection.filter({ user_email: me.email, date: todayStr });
-        setTodayHasReflection(refs.length > 0);
-      }
-
       if (p.mode === "exploring" && !p.exploring_nudge_dismissed) {
         setShowNudge(true);
       }
 
       scheduleDailyReminder(p.notification_time || "08:00");
-      scheduleReflectionReminder(p.notification_time || "21:00");
 
       if (p.mode === "streak" && p.sobriety_date) {
         const days = getDaysSince(p.sobriety_date);
@@ -136,7 +120,7 @@ export default function Home() {
           {/* Mood Check-in */}
           <div className="mb-8 flex justify-center">
             <div className="w-full max-w-xs">
-              <MoodScale bare />
+              <MoodCheckin bare />
             </div>
           </div>
 
@@ -190,21 +174,9 @@ export default function Home() {
     );
   }
 
-  // ── QUIET HOURS ─────────────────────────────────────────────────────────────
-  const quiet = isQuietNow(profile);
-  if (quiet) {
-    return (
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--t-bg)' }}>
-        <QuietHoursOverlay />
-        <BottomNav quietMode />
-      </div>
-    );
-  }
-
   // ── AUTHENTICATED MODE ───────────────────────────────────────────────────────
   const isExploring = profile.mode === "exploring";
-  const currentlyPaused = isPaused(profile);
-  const days = (!isExploring && profile.sobriety_date) ? getDaysSince(profile.sobriety_date, profile) : null;
+  const days = (!isExploring && profile.sobriety_date) ? getDaysSince(profile.sobriety_date) : null;
   const savingsRate = profile.daily_savings_rate || 15;
   const moneySaved = days != null ? days * savingsRate : null;
   const sinceDate = profile.sobriety_date
@@ -254,38 +226,20 @@ export default function Home() {
         {/* STREAK MODE */}
         {!isExploring && (
           <>
-            {/* Greeting + Anchor chip */}
-            <div className="flex items-center justify-between mb-4">
-              <p className="font-display text-xl" style={{ color: 'var(--t-text)' }}>
-                {getGreeting()}, {profile.first_name}.
-              </p>
-              <button
-                onClick={() => navigate('/Anchor')}
-                className="flex items-center gap-1 px-3 py-1.5 rounded-full border"
-                style={{
-                  backgroundColor: 'var(--t-accent-bg)',
-                  borderColor: 'var(--t-accent)',
-                  fontSize: 11,
-                  fontWeight: 500,
-                  color: 'var(--t-accent)',
-                  flexShrink: 0,
-                }}
-              >
-                <Anchor size={12} />
-                Anchor
-              </button>
-            </div>
-            {currentlyPaused && (
-              <p className="text-xs text-center mb-2" style={{ color: 'var(--t-muted)' }}>Welcome back when you're ready.</p>
-            )}
+            <p className="font-display text-xl mb-10 text-center" style={{ color: 'var(--t-text)' }}>
+              {getGreeting()}, {profile.first_name}.
+            </p>
             {days != null && (
               <div className="flex flex-col items-center mb-3">
-                <StreakRing days={days} paused={currentlyPaused} />
-                <p className="text-xs mt-2" style={{ color: 'var(--t-muted)' }}>
-                  Since {sinceDate}
+                <StreakRing days={days} />
+                <p className="text-xs mt-2 font-medium" style={{ color: 'var(--t-text)' }}>
+                  {getClearDayText(days)}
                 </p>
                 <p className="text-xs mt-1" style={{ color: 'var(--t-muted)' }}>
                   That matters.
+                </p>
+                <p className="text-xs mt-3" style={{ color: 'var(--t-muted)' }}>
+                  Since {sinceDate}
                 </p>
               </div>
             )}
@@ -295,29 +249,10 @@ export default function Home() {
         {/* EXPLORING MODE */}
         {isExploring && (
           <>
-            <div className="mb-8 pt-4 text-center">
-              {/* Greeting + Anchor chip */}
-              <div className="flex items-center justify-between mb-4">
-                <p className="text-sm font-body" style={{ color: 'var(--t-muted)' }}>
-                  {getGreeting()}, {profile.first_name}.
-                </p>
-                {profile.anchor_contact_name && (
-                  <button
-                    onClick={() => navigate('/Anchor')}
-                    className="flex items-center gap-1 px-3 py-1.5 rounded-full border"
-                    style={{
-                      backgroundColor: 'var(--t-accent-bg)',
-                      borderColor: 'var(--t-accent)',
-                      fontSize: 11,
-                      fontWeight: 500,
-                      color: 'var(--t-accent)',
-                    }}
-                  >
-                    <Anchor size={12} />
-                    Anchor
-                  </button>
-                )}
-              </div>
+            <div className="mb-12 pt-4 text-center">
+              <p className="text-sm mb-4 font-body" style={{ color: 'var(--t-muted)' }}>
+                {getGreeting()}, {profile.first_name}.
+              </p>
               <div className="max-w-sm mx-auto">
                 <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: 'var(--t-text)', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
                   {getDailyHeadline()}
@@ -328,32 +263,17 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mb-8 pt-6 pb-4 flex justify-center">
+            <div className="mb-10 pt-10 pb-6 flex justify-center">
               <div className="w-full max-w-xs">
-                <MoodScale bare userEmail={userEmail} />
+                <MoodCheckin bare />
               </div>
             </div>
 
-            <div className="mb-8 flex justify-center">
+            <div className="mb-12 flex justify-center">
               <div className="w-full max-w-xs">
                 <TodaysMoment />
               </div>
             </div>
-
-            {/* Reflection pill (after 6pm, no reflection yet) */}
-            {new Date().getHours() >= 18 && !todayHasReflection && (
-              <button
-                onClick={() => navigate('/Reflection')}
-                className="w-full max-w-xs mx-auto flex items-center justify-between px-4 py-3 rounded-full mb-6"
-                style={{ border: '1px solid var(--t-border)' }}
-              >
-                <div className="flex items-center gap-2">
-                  <Sparkles size={12} style={{ color: 'var(--t-muted)' }} />
-                  <span className="text-xs" style={{ color: 'var(--t-muted)' }}>Tonight's reflection · 1 minute</span>
-                </div>
-                <ChevronRight size={12} style={{ color: 'var(--t-muted)' }} />
-              </button>
-            )}
 
             <button
               onClick={() => navigate(createPageUrl("NearMe"))}
@@ -374,35 +294,19 @@ export default function Home() {
         {/* STREAK layout */}
         {!isExploring && (
           <>
-            <div className="mt-6 mb-6 flex justify-center">
+            <div className="mt-8 mb-8 flex justify-center">
               <div className="w-full max-w-xs">
-                <MoodScale userEmail={userEmail} />
+                <MoodCheckin />
               </div>
             </div>
-            <div className="mb-6 flex justify-center">
+            <div className="mb-8 flex justify-center">
               <div className="w-full max-w-xs">
                 <TodaysMoment />
               </div>
             </div>
-
-            {/* Reflection pill (after 6pm, no reflection yet) */}
-            {new Date().getHours() >= 18 && !todayHasReflection && (
-              <button
-                onClick={() => navigate('/Reflection')}
-                className="w-full max-w-xs mx-auto flex items-center justify-between px-4 py-3 rounded-full mb-6"
-                style={{ border: '1px solid var(--t-border)' }}
-              >
-                <div className="flex items-center gap-2">
-                  <Sparkles size={12} style={{ color: 'var(--t-muted)' }} />
-                  <span className="text-xs" style={{ color: 'var(--t-muted)' }}>Tonight's reflection · 1 minute</span>
-                </div>
-                <ChevronRight size={12} style={{ color: 'var(--t-muted)' }} />
-              </button>
-            )}
-
             <div className="flex gap-3 justify-center">
               <StatCard label="Time" value={getYearsMonths()} />
-              <StatCard label="Spots" value={String(spotsCount)} sublabel="places" />
+<StatCard label="NYC Spots" value={String(spotsCount)} sublabel="places" />
             </div>
           </>
         )}

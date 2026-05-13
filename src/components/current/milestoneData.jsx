@@ -51,42 +51,12 @@ function parseLocalDate(dateString) {
   return new Date(year, month - 1, day);
 }
 
-// profile can be passed to honour pause ranges
-export function getDaysSince(dateString, profile = null) {
+export function getDaysSince(dateString) {
   const start = parseLocalDate(dateString);
   const now = new Date();
   start.setHours(0, 0, 0, 0);
   now.setHours(0, 0, 0, 0);
-  let total = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-
-  if (profile?.pause_start) {
-    const ps = parseLocalDate(profile.pause_start);
-    ps.setHours(0, 0, 0, 0);
-    // pause_end null means still paused (count to today)
-    const pe = profile.pause_end ? parseLocalDate(profile.pause_end) : now;
-    pe.setHours(0, 0, 0, 0);
-    // Only subtract if pause is within the tracked window
-    if (ps >= start) {
-      const pausedDays = Math.floor((Math.min(pe, now) - ps) / (1000 * 60 * 60 * 24));
-      total = Math.max(0, total - pausedDays);
-    }
-  }
-
-  return total;
-}
-
-// Checks if profile is currently in a pause
-export function isPaused(profile) {
-  if (!profile?.pause_start) return false;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const ps = parseLocalDate(profile.pause_start);
-  ps.setHours(0, 0, 0, 0);
-  if (ps > today) return false;
-  if (!profile.pause_end) return true; // open-ended
-  const pe = parseLocalDate(profile.pause_end);
-  pe.setHours(0, 0, 0, 0);
-  return today <= pe;
+  return Math.floor((now - start) / (1000 * 60 * 60 * 24));
 }
 
 export function formatDateRange(dateString) {

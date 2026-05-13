@@ -1,17 +1,6 @@
 import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import DatePickerDrawer from "./DatePickerDrawer";
-import PauseDrawer from "./PauseDrawer";
-import { isPaused } from "./milestoneData";
-
-function getLocalDateStr(d = new Date()) {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
-
-function formatDate(dateStr) {
-  const [y, m, d] = dateStr.split("-").map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-}
 
 // view states: idle | change_date | confirm_exploring | switching_back
 export default function JourneySection({ profile, onProfileUpdate }) {
@@ -19,8 +8,6 @@ export default function JourneySection({ profile, onProfileUpdate }) {
   const [dateValue, setDateValue] = useState(profile.sobriety_date || "");
   const [dateConfirmed, setDateConfirmed] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [showPauseDrawer, setShowPauseDrawer] = useState(false);
-  const currentlyPaused = isPaused(profile);
 
   const isExploring = profile.mode === "exploring";
   const hasDate = !!profile.sobriety_date;
@@ -87,27 +74,6 @@ export default function JourneySection({ profile, onProfileUpdate }) {
           {!isExploring && (
             <ActionRow label="Change my start date" onTap={() => { setDateValue(profile.sobriety_date || ""); setDateConfirmed(false); setView("change_date"); }} />
           )}
-          {!isExploring && !currentlyPaused && (
-            <ActionRow label="Pause for a while" onTap={() => setShowPauseDrawer(true)} />
-          )}
-          {!isExploring && currentlyPaused && (
-            <div className="w-full flex items-center justify-between py-4 border-b" style={{ borderColor: 'var(--t-border)' }}>
-              <span className="text-sm" style={{ color: 'var(--t-accent)' }}>
-                You're paused{profile.pause_end ? ` · until ${formatDate(profile.pause_end)}` : ''}
-              </span>
-              <button
-                onClick={async () => {
-                  const data = { pause_start: null, pause_end: null, pause_reason: null };
-                  await base44.entities.UserProfile.update(profile.id, data);
-                  onProfileUpdate(data);
-                }}
-                className="text-xs font-medium ml-4"
-                style={{ color: 'var(--t-muted)' }}
-              >
-                End now
-              </button>
-            </div>
-          )}
           {!isExploring && (
             <ActionRow label="Switch to Exploring" onTap={() => setView("confirm_exploring")} />
           )}
@@ -115,14 +81,6 @@ export default function JourneySection({ profile, onProfileUpdate }) {
             <ActionRow label="Set your start date →" onTap={handleSwitchBack} />
           )}
         </div>
-      )}
-
-      {showPauseDrawer && (
-        <PauseDrawer
-          profile={profile}
-          onClose={() => setShowPauseDrawer(false)}
-          onUpdate={(data) => { onProfileUpdate(data); setShowPauseDrawer(false); }}
-        />
       )}
 
       {/* Change date panel */}
