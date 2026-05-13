@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Current — Feature Explorations</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #e7e3da; font-family: 'DM Sans', system-ui, sans-serif; }
+  body { overflow: hidden; }
+  /* hide scrollbars on artboard content */
+  ::-webkit-scrollbar { width: 0; height: 0; }
+  * { scrollbar-width: none; }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="mockups/shared.jsx"></script>
+<script type="text/babel" src="mockups/features.jsx"></script>
+<script type="text/babel" src="mockups/refinements.jsx"></script>
+
+<script type="text/babel">
+const PHONE_W = 402;
+const PHONE_H = 874;
+
+// Frame each mockup inside an iOS bezel
+function Phone({ children, dark = true }) {
+  return (
+    <IOSDevice width={PHONE_W} height={PHONE_H} dark={dark}>
+      {children}
+    </IOSDevice>
+  );
+}
+
+// Tiny caption note next to artboards
+function Note({ children }) {
+  return (
+    <div style={{
+      fontFamily: "'Playfair Display', serif", fontStyle: 'italic',
+      fontSize: 14, lineHeight: 1.5, color: '#3b3a36',
+      maxWidth: 280,
+      paddingTop: 8,
+    }}>{children}</div>
+  );
+}
+
+const ARTBOARD_W = PHONE_W;
+const ARTBOARD_H = PHONE_H;
+
+function App() {
+  return (
+    <DesignCanvas>
+
+      <DCSection
+        id="intro"
+        title="Current · feature explorations"
+        subtitle="A starting palette. Twelve directions to discuss, mix, or kill — rooted in what's already there."
+      >
+        <DCArtboard id="intro-card" label="Reading order →" width={520} height={ARTBOARD_H}>
+          <div style={{ width: '100%', height: '100%', background: '#f5f4ef', padding: '56px 48px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderRadius: 16, border: '1px solid #d5d0c8' }}>
+            <div>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 12, color: '#6E8FA3', letterSpacing: '0.25em', textTransform: 'uppercase', margin: 0 }}>Notes for Sam</p>
+              <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 42, fontWeight: 500, color: '#1a1a1a', lineHeight: 1.1, margin: '14px 0 24px', letterSpacing: '-0.02em' }}>
+                Twelve quiet<br/>directions for Current.
+              </h1>
+              <p style={{ fontSize: 14.5, color: '#3b3a36', lineHeight: 1.65, margin: 0 }}>
+                I read through the codebase and stayed inside the tone — "present tense," "that matters," "just today." No labels, no programs. These are not finished designs. They're prompts.
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 24 }}>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 14, color: '#6E8FA3', letterSpacing: '0.2em', textTransform: 'uppercase', margin: 0 }}>How to read</p>
+              <div style={{ display: 'flex', gap: 14 }}>
+                <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, color: '#6E8FA3', lineHeight: 1 }}>1</span>
+                <p style={{ fontSize: 13.5, color: '#3b3a36', lineHeight: 1.5, margin: 0 }}>Drag the canvas. Pinch / scroll-wheel to zoom.</p>
+              </div>
+              <div style={{ display: 'flex', gap: 14 }}>
+                <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, color: '#6E8FA3', lineHeight: 1 }}>2</span>
+                <p style={{ fontSize: 13.5, color: '#3b3a36', lineHeight: 1.5, margin: 0 }}>Click any phone to open it full-screen. ← / → to step.</p>
+              </div>
+              <div style={{ display: 'flex', gap: 14 }}>
+                <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, color: '#6E8FA3', lineHeight: 1 }}>3</span>
+                <p style={{ fontSize: 13.5, color: '#3b3a36', lineHeight: 1.5, margin: 0 }}>Tell me which ones to deepen, kill, or fork.</p>
+              </div>
+            </div>
+
+            <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: 14, color: '#7a7870', margin: 0, lineHeight: 1.5 }}>
+              All assumes the existing slate-blue + Playfair + DM Sans palette stays. Light mode noted where it matters.
+            </p>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="features"
+        title="Feature concepts"
+        subtitle="Things that don't exist yet — eight directions to extend what Current already does, in its own voice."
+      >
+        <DCArtboard id="f1-anchor" label="01 · Anchor — urge tool" width={ARTBOARD_W} height={ARTBOARD_H}>
+          <Phone><AnchorScreen/></Phone>
+        </DCArtboard>
+
+        <DCArtboard id="f2-reflection" label="02 · Evening Reflection" width={ARTBOARD_W} height={ARTBOARD_H}>
+          <Phone><ReflectionScreen/></Phone>
+        </DCArtboard>
+
+        <DCArtboard id="f3-presence" label="03 · Presence Map" width={ARTBOARD_W} height={ARTBOARD_H}>
+          <Phone><PresenceMapScreen/></Phone>
+        </DCArtboard>
+
+        <DCArtboard id="f4-pause" label="04 · Pause / Shield" width={ARTBOARD_W} height={ARTBOARD_H}>
+          <Phone><PauseScreen/></Phone>
+        </DCArtboard>
+
+        <DCArtboard id="f5-letters" label="05 · Letters" width={ARTBOARD_W} height={ARTBOARD_H}>
+          <Phone><LettersScreen/></Phone>
+        </DCArtboard>
+
+        <DCArtboard id="f6-mocktails" label="06 · Mocktails" width={ARTBOARD_W} height={ARTBOARD_H}>
+          <Phone><MocktailsScreen/></Phone>
+        </DCArtboard>
+
+        <DCArtboard id="f7-budget" label="07 · Sober Budget" width={ARTBOARD_W} height={ARTBOARD_H}>
+          <Phone><BudgetScreen/></Phone>
+        </DCArtboard>
+
+        <DCArtboard id="f8-quiet" label="08 · Quiet Hours" width={ARTBOARD_W} height={ARTBOARD_H}>
+          <Phone><QuietHoursScreen/></Phone>
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="refinements"
+        title="Design refinements"
+        subtitle="Rework of screens that already ship. Each is conservative — same components, same tokens, more rhythm."
+      >
+        <DCArtboard id="r1-home" label="09 · Home v2 — tighter" width={ARTBOARD_W} height={ARTBOARD_H}>
+          <Phone><HomeV2Screen/></Phone>
+        </DCArtboard>
+
+        <DCArtboard id="r2-ring" label="10 · Streak Ring v2" width={ARTBOARD_W} height={ARTBOARD_H}>
+          <Phone><StreakRingV2Screen/></Phone>
+        </DCArtboard>
+
+        <DCArtboard id="r3-mood" label="11 · Mood scale + history" width={ARTBOARD_W} height={ARTBOARD_H}>
+          <Phone><MoodScaleScreen/></Phone>
+        </DCArtboard>
+
+        <DCArtboard id="r4-spots" label="12 · Spots v2 — photos + map" width={ARTBOARD_W} height={ARTBOARD_H}>
+          <Phone><SpotsV2Screen/></Phone>
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="notes"
+        title="Reading notes"
+        subtitle="One-liner rationale for each, plus what I'd build first."
+      >
+        <DCArtboard id="notes-1" label="Why each direction" width={620} height={ARTBOARD_H}>
+          <div style={{ width: '100%', height: '100%', background: '#f5f4ef', padding: '40px 40px', boxSizing: 'border-box', borderRadius: 16, border: '1px solid #d5d0c8', overflow: 'auto', fontFamily: 'DM Sans, sans-serif' }}>
+            {[
+              ['01', 'Anchor', 'The one feature most sobriety apps either over-engineer or skip. A single full-screen surface for an acute moment. Reuses "what brought me here" — that data is already collected.'],
+              ['02', 'Evening Reflection', 'Active retention without nagging. Three taps, optional one-liner. Builds the private "thread" history that powers Presence Map.'],
+              ['03', 'Presence Map', 'Stats card replacement. A heat grid is more honest than "23 day streak" — it shows the texture of showing up, including the quiet days.'],
+              ['04', 'Pause / Shield', 'Most-requested feature in this category. Frames pausing as not-restarting. Required to keep the streak metaphor humane.'],
+              ['05', 'Letters', 'Community without chat. One inbound per day, no replies, no profiles. Anonymity protects the brand promise.'],
+              ['06', 'Mocktails', 'Distinct from Spots — this is the script-in-your-pocket for going out. "Order with confidence" is the wedge.'],
+              ['07', 'Sober Budget', 'You already collect daily_savings_rate. Turning it into a jar with a goal makes it visceral, not abstract.'],
+              ['08', 'Quiet Hours', 'Auto-engages 10p–6a. Pulls everything decorative away. Closest thing to a late-night relapse-prevention surface that doesn\'t feel like one.'],
+              ['09', 'Home v2', 'Adds Anchor entry-point and Reflection pill. Same Home, two more doors.'],
+              ['10', 'Streak Ring v2', 'Heavier weight, halo, milestone hint inline. Small tweak, big perceived quality bump.'],
+              ['11', 'Mood scale', 'Three pills → continuous scale + history. Same data shape, much more useful and personal.'],
+              ['12', 'Spots v2', 'Adds photos and a map view. Two requests buried in the suggest-a-place flow.'],
+            ].map(([n, name, body]) => (
+              <div key={n} style={{ display: 'flex', gap: 16, paddingBottom: 18, marginBottom: 18, borderBottom: '1px solid #d5d0c8' }}>
+                <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, color: '#6E8FA3', minWidth: 26, lineHeight: 1.2 }}>{n}</span>
+                <div>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: '#1a1a1a', margin: 0, marginBottom: 4 }}>{name}</p>
+                  <p style={{ fontSize: 13, color: '#3b3a36', margin: 0, lineHeight: 1.55 }}>{body}</p>
+                </div>
+              </div>
+            ))}
+            <div style={{ paddingTop: 6 }}>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 13, color: '#6E8FA3', letterSpacing: '0.2em', textTransform: 'uppercase', margin: 0, marginBottom: 8 }}>If I had to ship three</p>
+              <p style={{ fontSize: 14, color: '#1a1a1a', margin: 0, lineHeight: 1.55 }}>
+                <strong>Pause</strong> (humane), <strong>Anchor</strong> (acute use case), and <strong>Streak Ring v2</strong> (quality signal everyone sees on Home). In that order.
+              </p>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
