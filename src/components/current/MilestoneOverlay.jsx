@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { formatDateRange, getMilestoneLabel, getMilestoneQuote } from "./milestoneData";
+import { hapticSuccess } from "@/lib/haptics";
 
 export default function MilestoneOverlay({ days, sobrietyDate, savingsRate, onDismiss, onShare }) {
+  useEffect(() => { hapticSuccess(); }, []);
   const label = getMilestoneLabel(days);
   const quote = getMilestoneQuote(days);
   const dateRange = formatDateRange(sobrietyDate);

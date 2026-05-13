@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { Sun, MapPin, User } from "lucide-react";
 import { useTheme } from "./ThemeContext";
+import { hapticLight } from "@/lib/haptics";
 
 const tabs = [
   { name: "Today", icon: Sun, page: "Home" },
@@ -32,7 +33,7 @@ export default function BottomNav() {
             <Link
               key={name}
               to={url}
-              onClick={() => { if (isActive) window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+              onClick={() => { hapticLight(); if (isActive) window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 transition-colors select-none"
               style={{ WebkitUserSelect: 'none', userSelect: 'none' }}
             >

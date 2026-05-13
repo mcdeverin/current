@@ -1,5 +1,5 @@
 {
-  "originHash" : "4176bad8ed72bceab3e30b6b1943d5683db201427e719904b95e6ac5ab980cee",
+  "originHash" : "a60974124e4825cca339490f462d33336607ea3397ed92cf20cdb41fbb90fe46",
   "pins" : [
     {
       "identity" : "capacitor-swift-pm",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "db363927d3a954e3ea24d2e72b6e9814769a84be",
         "version" : "2.1.1"
+      }
+    },
+    {
+      "identity" : "swiftkeychainwrapper",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jrendel/SwiftKeychainWrapper.git",
+      "state" : {
+        "revision" : "185a3165346a03767101c4f62e9a545a0fe0530f",
+        "version" : "4.0.1"
       }
     }
   ],

@@ -14,9 +14,13 @@ export default function Milestone() {
   }, []);
 
   const loadProfile = async () => {
-    const profiles = await base44.entities.UserProfile.list();
-    if (profiles.length > 0) {
-      setProfile(profiles[0]);
+    try {
+      const profiles = await base44.entities.UserProfile.list();
+      if (profiles.length > 0) {
+        setProfile(profiles[0]);
+      }
+    } catch (err) {
+      console.error("loadProfile error:", err);
     }
   };
 

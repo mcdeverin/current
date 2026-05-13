@@ -1,4 +1,5 @@
 import React from "react";
+import { hapticMedium } from "@/lib/haptics";
 
 export default function StreakRing({ days, size = 220, strokeWidth = 4 }) {
   const radius = (size - strokeWidth * 2) / 2;
@@ -11,7 +12,7 @@ export default function StreakRing({ days, size = 220, strokeWidth = 4 }) {
   const innerR = radius - strokeWidth * 2;
 
   return (
-    <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
+    <div className="relative flex items-center justify-center" style={{ width: size, height: size }} onClick={hapticMedium}>
       <svg width={size} height={size} className="transform -rotate-90">
         {/* Dark inner fill */}
         <circle

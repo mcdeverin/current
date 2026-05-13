@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { MapPin, Plus, Check } from "lucide-react";
+import { Plus, Check } from "lucide-react";
+import { Geolocation } from "@capacitor/geolocation";
 import PlaceCard from "../components/current/PlaceCard";
 import BottomNav from "../components/current/BottomNav";
 import PullToRefresh from "../components/current/PullToRefresh";
@@ -37,13 +38,31 @@ export default function NearMe() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationDismissed, setLocationDismissed] = useState(false);
+  const [cityFilter, setCityFilter] = useState("NYC");
+  const [filter, setFilter] = useState("All");
+  const [openNow, setOpenNow] = useState(false);
+  const [showSuggest, setShowSuggest] = useState(false);
+  const [suggestName, setSuggestName] = useState("");
+  const [suggestNeighborhood, setSuggestNeighborhood] = useState("");
+  const [suggestType, setSuggestType] = useState("Spots");
+  const [showTypeSheet, setShowTypeSheet] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-  const requestLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => setUserLocation({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
-      () => setLocationDismissed(true)
-    );
-    setLocationDismissed(true);
+  const requestLocation = async () => {
+    try {
+      const permResult = await Geolocation.requestPermissions();
+      if (permResult.location === "denied") {
+        setLocationDismissed(true);
+        return;
+      }
+      const position = await Geolocation.getCurrentPosition({ enableHighAccuracy: true });
+      setUserLocation({ lat: position.coords.latitude, lon: position.coords.longitude });
+    } catch {
+      setLocationDismissed(true);
+    }
   };
 
   useEffect(() => {
@@ -89,35 +108,41 @@ export default function NearMe() {
   };
 
   const handleSuggest = async () => {
-    if (!suggestName.trim()) return;
-    // Check for duplicates
-    const existing = await base44.entities.Places.filter({ name: suggestName.trim() });
-    if (existing.length > 0) {
-      alert("This place has already been suggested.");
-      return;
+    if (!suggestName.trim() || isSaving) return;
+    setIsSaving(true);
+    try {
+      const existing = await base44.entities.Places.filter({ name: suggestName.trim() });
+      if (existing.length > 0) {
+        alert("This place has already been suggested.");
+        setIsSaving(false);
+        return;
+      }
+      const profiles = await base44.entities.UserProfile.list();
+      const profile = profiles[0];
+      const user = await base44.auth.me();
+      await base44.entities.Places.create({
+        name: suggestName,
+        type: suggestType,
+        neighborhood: suggestNeighborhood || "New York",
+        city: "New York",
+        tag: "Sober Friendly",
+        emoji: "📍",
+        status: "pending",
+        suggested_by: user?.email || "",
+        suggested_by_name: profile?.first_name || "",
+        suggested_by_days: profile?.sobriety_date
+          ? Math.floor((new Date() - new Date(profile.sobriety_date)) / (1000 * 60 * 60 * 24))
+          : null,
+      });
+      setSuggestName("");
+      setSuggestNeighborhood("");
+      setShowSuggest(false);
+      setSubmitted(true);
+    } catch (err) {
+      console.error("handleSuggest error:", err);
+    } finally {
+      setIsSaving(false);
     }
-    // Get user profile for context
-    const profiles = await base44.entities.UserProfile.list();
-    const profile = profiles[0];
-    const user = await base44.auth.me();
-    await base44.entities.Places.create({
-      name: suggestName,
-      type: suggestType,
-      neighborhood: suggestNeighborhood || "New York",
-      city: "New York",
-      tag: "Sober Friendly",
-      emoji: "📍",
-      status: "pending",
-      suggested_by: user?.email || "",
-      suggested_by_name: profile?.first_name || "",
-      suggested_by_days: profile?.sobriety_date
-        ? Math.floor((new Date() - new Date(profile.sobriety_date)) / (1000 * 60 * 60 * 24))
-        : null,
-    });
-    setSuggestName("");
-    setSuggestNeighborhood("");
-    setShowSuggest(false);
-    setSubmitted(true);
   };
 
   return (
@@ -304,11 +329,11 @@ export default function NearMe() {
               </button>
               <button
                 onClick={handleSuggest}
-                disabled={!suggestName.trim()}
+                disabled={!suggestName.trim() || isSaving}
                 className="flex-1 py-2.5 rounded-xl text-xs font-medium disabled:opacity-30"
                 style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}
               >
-                Submit
+                {isSaving ? "..." : "Submit"}
               </button>
             </div>
           </div>

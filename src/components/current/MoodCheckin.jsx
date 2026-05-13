@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { hapticLight } from "@/lib/haptics";
 
 const MOODS = [
   { label: "Feeling steady", response: "That's worth something." },
@@ -6,8 +7,13 @@ const MOODS = [
   { label: "Today's tough", response: "Still here. That matters." },
 ];
 
+function getLocalDateString() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
 function getTodayKey() {
-  return `mood_checkin_${new Date().toISOString().split("T")[0]}`;
+  return `mood_checkin_${getLocalDateString()}`;
 }
 
 export default function MoodCheckin({ bare = false }) {
@@ -19,6 +25,7 @@ export default function MoodCheckin({ bare = false }) {
   }, []);
 
   const handleSelect = (label) => {
+    hapticLight();
     setSelected(label);
     sessionStorage.setItem(getTodayKey(), label);
   };

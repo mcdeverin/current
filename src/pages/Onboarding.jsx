@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import { createPageUrl } from "@/utils";
 import { useNavigate } from "react-router-dom";
+import { registerPushNotifications, scheduleDailyReminder } from "@/lib/notifications";
 
 const BG = '#0f1219';
 const ACCENT = '#6F8FA4';
@@ -82,6 +83,8 @@ export default function Onboarding() {
         await base44.entities.UserProfile.create(data);
       }
       setStep(4);
+      registerPushNotifications();
+      scheduleDailyReminder(data.notification_time);
     } catch (err) {
       console.error("handleComplete error:", err);
       setSaving(false);
@@ -199,7 +202,7 @@ export default function Onboarding() {
               type="date"
               value={sobrietyDate}
               onChange={e => setSobrietyDate(e.target.value)}
-              max={new Date().toISOString().split("T")[0]}
+              max={(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; })()}
               className="w-full max-w-xs text-center text-lg font-display bg-transparent border-b-2 pb-3 focus:outline-none appearance-none"
               style={{ borderColor: BORDER, color: TEXT, colorScheme: 'dark', WebkitAppearance: 'none', fontSize: '16px' }}
             />
@@ -258,6 +261,8 @@ export default function Onboarding() {
             </button>
           </motion.div>
         )}
+
+        {/* Step 3 intentionally skipped — kept for backwards-compat with prior flow */}
 
         {/* Step 4: Greeting moment */}
         {step === 4 && (

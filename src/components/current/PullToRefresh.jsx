@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { hapticMedium } from "@/lib/haptics";
 
 const THRESHOLD = 70;
 
@@ -23,6 +24,7 @@ export default function PullToRefresh({ onRefresh, children }) {
 
   const handleTouchEnd = async () => {
     if (pullDistance >= THRESHOLD) {
+      hapticMedium();
       setRefreshing(true);
       await onRefresh();
       setRefreshing(false);

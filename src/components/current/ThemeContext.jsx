@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { setStatusBarDark, setStatusBarLight } from "@/lib/statusbar";
 
 const DARK_VARS = {
   '--t-bg': '#0f1219',
@@ -65,6 +66,11 @@ export function ThemeProvider({ children }) {
       return next;
     });
   };
+
+  useEffect(() => {
+    if (isDark) setStatusBarDark();
+    else setStatusBarLight();
+  }, [isDark]);
 
   const vars = isDark ? DARK_VARS : LIGHT_VARS;
 

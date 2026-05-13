@@ -3,11 +3,13 @@ import { base44 } from "@/api/base44Client";
 import { ChevronRight, Sun, Moon } from "lucide-react";
 import DatePickerDrawer from "../components/current/DatePickerDrawer";
 import { useTheme } from "../components/current/ThemeContext";
-import { Link } from "react-router-dom";
-import { createPageUrl } from "@/utils";
 import BottomNav from "../components/current/BottomNav";
 import { getDaysSince } from "../components/current/milestoneData";
 import JourneySection from "../components/current/JourneySection.jsx";
+import { hapticLight } from "@/lib/haptics";
+import { authenticateWithBiometrics } from "@/lib/biometrics";
+import { takeProfilePhoto } from "@/lib/camera";
+import { Capacitor } from "@capacitor/core";
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
@@ -18,50 +20,64 @@ export default function Profile() {
   const [dateDrawerOpen, setDateDrawerOpen] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark, toggleTheme: rawToggleTheme } = useTheme();
+  const toggleTheme = () => { hapticLight(); rawToggleTheme(); };
 
   useEffect(() => {
     loadProfile();
   }, []);
 
   const loadProfile = async () => {
-    const isAuth = await base44.auth.isAuthenticated();
-    if (!isAuth) {
-      setIsGuest(true);
-      setLoading(false);
-      return;
-    }
-
-    const profiles = await base44.entities.UserProfile.list();
-    if (profiles.length > 0) {
-      const p = profiles[0];
-      setProfile(p);
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("setDate") === "true") {
-        setEditing("date");
-        setEditValue("");
+    try {
+      const isAuth = await base44.auth.isAuthenticated();
+      if (!isAuth) {
+        setIsGuest(true);
+        setLoading(false);
+        return;
       }
-    } else {
-      // Authenticated but no profile — redirect to onboarding
-      base44.auth.redirectToLogin(window.location.href);
+
+      const profiles = await base44.entities.UserProfile.list();
+      if (profiles.length > 0) {
+        const p = profiles[0];
+        setProfile(p);
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("setDate") === "true") {
+          setEditing("date");
+          setEditValue("");
+        }
+      } else {
+        base44.auth.redirectToLogin(window.location.href);
+      }
+    } catch (err) {
+      console.error("loadProfile error:", err);
+      setIsGuest(true);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const saveField = async (field, value) => {
     if (!profile) return;
-    // Optimistic update — close UI instantly
     setProfile(prev => ({ ...prev, [field]: value }));
     setEditing(null);
-    await base44.entities.UserProfile.update(profile.id, { [field]: value });
+    try {
+      await base44.entities.UserProfile.update(profile.id, { [field]: value });
+    } catch (err) {
+      console.error("saveField error:", err);
+    }
   };
 
   const handleDeleteAccount = async () => {
     setDeleting(true);
-    if (profile) {
-      await base44.entities.UserProfile.delete(profile.id);
+    try {
+      if (profile) {
+        await base44.entities.UserProfile.delete(profile.id);
+      }
+      base44.auth.logout();
+    } catch (err) {
+      console.error("handleDeleteAccount error:", err);
+      setDeleting(false);
     }
-    base44.auth.logout();
   };
 
   if (loading) {
@@ -123,17 +139,6 @@ export default function Profile() {
     ? new Date(profile.sobriety_date + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
     : null;
 
-  const handleSaveDateAndSwitchMode = async () => {
-    if (!editValue) return;
-    await base44.entities.UserProfile.update(profile.id, {
-      sobriety_date: editValue,
-      mode: "streak",
-      exploring_nudge_dismissed: true,
-    });
-    setProfile(prev => ({ ...prev, sobriety_date: editValue, mode: "streak", exploring_nudge_dismissed: true }));
-    setEditing(null);
-  };
-
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
       {/* Header */}
@@ -146,6 +151,27 @@ export default function Profile() {
           {isDark ? <Moon size={13} style={{ color: 'var(--t-muted)' }} /> : <Sun size={13} style={{ color: 'var(--t-muted)' }} />}
           <span className="text-xs" style={{ color: 'var(--t-muted)' }}>{isDark ? 'Dark' : 'Light'}</span>
         </button>
+        {/* Profile Photo */}
+        {Capacitor.isNativePlatform() && (
+          <button
+            onClick={async () => {
+              const dataUrl = await takeProfilePhoto();
+              if (dataUrl) {
+                saveField("profile_photo", dataUrl);
+              }
+            }}
+            className="w-16 h-16 rounded-full mb-3 flex items-center justify-center overflow-hidden border-2"
+            style={{ borderColor: 'var(--t-border)', backgroundColor: 'var(--t-card)' }}
+          >
+            {profile.profile_photo ? (
+              <img src={profile.profile_photo} alt="" className="w-full h-full object-cover" />
+            ) : (
+              <span className="font-display text-xl" style={{ color: 'var(--t-accent)' }}>
+                {(profile.first_name || "?")[0].toUpperCase()}
+              </span>
+            )}
+          </button>
+        )}
         <h1 className="font-display text-2xl font-medium" style={{ color: 'var(--t-text)' }}>{profile.first_name}</h1>
         {!isExploring && sinceDate && <p className="text-xs mt-1" style={{ color: 'var(--t-muted)' }}>Since {sinceDate}</p>}
         {isExploring && (
@@ -200,7 +226,14 @@ export default function Profile() {
         <SettingsItem
           label="What brought me here"
           value={profile.why_i_started ? "Written" : "Add your reason"}
-          onTap={() => { setEditing("why"); setEditValue(profile.why_i_started || ""); }}
+          onTap={async () => {
+            if (profile.why_i_started) {
+              const ok = await authenticateWithBiometrics("View your private note");
+              if (!ok) return;
+            }
+            setEditing("why");
+            setEditValue(profile.why_i_started || "");
+          }}
         />
         {editing === "why" && (
           <EditPanel>
@@ -264,7 +297,11 @@ export default function Profile() {
         {/* Delete account */}
         {!showDeleteConfirm ? (
           <button
-            onClick={() => setShowDeleteConfirm(true)}
+            onClick={async () => {
+              const ok = await authenticateWithBiometrics("Confirm to delete account");
+              if (!ok) return;
+              setShowDeleteConfirm(true);
+            }}
             className="w-full py-3 text-sm font-medium text-center"
             style={{ color: 'var(--t-danger-muted)' }}
           >

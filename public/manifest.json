@@ -1,0 +1,18 @@
+{
+  "name": "Current",
+  "short_name": "Current",
+  "description": "Present tense. Always.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1219",
+  "theme_color": "#0f1219",
+  "icons": [
+    {
+      "src": "https://base44.com/logo_v2.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

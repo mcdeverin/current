@@ -3,6 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { AnimatePresence } from "framer-motion";
+import { scheduleDailyReminder } from "@/lib/notifications";
 import PullToRefresh from "../components/current/PullToRefresh";
 import StreakRing from "../components/current/StreakRing";
 import StatCard from "../components/current/StatCard";
@@ -53,42 +54,53 @@ export default function Home() {
   }, []);
 
   const loadSpotsCount = async () => {
-    const approved = await base44.entities.Places.filter({ status: "approved" });
-    setSpotsCount(approved.length);
+    try {
+      const approved = await base44.entities.Places.filter({ status: "approved" });
+      setSpotsCount(approved.length);
+    } catch (err) {
+      console.error("loadSpotsCount error:", err);
+    }
   };
 
   const loadProfile = async () => {
-    const isAuth = await base44.auth.isAuthenticated();
-    if (!isAuth) {
-      setIsGuest(true);
-      setLoading(false);
-      return;
-    }
-
-    const profiles = await base44.entities.UserProfile.list();
-    if (profiles.length === 0 || !profiles[0].onboarding_complete) {
-      setIsGuest(true);
-      setLoading(false);
-      return;
-    }
-
-    const p = profiles[0];
-    setProfile(p);
-    setIsGuest(false);
-
-    if (p.mode === "exploring" && !p.exploring_nudge_dismissed) {
-      setShowNudge(true);
-    }
-
-    if (p.mode === "streak" && p.sobriety_date) {
-      const days = getDaysSince(p.sobriety_date);
-      const dismissed = sessionStorage.getItem(`milestone_${days}_dismissed`);
-      if (isMilestoneDay(days) && !dismissed) {
-        setShowMilestone(true);
+    try {
+      const isAuth = await base44.auth.isAuthenticated();
+      if (!isAuth) {
+        setIsGuest(true);
+        setLoading(false);
+        return;
       }
-    }
 
-    setLoading(false);
+      const profiles = await base44.entities.UserProfile.list();
+      if (profiles.length === 0 || !profiles[0].onboarding_complete) {
+        setIsGuest(true);
+        setLoading(false);
+        return;
+      }
+
+      const p = profiles[0];
+      setProfile(p);
+      setIsGuest(false);
+
+      if (p.mode === "exploring" && !p.exploring_nudge_dismissed) {
+        setShowNudge(true);
+      }
+
+      scheduleDailyReminder(p.notification_time || "08:00");
+
+      if (p.mode === "streak" && p.sobriety_date) {
+        const days = getDaysSince(p.sobriety_date);
+        const dismissed = sessionStorage.getItem(`milestone_${days}_dismissed`);
+        if (isMilestoneDay(days) && !dismissed) {
+          setShowMilestone(true);
+        }
+      }
+    } catch (err) {
+      console.error("loadProfile error:", err);
+      setIsGuest(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading) {
@@ -182,12 +194,14 @@ export default function Home() {
   };
 
   const handleShareMilestone = async () => {
-    const text = `${days} days. Current.`;
-    if (navigator.share) {
-      await navigator.share({ text });
-    } else {
-      await navigator.clipboard.writeText(text);
-    }
+    try {
+      const text = `${days} days. Current.`;
+      if (navigator.share) {
+        await navigator.share({ text });
+      } else {
+        await navigator.clipboard.writeText(text);
+      }
+    } catch {}
   };
 
   return (

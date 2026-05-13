@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
-import { getDaysSince } from "./milestoneData";
 import DatePickerDrawer from "./DatePickerDrawer";
 
 // view states: idle | change_date | confirm_exploring | switching_back
