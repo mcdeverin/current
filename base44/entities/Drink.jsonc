@@ -1,0 +1,57 @@
+{
+  "name": "Drink",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the drink"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "bar_order",
+        "home_recipe",
+        "zero_proof"
+      ],
+      "description": "Type of drink"
+    },
+    "short": {
+      "type": "string",
+      "description": "One-liner description"
+    },
+    "recipe": {
+      "type": "string",
+      "description": "Full recipe or bar script, max 800 chars"
+    },
+    "ingredients": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Ingredient list for filtering"
+    },
+    "quick": {
+      "type": "boolean",
+      "default": false,
+      "description": "Featured in the Last-minute card"
+    },
+    "emoji": {
+      "type": "string",
+      "description": "Optional emoji"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "pending"
+      ],
+      "default": "approved",
+      "description": "Content status"
+    }
+  },
+  "required": [
+    "name",
+    "kind",
+    "short"
+  ]
+}

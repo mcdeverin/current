@@ -35,9 +35,26 @@ const LIGHT_VARS = {
   '--t-danger-border': '#e8c0c0',
 };
 
-const ThemeContext = createContext({ isDark: true, toggleTheme: () => {} });
+const QUIET_VARS = {
+  '--t-bg': '#070a10',
+  '--t-card': '#10141c',
+  '--t-card-alt': '#131820',
+  '--t-primary-card': '#131820',
+  '--t-border': '#1b222d',
+  '--t-text': '#e8eaf0',
+  '--t-text-warm': '#f0f2ee',
+  '--t-muted': '#5a6270',
+  '--t-label': '#5a6270',
+  '--t-accent': '#6E8FA3',
+  '--t-accent-bg': 'rgba(110,143,163,0.12)',
+  '--t-danger-muted': '#4a3030',
+  '--t-danger': '#7a2020',
+  '--t-danger-border': '#3a2020',
+};
 
-export function ThemeProvider({ children }) {
+const ThemeContext = createContext({ isDark: true, isQuiet: false, toggleTheme: () => {} });
+
+export function ThemeProvider({ children, isQuietHours = false }) {
   const [isDark, setIsDark] = useState(() => {
     try {
       const saved = localStorage.getItem('current-theme');
@@ -72,10 +89,10 @@ export function ThemeProvider({ children }) {
     else setStatusBarLight();
   }, [isDark]);
 
-  const vars = isDark ? DARK_VARS : LIGHT_VARS;
+  const vars = isQuietHours ? QUIET_VARS : isDark ? DARK_VARS : LIGHT_VARS;
 
   return (
-    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
+    <ThemeContext.Provider value={{ isDark, isQuiet: isQuietHours, toggleTheme }}>
       <div style={{ ...vars, minHeight: '100dvh' }}>
         {children}
       </div>

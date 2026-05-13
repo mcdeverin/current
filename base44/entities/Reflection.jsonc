@@ -1,0 +1,36 @@
+{
+  "name": "Reflection",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Email of the user"
+    },
+    "date": {
+      "type": "string",
+      "description": "YYYY-MM-DD local date"
+    },
+    "choice": {
+      "type": "string",
+      "enum": [
+        "small_win",
+        "person",
+        "made_it_through"
+      ],
+      "description": "What kept the user here today"
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional private note, max 240 chars"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "ISO8601 timestamp"
+    }
+  },
+  "required": [
+    "user_email",
+    "date",
+    "choice"
+  ]
+}

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { Plus, Check } from "lucide-react";
+import { Plus, Check, List, Map } from "lucide-react";
 import { Geolocation } from "@capacitor/geolocation";
 import PlaceCard from "../components/current/PlaceCard";
+import SpotsMapView from "../components/current/SpotsMapView";
 import BottomNav from "../components/current/BottomNav";
 import PullToRefresh from "../components/current/PullToRefresh";
 
-const FILTER_CHIPS = ["All", "Spots", "Mocktails", "Events", "Cafés", "Wellness"];
+const FILTER_CHIPS = ["All", "Spots", "Mocktails", "Events", "Cafés", "Wellness", "Tonight"];
 
 const DAY_KEYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
@@ -43,6 +44,7 @@ export default function NearMe() {
   const [cityFilter, setCityFilter] = useState("NYC");
   const [filter, setFilter] = useState("All");
   const [openNow, setOpenNow] = useState(false);
+  const [viewMode, setViewMode] = useState("list"); // "list" | "map"
   const [showSuggest, setShowSuggest] = useState(false);
   const [suggestName, setSuggestName] = useState("");
   const [suggestNeighborhood, setSuggestNeighborhood] = useState("");
@@ -83,8 +85,25 @@ export default function NearMe() {
     setLoading(false);
   };
 
+  const isOpenAfter8pmTonight = (place) => {
+    const now = new Date();
+    const day = DAY_KEYS[now.getDay()];
+    const closeStr = place[`${day}_close`];
+    const openStr = place[`${day}_open`];
+    if (!closeStr || !openStr) return false;
+    const [ch, cm] = closeStr.split(":").map(Number);
+    const [oh, om] = openStr.split(":").map(Number);
+    const closeMins = ch * 60 + cm;
+    const openMins = oh * 60 + om;
+    // Open after 8pm (20:00) or closes after midnight
+    return closeMins < openMins || closeMins >= 20 * 60;
+  };
+
   const filtered = places
-    .filter(p => filter === "All" || p.type === filter)
+    .filter(p => {
+      if (filter === "Tonight") return isOpenAfter8pmTonight(p);
+      return filter === "All" || p.type === filter;
+    })
     .map(p => ({
       ...p,
       _distance: (userLocation && p.latitude && p.longitude)
@@ -173,7 +192,26 @@ export default function NearMe() {
     )}
       {/* Header */}
       <div className="px-6 pb-3" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 72px)' }}>
-        <h1 className="font-display text-2xl font-medium mb-3" style={{ color: 'var(--t-text)' }}>Spots</h1>
+        <div className="flex items-center justify-between mb-3">
+          <h1 className="font-display text-2xl font-medium" style={{ color: 'var(--t-text)' }}>Spots</h1>
+          {/* List / Map toggle */}
+          <div className="flex rounded-full overflow-hidden border" style={{ borderColor: 'var(--t-border)' }}>
+            {[{ key: 'list', Icon: List }, { key: 'map', Icon: Map }].map(({ key, Icon }) => (
+              <button
+                key={key}
+                onClick={() => setViewMode(key)}
+                className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium"
+                style={{
+                  backgroundColor: viewMode === key ? 'var(--t-accent)' : 'var(--t-card)',
+                  color: viewMode === key ? 'var(--t-bg)' : 'var(--t-muted)',
+                }}
+              >
+                <Icon size={12} />
+                {key.charAt(0).toUpperCase() + key.slice(1)}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="flex gap-2 mb-1">
           {["NYC", "LA"].map(city => (
             <button
