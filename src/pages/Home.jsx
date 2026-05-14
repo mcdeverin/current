@@ -13,6 +13,7 @@ import ExploringNudge from "../components/current/ExploringNudge";
 import TodaysMoment from "../components/current/TodaysMoment";
 import MoodCheckin from "../components/current/MoodCheckin";
 import { getDaysSince, isMilestoneDay } from "../components/current/milestoneData";
+import { Anchor, Sparkles, ChevronRight } from "lucide-react";
 
 function getGreeting() {
   const h = new Date().getHours();
@@ -226,19 +227,36 @@ export default function Home() {
         {/* STREAK MODE */}
         {!isExploring && (
           <>
-            <p className="font-display text-xl mb-10 text-center" style={{ color: 'var(--t-text)' }}>
-              {getGreeting()}, {profile.first_name}.
-            </p>
+            {/* Greeting row with Anchor chip */}
+            <div className="flex items-center justify-between mb-6">
+              <p className="font-display text-xl" style={{ color: 'var(--t-text)' }}>
+                {getGreeting()}, {profile.first_name}.
+              </p>
+              <button
+                onClick={() => navigate("/Anchor")}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 5,
+                  padding: '6px 10px',
+                  borderRadius: 999,
+                  backgroundColor: 'var(--t-accent-bg)',
+                  border: '1px solid var(--t-accent)',
+                  color: 'var(--t-accent)',
+                  flexShrink: 0,
+                }}
+              >
+                <Anchor size={12} strokeWidth={1.5} />
+                <span style={{ fontSize: 12, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>Anchor</span>
+              </button>
+            </div>
             {days != null && (
-              <div className="flex flex-col items-center mb-3">
+              <div className="flex flex-col items-center mb-4">
                 <StreakRing days={days} />
-                <p className="text-xs mt-2 font-medium" style={{ color: 'var(--t-text)' }}>
+                <p className="text-xs mt-3 font-medium" style={{ color: 'var(--t-text)' }}>
                   {getClearDayText(days)}
                 </p>
                 <p className="text-xs mt-1" style={{ color: 'var(--t-muted)' }}>
-                  That matters.
-                </p>
-                <p className="text-xs mt-3" style={{ color: 'var(--t-muted)' }}>
                   Since {sinceDate}
                 </p>
               </div>
@@ -249,10 +267,30 @@ export default function Home() {
         {/* EXPLORING MODE */}
         {isExploring && (
           <>
-            <div className="mb-12 pt-4 text-center">
-              <p className="text-sm mb-4 font-body" style={{ color: 'var(--t-muted)' }}>
+            {/* Greeting row with Anchor chip */}
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-sm font-body" style={{ color: 'var(--t-muted)' }}>
                 {getGreeting()}, {profile.first_name}.
               </p>
+              <button
+                onClick={() => navigate("/Anchor")}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 5,
+                  padding: '6px 10px',
+                  borderRadius: 999,
+                  backgroundColor: 'var(--t-accent-bg)',
+                  border: '1px solid var(--t-accent)',
+                  color: 'var(--t-accent)',
+                  flexShrink: 0,
+                }}
+              >
+                <Anchor size={12} strokeWidth={1.5} />
+                <span style={{ fontSize: 12, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>Anchor</span>
+              </button>
+            </div>
+            <div className="mb-8 pt-2 text-center">
               <div className="max-w-sm mx-auto">
                 <p className="font-display text-5xl font-medium leading-tight mb-3" style={{ color: 'var(--t-text)', letterSpacing: '-0.02em', fontFamily: "'Playfair Display', serif" }}>
                   {getDailyHeadline()}
@@ -263,13 +301,13 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mb-10 pt-10 pb-6 flex justify-center">
+            <div className="mb-5 flex justify-center">
               <div className="w-full max-w-xs">
                 <MoodCheckin bare />
               </div>
             </div>
 
-            <div className="mb-12 flex justify-center">
+            <div className="mb-5 flex justify-center">
               <div className="w-full max-w-xs">
                 <TodaysMoment />
               </div>
@@ -277,7 +315,7 @@ export default function Home() {
 
             <button
               onClick={() => navigate(createPageUrl("NearMe"))}
-              className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-6 mt-8"
+              className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-4"
               style={{ backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)' }}
             >
               <p className="text-[10px] uppercase tracking-widest font-medium mb-2 text-center" style={{ color: 'var(--t-accent)' }}>
@@ -294,19 +332,19 @@ export default function Home() {
         {/* STREAK layout */}
         {!isExploring && (
           <>
-            <div className="mt-8 mb-8 flex justify-center">
+            <div className="mt-4 mb-4 flex justify-center">
               <div className="w-full max-w-xs">
                 <MoodCheckin />
               </div>
             </div>
-            <div className="mb-8 flex justify-center">
+            <div className="mb-4 flex justify-center">
               <div className="w-full max-w-xs">
                 <TodaysMoment />
               </div>
             </div>
-            <div className="flex gap-3 justify-center">
+            <div className="flex gap-3 justify-center mb-4">
               <StatCard label="Time" value={getYearsMonths()} />
-<StatCard label="NYC Spots" value={String(spotsCount)} sublabel="places" />
+              <StatCard label="NYC Spots" value={String(spotsCount)} sublabel="places" />
             </div>
           </>
         )}
@@ -320,6 +358,31 @@ export default function Home() {
           />
         </div>
       )}
+
+      {/* Evening Reflection pill — always above bottom nav */}
+      <div className="px-6 max-w-lg mx-auto mb-4">
+        <button
+          onClick={() => navigate("/Reflection")}
+          style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '12px 14px',
+            borderRadius: 999,
+            backgroundColor: 'transparent',
+            border: '1px solid var(--t-border)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Sparkles size={12} strokeWidth={1.5} style={{ color: 'var(--t-accent)', flexShrink: 0 }} />
+            <span style={{ fontSize: 13, color: 'var(--t-muted)', fontFamily: "'DM Sans', sans-serif" }}>
+              Tonight's reflection · 1 minute
+            </span>
+          </div>
+          <ChevronRight size={12} strokeWidth={1.5} style={{ color: 'var(--t-muted)', flexShrink: 0 }} />
+        </button>
+      </div>
 
       <BottomNav />
     </div>

@@ -56,6 +56,9 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Profile from './pages/Profile';
 import TermsOfService from './pages/TermsOfService';
 import Auth from './pages/Auth';
+import Tracker from './pages/Tracker';
+import MoodScale from './pages/MoodScale';
+import SpotsV2 from './pages/SpotsV2';
 import __Layout from './Layout.jsx';
 
 
@@ -69,6 +72,9 @@ export const PAGES = {
     "Profile": Profile,
     "TermsOfService": TermsOfService,
     "Auth": Auth,
+    "Tracker": Tracker,
+    "MoodScale": MoodScale,
+    "SpotsV2": SpotsV2,
 }
 
 export const pagesConfig = {

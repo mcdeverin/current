@@ -8,6 +8,9 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import OfflineBanner from '@/components/current/OfflineBanner';
+import Tracker from './pages/Tracker';
+import MoodScale from './pages/MoodScale';
+import SpotsV2 from './pages/SpotsV2';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -76,23 +79,30 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      <Route path="/" element={
-        <LayoutWrapper currentPageName={mainPageKey}>
-          <MainPage />
-        </LayoutWrapper>
-      } />
-      {Object.entries(Pages).map(([path, Page]) => (
-        <Route
-          key={path}
-          path={`/${path}`}
-          element={
-            <LayoutWrapper currentPageName={path}>
-              <Page />
-            </LayoutWrapper>
-          }
-        />
-      ))}
-      <Route path="*" element={<PageNotFound />} />
+    <Route path="/" element={
+      <LayoutWrapper currentPageName={mainPageKey}>
+        <MainPage />
+      </LayoutWrapper>
+    } />
+    {Object.entries(Pages).map(([path, Page]) => (
+      <Route
+        key={path}
+        path={`/${path}`}
+        element={
+          <LayoutWrapper currentPageName={path}>
+            <Page />
+          </LayoutWrapper>
+        }
+      />
+    ))}
+    {/* New design refinement routes */}
+    <Route path="/Tracker" element={<LayoutWrapper currentPageName="Tracker"><Tracker /></LayoutWrapper>} />
+    <Route path="/MoodScale" element={<LayoutWrapper currentPageName="MoodScale"><MoodScale /></LayoutWrapper>} />
+    <Route path="/SpotsV2" element={<LayoutWrapper currentPageName="SpotsV2"><SpotsV2 /></LayoutWrapper>} />
+    {/* Stub routes for entry points referenced in Home */}
+    <Route path="/Anchor" element={<LayoutWrapper currentPageName="Home"><MainPage /></LayoutWrapper>} />
+    <Route path="/Reflection" element={<LayoutWrapper currentPageName="Home"><MainPage /></LayoutWrapper>} />
+    <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 };
