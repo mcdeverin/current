@@ -211,7 +211,6 @@ export default function SpotsV2() {
   const [cityFilter, setCityFilter] = useState("NYC");
   const [filter, setFilter] = useState("All");
   const [openNow, setOpenNow] = useState(false);
-  const [tonight, setTonight] = useState(false);
   const [viewMode, setViewMode] = useState("list"); // "list" | "map"
   const [showSuggest, setShowSuggest] = useState(false);
   const [suggestName, setSuggestName] = useState("");
@@ -255,10 +254,8 @@ export default function SpotsV2() {
         ? getDistanceMi(userLocation.lat, userLocation.lon, p.latitude, p.longitude)
         : null,
       _isOpen: isPlaceOpenNow(p),
-      _isTonight: isOpenTonight(p),
     }))
     .filter(p => !openNow || p._isOpen)
-    .filter(p => !tonight || p._isTonight)
     .sort((a, b) => {
       if (a._distance != null && b._distance != null) return a._distance - b._distance;
       return 0;
@@ -407,7 +404,7 @@ export default function SpotsV2() {
 
             {/* Open now */}
             <button
-              onClick={() => { setOpenNow(v => !v); if (!openNow) setTonight(false); }}
+              onClick={() => setOpenNow(v => !v)}
               style={{
                 padding: "4px 12px",
                 borderRadius: 999,
@@ -421,24 +418,6 @@ export default function SpotsV2() {
               }}
             >
               Open now
-            </button>
-
-            {/* Tonight */}
-            <button
-              onClick={() => { setTonight(v => !v); if (!tonight) setOpenNow(false); }}
-              style={{
-                padding: "4px 12px",
-                borderRadius: 999,
-                fontSize: 11,
-                fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 500,
-                transition: "all 0.15s ease",
-                ...(tonight
-                  ? { backgroundColor: "var(--t-accent)", color: "var(--t-bg)", border: "1px solid var(--t-accent)" }
-                  : { backgroundColor: "transparent", color: "var(--t-muted)", border: "1px solid var(--t-border)" }),
-              }}
-            >
-              Tonight
             </button>
           </div>
 
