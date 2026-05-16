@@ -6,14 +6,13 @@ import { AnimatePresence } from "framer-motion";
 import { scheduleDailyReminder } from "@/lib/notifications";
 import PullToRefresh from "../components/current/PullToRefresh";
 import StreakRing from "../components/current/StreakRing";
-import StatCard from "../components/current/StatCard";
 import BottomNav from "../components/current/BottomNav";
 import MilestoneOverlay from "../components/current/MilestoneOverlay";
 import ExploringNudge from "../components/current/ExploringNudge";
 import TodaysMoment from "../components/current/TodaysMoment";
 import MoodCheckin from "../components/current/MoodCheckin";
 import { getDaysSince, isMilestoneDay } from "../components/current/milestoneData";
-import { Anchor, Sparkles, ChevronRight } from "lucide-react";
+import { Sparkles, ChevronRight } from "lucide-react";
 
 function getGreeting() {
   const h = new Date().getHours();
@@ -227,31 +226,8 @@ export default function Home() {
         {/* STREAK MODE */}
         {!isExploring && (
           <>
-            {/* Greeting row with Anchor chip */}
-            <div className="flex items-center justify-between mb-6">
-              <p className="font-display text-xl" style={{ color: 'var(--t-text)' }}>
-                {getGreeting()}, {profile.first_name}.
-              </p>
-              <button
-                onClick={() => navigate("/Anchor")}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 5,
-                  padding: '6px 10px',
-                  borderRadius: 999,
-                  backgroundColor: 'var(--t-accent-bg)',
-                  border: '1px solid var(--t-accent)',
-                  color: 'var(--t-accent)',
-                  flexShrink: 0,
-                }}
-              >
-                <Anchor size={12} strokeWidth={1.5} />
-                <span style={{ fontSize: 12, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>Anchor</span>
-              </button>
-            </div>
             {days != null && (
-              <div className="flex flex-col items-center mb-4">
+              <div className="flex flex-col items-center mb-2">
                 <StreakRing days={days} />
                 <p className="text-xs mt-3 font-medium" style={{ color: 'var(--t-text)' }}>
                   {getClearDayText(days)}
@@ -267,28 +243,10 @@ export default function Home() {
         {/* EXPLORING MODE */}
         {isExploring && (
           <>
-            {/* Greeting row with Anchor chip */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center mb-6">
               <p className="text-sm font-body" style={{ color: 'var(--t-muted)' }}>
                 {getGreeting()}, {profile.first_name}.
               </p>
-              <button
-                onClick={() => navigate("/Anchor")}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 5,
-                  padding: '6px 10px',
-                  borderRadius: 999,
-                  backgroundColor: 'var(--t-accent-bg)',
-                  border: '1px solid var(--t-accent)',
-                  color: 'var(--t-accent)',
-                  flexShrink: 0,
-                }}
-              >
-                <Anchor size={12} strokeWidth={1.5} />
-                <span style={{ fontSize: 12, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>Anchor</span>
-              </button>
             </div>
             <div className="mb-8 pt-2 text-center">
               <div className="max-w-sm mx-auto">
@@ -332,7 +290,7 @@ export default function Home() {
         {/* STREAK layout */}
         {!isExploring && (
           <>
-            <div className="mt-4 mb-4 flex justify-center">
+            <div className="mt-5 mb-4 flex justify-center">
               <div className="w-full max-w-xs">
                 <MoodCheckin />
               </div>
@@ -341,10 +299,6 @@ export default function Home() {
               <div className="w-full max-w-xs">
                 <TodaysMoment />
               </div>
-            </div>
-            <div className="flex gap-3 justify-center mb-4">
-              <StatCard label="Time" value={getYearsMonths()} />
-              <StatCard label="NYC Spots" value={String(spotsCount)} sublabel="places" />
             </div>
           </>
         )}

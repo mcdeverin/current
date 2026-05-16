@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { hapticLight } from "@/lib/haptics";
 
 const MOODS = [
-  { label: "Feeling steady", response: "That's worth something." },
+  { label: "Steady", response: "That's worth something." },
   { label: "Getting by", response: "You're showing up. That counts." },
-  { label: "Today's tough", response: "Still here. That matters." },
+  { label: "Tough", response: "Still here. That matters." },
 ];
 
 function getLocalDateString() {
@@ -59,28 +59,44 @@ export default function MoodCheckin({ bare = false }) {
   }
 
   return (
-    <div className="rounded-xl p-5 text-center" style={{ backgroundColor: 'var(--t-card)' }}>
-      <p className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: '#6F8FA4' }}>
+    <div style={{ paddingTop: 4 }}>
+      <p
+        style={{
+          fontFamily: "'JetBrains Mono', 'Courier New', monospace",
+          fontSize: 9.5,
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+          color: "var(--t-accent)",
+          marginBottom: 10,
+        }}
+      >
         How are you right now?
       </p>
       {!selected ? (
-        <div className="flex gap-2">
+        <div style={{ display: "flex", gap: 8 }}>
           {MOODS.map(({ label }) => (
             <button
               key={label}
               onClick={() => handleSelect(label)}
-              className="flex-1 py-2.5 rounded-lg text-xs font-medium transition-all border"
-              style={selected === label
-                ? { backgroundColor: '#6E8FA3', color: '#ffffff', borderColor: '#6E8FA3' }
-                : { backgroundColor: '#ffffff', color: '#4F6775', borderColor: '#A8BCC8' }}
+              style={{
+                padding: "6px 14px",
+                borderRadius: 999,
+                fontSize: 12,
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 500,
+                border: "1px solid var(--t-border)",
+                backgroundColor: "var(--t-card)",
+                color: "var(--t-muted)",
+                transition: "all 0.15s ease",
+              }}
             >
               {label}
             </button>
           ))}
         </div>
       ) : (
-        <p className="font-display text-base italic leading-relaxed" style={{ color: 'var(--t-text-warm)' }}>
-          "{response}"
+        <p className="font-display italic" style={{ fontSize: 14, color: "var(--t-text)" }}>
+          {response}
         </p>
       )}
     </div>

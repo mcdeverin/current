@@ -179,28 +179,16 @@ export default function MoodScale() {
         className="mx-auto px-6"
         style={{ maxWidth: 380 }}
       >
-        {/* Eyebrow */}
+        {/* Display answer — large heading */}
         <p
+          className="font-display text-center"
           style={{
-            fontFamily: "'JetBrains Mono', 'Courier New', monospace",
-            fontSize: 10,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "#6F8FA4",
-            marginBottom: 10,
-          }}
-        >
-          How are you right now?
-        </p>
-
-        {/* Display answer */}
-        <p
-          className="font-display"
-          style={{
-            fontSize: 26,
+            fontSize: 34,
+            fontWeight: 500,
             color: "var(--t-text)",
-            marginBottom: 32,
-            lineHeight: 1.2,
+            marginBottom: 28,
+            lineHeight: 1.15,
+            letterSpacing: "-0.01em",
           }}
         >
           {getDisplayAnswer(selectedIdx)}

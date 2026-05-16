@@ -49,11 +49,7 @@ export default function Tracker() {
 
   const next = getNextMilestone(days);
 
-  // Build the written-out number for the closing line
-  const closingDays = days;
-  // Simple number-to-words for the closing quote (just use the milestone quote logic)
-  const closingLine =
-    "Three hundred and sixty-five choices.\nAll of them yours.";
+  const closingLine = `${days} ${days === 1 ? "choice" : "choices"}.\nAll of them yours.`;
 
   return (
     <div
@@ -87,10 +83,10 @@ export default function Tracker() {
         <div
           className="w-full flex items-center justify-between"
           style={{
-            marginTop: 30,
-            padding: "14px 18px",
-            borderRadius: 12,
-            backgroundColor: "var(--t-card-alt)",
+            marginTop: 28,
+            padding: "16px 20px",
+            borderRadius: 14,
+            backgroundColor: "var(--t-card)",
             border: "1px solid var(--t-border)",
           }}
         >
@@ -98,34 +94,35 @@ export default function Tracker() {
             <p
               style={{
                 fontFamily: "'JetBrains Mono', 'Courier New', monospace",
-                fontSize: 9.5,
+                fontSize: 9,
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
                 color: "var(--t-accent)",
-                marginBottom: 4,
+                marginBottom: 6,
               }}
             >
               Next milestone
             </p>
             <p
               className="font-display"
-              style={{ fontSize: 17, color: "var(--t-text)" }}
+              style={{ fontSize: 18, color: "var(--t-text)", lineHeight: 1.2 }}
             >
-              {next.label} · in {next.daysLeft} {next.daysLeft === 1 ? "day" : "days"}
+              {next.label} — in {next.daysLeft} {next.daysLeft === 1 ? "day" : "days"}
             </p>
           </div>
           <div
             className="flex items-center justify-center flex-shrink-0"
             style={{
-              width: 50,
-              height: 50,
+              width: 44,
+              height: 44,
               borderRadius: "50%",
-              border: "1.5px solid var(--t-accent)",
+              border: "1.5px solid var(--t-border)",
+              marginLeft: 12,
             }}
           >
             <span
               className="font-display"
-              style={{ fontSize: 17, color: "var(--t-accent)" }}
+              style={{ fontSize: 18, color: "var(--t-text)" }}
             >
               {next.daysLeft}
             </span>
