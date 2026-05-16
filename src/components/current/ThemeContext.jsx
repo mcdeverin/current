@@ -42,22 +42,12 @@ export function ThemeProvider({ children }) {
     try {
       const saved = localStorage.getItem('current-theme');
       if (saved === 'light') return false;
-      if (saved === 'dark') return true;
-      // No manual override — use system preference
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+      // Default to dark unless user explicitly chose light
+      return true;
     } catch { return true; }
   });
 
-  // Listen for system preference changes (only when no manual override is set)
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = (e) => {
-      const saved = localStorage.getItem('current-theme');
-      if (!saved) setIsDark(e.matches);
-    };
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
+
 
   const toggleTheme = () => {
     setIsDark(v => {
