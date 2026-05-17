@@ -67,9 +67,9 @@ export default function Tracker() {
         {sinceDate && (
           <p
             style={{
-              fontFamily: "'JetBrains Mono', 'Courier New', monospace",
-              fontSize: 11,
-              letterSpacing: "0.2em",
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 10,
+              letterSpacing: "0.22em",
               textTransform: "uppercase",
               color: "var(--t-muted)",
               marginTop: 14,
@@ -93,9 +93,9 @@ export default function Tracker() {
           <div>
             <p
               style={{
-                fontFamily: "'JetBrains Mono', 'Courier New', monospace",
+                fontFamily: "'DM Sans', sans-serif",
                 fontSize: 9,
-                letterSpacing: "0.18em",
+                letterSpacing: "0.2em",
                 textTransform: "uppercase",
                 color: "var(--t-accent)",
                 marginBottom: 6,

@@ -86,9 +86,9 @@ function MoodWave({ points }) {
       <div className="flex items-center justify-between mb-3">
         <span
           style={{
-            fontFamily: "'JetBrains Mono', 'Courier New', monospace",
+            fontFamily: "'DM Sans', sans-serif",
             fontSize: 9.5,
-            letterSpacing: "0.18em",
+            letterSpacing: "0.22em",
             textTransform: "uppercase",
             color: "var(--t-accent)",
           }}

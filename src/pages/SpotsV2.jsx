@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { Plus, Check, List, MapPin } from "lucide-react";
+import { Plus, Check } from "lucide-react";
 import { Geolocation } from "@capacitor/geolocation";
 import BottomNav from "../components/current/BottomNav";
 import PullToRefresh from "../components/current/PullToRefresh";
@@ -211,7 +211,6 @@ export default function SpotsV2() {
   const [cityFilter, setCityFilter] = useState("NYC");
   const [filter, setFilter] = useState("All");
   const [openNow, setOpenNow] = useState(false);
-  const [viewMode, setViewMode] = useState("list"); // "list" | "map"
   const [showSuggest, setShowSuggest] = useState(false);
   const [suggestName, setSuggestName] = useState("");
   const [suggestNeighborhood, setSuggestNeighborhood] = useState("");
@@ -247,7 +246,8 @@ export default function SpotsV2() {
   };
 
   const filtered = places
-    .filter(p => filter === "All" || p.type === filter)
+    .filter(p => filter === "All" || filter === "tonight" || p.type === filter)
+    .filter(p => filter !== "tonight" || isOpenTonight(p))
     .map(p => ({
       ...p,
       _distance: (userLocation && p.latitude && p.longitude)
@@ -328,65 +328,25 @@ export default function SpotsV2() {
           className="px-6"
           style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 72px)", paddingBottom: 12 }}
         >
-          <div className="flex items-center justify-between mb-3">
+          <div className="mb-3">
             <h1
               className="font-display"
               style={{ fontSize: 24, fontWeight: 500, color: "var(--t-text)" }}
             >
               Spots
             </h1>
-
-            {/* List / Map toggle */}
-            <div
-              style={{
-                display: "flex",
-                gap: 3,
-                padding: 3,
-                borderRadius: 999,
-                backgroundColor: "var(--t-card)",
-                border: "1px solid var(--t-border)",
-              }}
-            >
-              {[
-                { id: "list", icon: <List size={11} />, label: "List" },
-                { id: "map", icon: <MapPin size={11} />, label: "Map" },
-              ].map(tab => (
-                <button
-                  key={tab.id}
-                  onClick={() => setViewMode(tab.id)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 4,
-                    padding: "4px 10px",
-                    borderRadius: 999,
-                    fontSize: 11,
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontWeight: 500,
-                    transition: "all 0.15s ease",
-                    ...(viewMode === tab.id
-                      ? { backgroundColor: "var(--t-accent)", color: "var(--t-bg)" }
-                      : { backgroundColor: "transparent", color: "var(--t-muted)" }),
-                  }}
-                >
-                  {tab.icon}
-                  {tab.label}
-                </button>
-              ))}
-            </div>
           </div>
 
-          {/* Filter row */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-            {/* City pills */}
+          {/* Single filter row: city | open now | tonight */}
+          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
             {["NYC", "LA"].map(city => (
               <button
                 key={city}
                 onClick={() => setCityFilter(city)}
                 style={{
-                  padding: "4px 12px",
+                  padding: "5px 14px",
                   borderRadius: 999,
-                  fontSize: 11,
+                  fontSize: 12,
                   fontFamily: "'DM Sans', sans-serif",
                   fontWeight: 500,
                   transition: "all 0.15s ease",
@@ -399,16 +359,12 @@ export default function SpotsV2() {
               </button>
             ))}
 
-            {/* Divider */}
-            <div style={{ width: 1, height: "calc(100% - 8px)", backgroundColor: "var(--t-border)", alignSelf: "stretch", margin: "4px 0" }} />
-
-            {/* Open now */}
             <button
               onClick={() => setOpenNow(v => !v)}
               style={{
-                padding: "4px 12px",
+                padding: "5px 14px",
                 borderRadius: 999,
-                fontSize: 11,
+                fontSize: 12,
                 fontFamily: "'DM Sans', sans-serif",
                 fontWeight: 500,
                 transition: "all 0.15s ease",
@@ -419,78 +375,28 @@ export default function SpotsV2() {
             >
               Open now
             </button>
-          </div>
 
-          {/* Category chips */}
-          <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 2, scrollbarWidth: "none" }}>
-            {FILTER_CHIPS.map(chip => (
-              <button
-                key={chip}
-                onClick={() => setFilter(chip)}
-                style={{
-                  padding: "4px 12px",
-                  borderRadius: 999,
-                  fontSize: 11,
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontWeight: 500,
-                  whiteSpace: "nowrap",
-                  transition: "all 0.15s ease",
-                  ...(filter === chip
-                    ? { backgroundColor: "var(--t-accent)", color: "var(--t-bg)", border: "1px solid var(--t-accent)" }
-                    : { backgroundColor: "var(--t-card)", color: "var(--t-muted)", border: "1px solid var(--t-border)" }),
-                }}
-              >
-                {chip}
-              </button>
-            ))}
+            <button
+              onClick={() => setFilter(filter === "tonight" ? "All" : "tonight")}
+              style={{
+                padding: "5px 14px",
+                borderRadius: 999,
+                fontSize: 12,
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 500,
+                transition: "all 0.15s ease",
+                ...(filter === "tonight"
+                  ? { backgroundColor: "var(--t-accent)", color: "var(--t-bg)", border: "1px solid var(--t-accent)" }
+                  : { backgroundColor: "transparent", color: "var(--t-muted)", border: "1px solid var(--t-border)" }),
+              }}
+            >
+              Tonight
+            </button>
           </div>
         </div>
 
         {/* Content */}
-        {viewMode === "map" ? (
-          <div className="px-6">
-            {/* Map stub */}
-            <div
-              style={{
-                height: 360,
-                borderRadius: 12,
-                backgroundColor: "#0a0d14",
-                border: "1px solid var(--t-border)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              <p style={{ fontSize: 12, color: "var(--t-muted)", fontFamily: "'DM Sans', sans-serif" }}>
-                Map view — tap pins to explore
-              </p>
-              {/* Stub pins */}
-              {[
-                { top: "38%", left: "45%", label: "Hekate" },
-                { top: "55%", left: "58%", label: "Listen Bar" },
-                { top: "48%", left: "42%", label: "Mister Paradise" },
-              ].map(pin => (
-                <div
-                  key={pin.label}
-                  style={{
-                    position: "absolute",
-                    top: pin.top,
-                    left: pin.left,
-                    transform: "translate(-50%, -50%)",
-                    width: 10,
-                    height: 10,
-                    borderRadius: "50%",
-                    backgroundColor: "var(--t-accent)",
-                    boxShadow: "0 0 8px rgba(110,143,163,0.6)",
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="px-6 mt-1">
+        <div className="px-6 mt-1">
             {loadError ? (
               <div className="text-center py-16">
                 <p style={{ fontSize: 13, color: "var(--t-muted)", marginBottom: 8 }}>Couldn't load places.</p>
@@ -644,8 +550,7 @@ export default function SpotsV2() {
                 </div>
               )}
             </div>
-          </div>
-        )}
+        </div>
 
         <BottomNav />
       </div>
