@@ -328,6 +328,9 @@ export default function SpotsV2() {
           className="px-6"
           style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 72px)", paddingBottom: 12 }}
         >
+          <p style={{ fontSize: 12, fontFamily: "'Playfair Display', serif", color: "var(--t-muted)", marginBottom: 8, fontWeight: 400 }}>
+            current
+          </p>
           <div className="mb-3">
             <h1
               className="font-display"
