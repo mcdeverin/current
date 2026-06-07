@@ -16,6 +16,11 @@ import Reflection from './pages/Reflection';
 import Mocktails from './pages/Mocktails';
 import Letters from './pages/Letters';
 import Pause from './pages/Pause';
+import Anchor from './pages/Anchor';
+import Room from './pages/Room';
+import Presence from './pages/Presence';
+import Progress from './pages/Progress';
+import Budget from './pages/Budget';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -106,11 +111,15 @@ const AuthenticatedApp = () => {
     <Route path="/SpotsV2" element={<LayoutWrapper currentPageName="SpotsV2"><SpotsV2 /></LayoutWrapper>} />
     {/* Stub routes for entry points referenced in Home */}
     <Route path="/Settings" element={<LayoutWrapper currentPageName="Settings"><Settings /></LayoutWrapper>} />
-    <Route path="/Anchor" element={<LayoutWrapper currentPageName="Home"><MainPage /></LayoutWrapper>} />
+    <Route path="/Anchor" element={<Anchor />} />
     <Route path="/Reflection" element={<LayoutWrapper currentPageName="Reflection"><Reflection /></LayoutWrapper>} />
     <Route path="/Mocktails" element={<LayoutWrapper currentPageName="Mocktails"><Mocktails /></LayoutWrapper>} />
     <Route path="/Letters" element={<LayoutWrapper currentPageName="Letters"><Letters /></LayoutWrapper>} />
     <Route path="/Pause" element={<LayoutWrapper currentPageName="Pause"><Pause /></LayoutWrapper>} />
+    <Route path="/Room" element={<LayoutWrapper currentPageName="Room"><Room /></LayoutWrapper>} />
+    <Route path="/Presence" element={<LayoutWrapper currentPageName="Presence"><Presence /></LayoutWrapper>} />
+    <Route path="/Progress" element={<LayoutWrapper currentPageName="Progress"><Progress /></LayoutWrapper>} />
+    <Route path="/Budget" element={<LayoutWrapper currentPageName="Budget"><Budget /></LayoutWrapper>} />
     <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

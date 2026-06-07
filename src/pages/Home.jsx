@@ -13,7 +13,7 @@ import ExploringNudge from "../components/current/ExploringNudge";
 import TodaysMoment from "../components/current/TodaysMoment";
 import InlineMoodScale from "../components/current/InlineMoodScale";
 import { getDaysSince, isMilestoneDay } from "../components/current/milestoneData";
-import { Sparkles, ChevronRight } from "lucide-react";
+import { Sparkles, ChevronRight, Anchor as AnchorIcon } from "lucide-react";
 
 function getGreeting() {
   const h = new Date().getHours();
@@ -135,6 +135,14 @@ export default function Home() {
   const days = (!isExploring && profile.sobriety_date) ? getDaysSince(profile.sobriety_date) : null;
   const savingsRate = profile.daily_savings_rate || 15;
 
+  // Contextual pill logic
+  const hour = new Date().getHours();
+  const dow = new Date().getDay(); // 0=Sun … 6=Sat
+  const showReflectionPill = hour >= 19; // after 7pm
+  const showRoomPill = hour >= 6 && hour < 19; // daytime
+  const showMocktailsCard = dow === 4 || dow === 5 || dow === 6 || hour >= 17; // Thu/Fri/Sat or after 5pm
+  const showAnchorButton = profile.anchor_button_enabled !== false;
+
   const handleShareMilestone = async () => {
     try {
       const text = `${days} days. Current.`;
@@ -221,36 +229,90 @@ export default function Home() {
           )}
         </div>
 
-        {/* ── PERSISTENT PILLS ──────────────────────────────────────── */}
-        <div className="px-6 max-w-lg mx-auto mb-3">
-          <button
-            onClick={() => navigate("/Reflection")}
-            style={{
-              width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '12px 14px', borderRadius: 999, backgroundColor: 'transparent', border: '1px solid var(--t-border)',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Sparkles size={12} strokeWidth={1.5} style={{ color: 'var(--t-accent)', flexShrink: 0 }} />
-              <span style={{ fontSize: 13, color: 'var(--t-muted)', fontFamily: "'DM Sans', sans-serif" }}>
-                Tonight's reflection · 1 minute
-              </span>
-            </div>
-            <ChevronRight size={12} strokeWidth={1.5} style={{ color: 'var(--t-muted)', flexShrink: 0 }} />
-          </button>
+        {/* ── CONTEXTUAL PILLS ──────────────────────────────────────── */}
+        <div className="px-6 max-w-lg mx-auto space-y-2 mb-4">
+
+          {/* Tonight's Reflection — after 7pm */}
+          {showReflectionPill && (
+            <button
+              onClick={() => navigate("/Reflection")}
+              style={{
+                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '12px 14px', borderRadius: 999, backgroundColor: 'transparent', border: '1px solid var(--t-border)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Sparkles size={12} strokeWidth={1.5} style={{ color: 'var(--t-accent)', flexShrink: 0 }} />
+                <span style={{ fontSize: 13, color: 'var(--t-muted)', fontFamily: "'DM Sans', sans-serif" }}>
+                  Tonight's reflection · 1 minute
+                </span>
+              </div>
+              <ChevronRight size={12} strokeWidth={1.5} style={{ color: 'var(--t-muted)', flexShrink: 0 }} />
+            </button>
+          )}
+
+          {/* The Room — daytime */}
+          {showRoomPill && (
+            <button
+              onClick={() => navigate("/Room")}
+              style={{
+                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '12px 14px', borderRadius: 999, backgroundColor: 'transparent', border: '1px solid var(--t-border)',
+              }}
+            >
+              <span style={{ fontSize: 13, color: 'var(--t-muted)', fontFamily: "'DM Sans', sans-serif" }}>Today's prompt · The Room</span>
+              <ChevronRight size={12} strokeWidth={1.5} style={{ color: 'var(--t-muted)', flexShrink: 0 }} />
+            </button>
+          )}
+
+          {/* Going out? — Thu/Fri/Sat or after 5pm */}
+          {showMocktailsCard && (
+            <button
+              onClick={() => navigate("/Mocktails")}
+              style={{
+                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '12px 14px', borderRadius: 12, backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)',
+              }}
+            >
+              <div style={{ textAlign: 'left' }}>
+                <p style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 500, color: 'var(--t-accent)', marginBottom: 2, fontFamily: "'DM Sans', sans-serif" }}>Going out tonight?</p>
+                <p style={{ fontSize: 13, color: 'var(--t-muted)', fontFamily: "'DM Sans', sans-serif" }}>Mocktails · bar & home kit</p>
+              </div>
+              <ChevronRight size={13} strokeWidth={1.5} style={{ color: 'var(--t-muted)', flexShrink: 0 }} />
+            </button>
+          )}
         </div>
 
-        <div className="px-6 max-w-lg mx-auto mb-4">
+        {/* ── FLOATING ANCHOR BUTTON ────────────────────────────────── */}
+        {showAnchorButton && (
           <button
+            onClick={() => navigate("/Anchor")}
             style={{
-              width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '12px 14px', borderRadius: 999, backgroundColor: 'transparent', border: '1px solid var(--t-border)',
+              position: 'fixed',
+              bottom: 'calc(env(safe-area-inset-bottom, 0px) + 72px)',
+              right: 20,
+              width: 56,
+              height: 56,
+              borderRadius: '50%',
+              backgroundColor: 'var(--t-accent-bg)',
+              border: '1px solid var(--t-accent)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 40,
+              animation: 'anchorPulse 4s ease-in-out infinite',
             }}
           >
-            <span style={{ fontSize: 13, color: 'var(--t-muted)', fontFamily: "'DM Sans', sans-serif" }}>Take a breath</span>
-            <ChevronRight size={12} strokeWidth={1.5} style={{ color: 'var(--t-muted)', flexShrink: 0 }} />
+            <AnchorIcon size={20} strokeWidth={1.5} style={{ color: 'var(--t-accent)' }} />
           </button>
-        </div>
+        )}
+
+        <style>{`
+          @keyframes anchorPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(111,143,164,0.3); }
+            50% { box-shadow: 0 0 0 8px rgba(111,143,164,0); }
+          }
+        `}</style>
 
         <BottomNav />
       </div>
