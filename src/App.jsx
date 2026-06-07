@@ -11,6 +11,7 @@ import OfflineBanner from '@/components/current/OfflineBanner';
 import Tracker from './pages/Tracker';
 import MoodScale from './pages/MoodScale';
 import SpotsV2 from './pages/SpotsV2';
+import Settings from './pages/Settings';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -100,6 +101,7 @@ const AuthenticatedApp = () => {
     <Route path="/MoodScale" element={<LayoutWrapper currentPageName="MoodScale"><MoodScale /></LayoutWrapper>} />
     <Route path="/SpotsV2" element={<LayoutWrapper currentPageName="SpotsV2"><SpotsV2 /></LayoutWrapper>} />
     {/* Stub routes for entry points referenced in Home */}
+    <Route path="/Settings" element={<LayoutWrapper currentPageName="Settings"><Settings /></LayoutWrapper>} />
     <Route path="/Anchor" element={<LayoutWrapper currentPageName="Home"><MainPage /></LayoutWrapper>} />
     <Route path="/Reflection" element={<LayoutWrapper currentPageName="Home"><MainPage /></LayoutWrapper>} />
     <Route path="*" element={<PageNotFound />} />

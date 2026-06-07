@@ -1,50 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { ChevronRight, Sun, Moon } from "lucide-react";
-import DatePickerDrawer from "../components/current/DatePickerDrawer";
+import { useNavigate } from "react-router-dom";
+import { ChevronRight, Settings } from "lucide-react";
 import { useTheme } from "../components/current/ThemeContext";
 import BottomNav from "../components/current/BottomNav";
 import { getDaysSince } from "../components/current/milestoneData";
 import JourneySection from "../components/current/JourneySection.jsx";
 import { hapticLight } from "@/lib/haptics";
-import { authenticateWithBiometrics } from "@/lib/biometrics";
-import { takeProfilePhoto } from "@/lib/camera";
 import { Capacitor } from "@capacitor/core";
+import { takeProfilePhoto } from "@/lib/camera";
 
 export default function Profile() {
+  const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isGuest, setIsGuest] = useState(false);
-  const [editing, setEditing] = useState(null);
-  const [editValue, setEditValue] = useState("");
-  const [dateDrawerOpen, setDateDrawerOpen] = useState(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [deleting, setDeleting] = useState(false);
-  const { isDark, toggleTheme: rawToggleTheme } = useTheme();
-  const toggleTheme = () => { hapticLight(); rawToggleTheme(); };
 
-  useEffect(() => {
-    loadProfile();
-  }, []);
+  useEffect(() => { loadProfile(); }, []);
 
   const loadProfile = async () => {
     try {
       const isAuth = await base44.auth.isAuthenticated();
-      if (!isAuth) {
-        setIsGuest(true);
-        setLoading(false);
-        return;
-      }
-
+      if (!isAuth) { setIsGuest(true); setLoading(false); return; }
       const profiles = await base44.entities.UserProfile.list();
       if (profiles.length > 0) {
-        const p = profiles[0];
-        setProfile(p);
-        const params = new URLSearchParams(window.location.search);
-        if (params.get("setDate") === "true") {
-          setEditing("date");
-          setEditValue("");
-        }
+        setProfile(profiles[0]);
       } else {
         base44.auth.redirectToLogin(window.location.href);
       }
@@ -56,56 +36,17 @@ export default function Profile() {
     }
   };
 
-  const saveField = async (field, value) => {
-    if (!profile) return;
-    setProfile(prev => ({ ...prev, [field]: value }));
-    setEditing(null);
-    try {
-      await base44.entities.UserProfile.update(profile.id, { [field]: value });
-    } catch (err) {
-      console.error("saveField error:", err);
-    }
-  };
-
-  const handleDeleteAccount = async () => {
-    setDeleting(true);
-    try {
-      if (profile) {
-        await base44.entities.UserProfile.delete(profile.id);
-      }
-      base44.auth.logout();
-    } catch (err) {
-      console.error("handleDeleteAccount error:", err);
-      setDeleting(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--t-bg)' }}>
-        <BottomNav />
-      </div>
-    );
-  }
+  if (loading) return <div className="min-h-screen" style={{ backgroundColor: 'var(--t-bg)' }}><BottomNav /></div>;
 
   // ── GUEST MODE ───────────────────────────────────────────────────────────────
   if (isGuest) {
     return (
       <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
         <div className="px-6 pb-8 max-w-lg mx-auto relative" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 72px)' }}>
-          <button
-            onClick={toggleTheme}
-            className="absolute right-6 flex items-center gap-1.5 px-3 py-1.5 rounded-full border"
-            style={{ top: 'calc(env(safe-area-inset-top, 0px) + 72px)', borderColor: 'var(--t-border)', backgroundColor: 'var(--t-card)' }}
-          >
-            {isDark ? <Moon size={13} style={{ color: 'var(--t-muted)' }} /> : <Sun size={13} style={{ color: 'var(--t-muted)' }} />}
-            <span className="text-xs" style={{ color: 'var(--t-muted)' }}>{isDark ? 'Dark' : 'Light'}</span>
-          </button>
-          <h1 className="font-display text-2xl font-medium mb-2" style={{ color: 'var(--t-text)' }}>You</h1>
+          <h1 className="font-display text-2xl font-medium mb-2" style={{ color: 'var(--t-text)' }}>Mine</h1>
           <p className="text-sm mb-12" style={{ color: 'var(--t-muted)' }}>
             Sign in to track your streak, save your reason, and personalize your experience.
           </p>
-
           <button
             onClick={() => base44.auth.redirectToLogin(window.location.href)}
             className="w-full py-3.5 rounded-xl text-sm font-medium mb-3"
@@ -121,10 +62,8 @@ export default function Profile() {
             <span className="text-sm">Create an account</span>
             <ChevronRight size={14} style={{ color: 'var(--t-accent)' }} />
           </button>
-
-          <div className="mt-12 pt-6 flex flex-col gap-3">
+          <div className="mt-12 pt-6">
             <a href="mailto:hello@currentapp.studio" className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>Contact</a>
-
           </div>
         </div>
         <BottomNav />
@@ -139,28 +78,33 @@ export default function Profile() {
     ? new Date(profile.sobriety_date + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
     : null;
 
+  // Placeholder counts — will be wired in later sections
+  const savedTotal = days != null ? days * (profile.daily_savings_rate || 15) : 0;
+
   return (
     <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--t-bg)' }}>
-      {/* Header */}
-      <div className="px-6 pb-8 relative" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 72px)' }}>
+      {/* Header row */}
+      <div className="px-6 relative" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 72px)', paddingBottom: '4px' }}>
+        {/* Gear icon */}
         <button
-          onClick={toggleTheme}
-          className="absolute right-6 flex items-center gap-1.5 px-3 py-1.5 rounded-full border"
-          style={{ top: 'calc(env(safe-area-inset-top, 0px) + 72px)', borderColor: 'var(--t-border)', backgroundColor: 'var(--t-card)' }}
+          onClick={() => { hapticLight(); navigate("/Settings"); }}
+          className="absolute right-6"
+          style={{ top: 'calc(env(safe-area-inset-top, 0px) + 76px)' }}
         >
-          {isDark ? <Moon size={13} style={{ color: 'var(--t-muted)' }} /> : <Sun size={13} style={{ color: 'var(--t-muted)' }} />}
-          <span className="text-xs" style={{ color: 'var(--t-muted)' }}>{isDark ? 'Dark' : 'Light'}</span>
+          <Settings size={18} strokeWidth={1.5} style={{ color: 'var(--t-muted)' }} />
         </button>
-        {/* Profile Photo */}
+
+        {/* Profile photo (native only) */}
         {Capacitor.isNativePlatform() && (
           <button
             onClick={async () => {
               const dataUrl = await takeProfilePhoto();
               if (dataUrl) {
-                saveField("profile_photo", dataUrl);
+                await base44.entities.UserProfile.update(profile.id, { profile_photo: dataUrl });
+                setProfile(prev => ({ ...prev, profile_photo: dataUrl }));
               }
             }}
-            className="w-16 h-16 rounded-full mb-3 flex items-center justify-center overflow-hidden border-2"
+            className="w-14 h-14 rounded-full mb-3 flex items-center justify-center overflow-hidden border"
             style={{ borderColor: 'var(--t-border)', backgroundColor: 'var(--t-card)' }}
           >
             {profile.profile_photo ? (
@@ -172,166 +116,71 @@ export default function Profile() {
             )}
           </button>
         )}
-        <h1 className="font-display text-2xl font-medium" style={{ color: 'var(--t-text)' }}>{profile.first_name}</h1>
+
+        <h1 className="font-display text-3xl font-medium" style={{ color: 'var(--t-text)' }}>{profile.first_name}</h1>
         {!isExploring && sinceDate && <p className="text-xs mt-1" style={{ color: 'var(--t-muted)' }}>Since {sinceDate}</p>}
-        {isExploring && (
-          <p className="text-xs mt-1 font-medium" style={{ color: 'var(--t-accent)' }}>Exploring</p>
-        )}
+        {isExploring && <p className="text-xs mt-1 font-medium" style={{ color: 'var(--t-accent)' }}>Exploring</p>}
 
         {!isExploring && days != null && (
-          <div className="mt-8 flex items-baseline gap-2">
-            <span className="font-display text-6xl font-medium" style={{ color: 'var(--t-accent)' }}>{days}</span>
-            <span className="small-caps text-sm tracking-widest" style={{ color: 'var(--t-muted)' }}>days</span>
+          <div className="mt-6 flex items-baseline gap-2">
+            <span className="font-display text-6xl font-medium" style={{ color: 'var(--t-accent)', fontVariantNumeric: 'tabular-nums' }}>{days}</span>
+            <span className="text-[10px] uppercase tracking-widest font-medium" style={{ color: 'var(--t-muted)' }}>days</span>
           </div>
         )}
       </div>
 
-      {/* Settings */}
-      <div className="px-6">
-        {/* Sobriety Date — streak mode only */}
-        {!isExploring && (
-          <>
-            <SettingsItem
-              label="Start date"
-              value={sinceDate || "Not set"}
-              onTap={() => { setEditing("date"); setEditValue(profile.sobriety_date || ""); }}
+      {/* ── CONTENT CARDS ────────────────────────────────────────────── */}
+      <div className="px-6 mt-8 max-w-lg mx-auto">
+
+        {/* 2-col grid */}
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          {/* Presence */}
+          <ContentCard
+            onTap={() => { hapticLight(); navigate("/Presence"); }}
+            eyebrow="Presence"
+            headline={/* TODO: wire days_present */ "Your map"}
+            sub="A quiet map of when you showed up."
+          />
+
+          {/* Budget */}
+          {!isExploring && (
+            <ContentCard
+              onTap={() => { hapticLight(); navigate("/Budget"); }}
+              eyebrow="Saved"
+              headline={`$${savedTotal.toLocaleString()}`}
+              sub={`not spent, ${days} days.`}
+              headlineStyle={{ fontVariantNumeric: 'tabular-nums' }}
             />
-            {editing === "date" && (
-              <EditPanel>
-                <button
-                  onClick={() => setDateDrawerOpen(true)}
-                  className="w-full text-left border-b pb-2 text-sm focus:outline-none"
-                  style={{ borderColor: 'var(--t-border)', color: editValue ? 'var(--t-text)' : 'var(--t-muted)' }}
-                >
-                  {editValue
-                    ? (() => { const [y,m,d] = editValue.split("-").map(Number); return new Date(y,m-1,d).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }); })()
-                    : "Tap to select a date"}
-                </button>
-                <DatePickerDrawer
-                  open={dateDrawerOpen}
-                  onClose={() => setDateDrawerOpen(false)}
-                  value={editValue}
-                  onSelect={setEditValue}
-                />
-                <EditActions
-                  onCancel={() => setEditing(null)}
-                  onSave={() => saveField("sobriety_date", editValue)}
-                />
-              </EditPanel>
-            )}
-          </>
-        )}
+          )}
 
-        {/* Why I Started */}
-        <SettingsItem
-          label="What brought me here"
-          value={profile.why_i_started ? "Written" : "Add your reason"}
-          onTap={async () => {
-            if (profile.why_i_started) {
-              const ok = await authenticateWithBiometrics("View your private note");
-              if (!ok) return;
-            }
-            setEditing("why");
-            setEditValue(profile.why_i_started || "");
-          }}
-        />
-        {editing === "why" && (
-          <EditPanel>
-            <textarea
-              value={editValue}
-              onChange={e => setEditValue(e.target.value)}
-              placeholder="This is private. Only you can see this."
-              rows={4}
-              className="w-full text-sm bg-transparent border rounded-lg p-3 focus:outline-none resize-none placeholder-gray-600"
-              style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)' }}
-            />
-            <p className="text-[10px] mt-1 mb-3" style={{ color: 'var(--t-muted)' }}>
-              This is never shared. It's yours alone.
-            </p>
-            <EditActions onCancel={() => setEditing(null)} onSave={() => saveField("why_i_started", editValue)} />
-          </EditPanel>
-        )}
+          {/* Letters */}
+          <ContentCard
+            onTap={() => { hapticLight(); navigate("/Letters"); }}
+            eyebrow="Letters"
+            headline="A note waiting."
+            sub="From strangers, who are also here."
+          />
 
-        {/* Divider */}
-        <div className="h-16" />
-
-        {/* Your Journey */}
-        <JourneySection profile={profile} onProfileUpdate={(updated) => setProfile(prev => ({ ...prev, ...updated }))} />
-
-        {/* Divider */}
-        <div className="h-16" />
-
-        {/* About */}
-        <div className="mb-6">
-          <h3 className="text-[10px] uppercase tracking-widest font-medium mb-4" style={{ color: 'var(--t-muted)' }}>
-            About Current
-          </h3>
-          <p className="text-sm leading-relaxed" style={{ color: 'var(--t-muted)' }}>
-            Current is for people who are proud of who they are today.
-            No labels. No programs. Just presence.
-          </p>
-          <p className="text-xs mt-4" style={{ color: 'var(--t-accent)' }}>
-            Present tense. Always.
-          </p>
+          {/* Progress */}
+          <ContentCard
+            onTap={() => { hapticLight(); navigate("/Progress"); }}
+            eyebrow="Progress"
+            headline="Patterns"
+            sub="mood, energy, sleep."
+          />
         </div>
 
-        {/* Separator */}
-        <div className="h-6" />
-
-        {/* Legal & Contact links */}
-        <div className="flex flex-col gap-3 mb-4">
-          <a href="mailto:hello@currentapp.studio" className="text-xs font-medium" style={{ color: 'var(--t-accent)' }}>
-            Contact
-          </a>
-        </div>
-
-        {/* Sign out */}
-        <button
-          onClick={() => base44.auth.logout()}
-          className="w-full py-3 text-sm font-medium text-center rounded-xl border transition-colors mb-3"
-          style={{ borderColor: 'var(--t-border)', color: 'var(--t-muted)' }}
-        >
-          Sign out
-        </button>
-
-        {/* Delete account */}
-        {!showDeleteConfirm ? (
-          <button
-            onClick={async () => {
-              const ok = await authenticateWithBiometrics("Confirm to delete account");
-              if (!ok) return;
-              setShowDeleteConfirm(true);
-            }}
-            className="w-full py-3 text-sm font-medium text-center"
-            style={{ color: 'var(--t-danger-muted)' }}
-          >
-            Delete account
-          </button>
-        ) : (
-          <div className="p-4 rounded-xl border mb-4" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-danger-border)' }}>
-            <p className="text-sm font-medium mb-1" style={{ color: 'var(--t-text)' }}>Delete your account?</p>
-            <p className="text-xs mb-4" style={{ color: 'var(--t-muted)' }}>
-              This will permanently delete your profile data and sign you out. This cannot be undone.
-            </p>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setShowDeleteConfirm(false)}
-                className="flex-1 py-2.5 rounded-xl text-xs font-medium"
-                style={{ color: 'var(--t-muted)' }}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDeleteAccount}
-                disabled={deleting}
-                className="flex-1 py-2.5 rounded-xl text-xs font-medium disabled:opacity-40"
-                style={{ backgroundColor: 'var(--t-danger)', color: '#e8eaf0' }}
-              >
-                {deleting ? "Deleting..." : "Yes, delete"}
-              </button>
+        {/* ── SECONDARY LIST ────────────────────────────────────────── */}
+        <div className="mt-6" style={{ borderTop: '1px solid var(--t-border)' }}>
+          <SecondaryItem label="Journey" sub="path & date" onTap={() => {}} expandable>
+            <div className="pb-2">
+              <JourneySection profile={profile} onProfileUpdate={(updated) => setProfile(prev => ({ ...prev, ...updated }))} />
             </div>
-          </div>
-        )}
+          </SecondaryItem>
+          <SecondaryItem label="Pause" sub="take a breath" onTap={() => { hapticLight(); navigate("/Pause"); }} />
+          <SecondaryItem label="The Room" sub="today's prompt" onTap={() => { hapticLight(); navigate("/Room"); }} />
+          <SecondaryItem label="Mocktails" sub="bar & home" onTap={() => { hapticLight(); navigate("/Mocktails"); }} />
+        </div>
       </div>
 
       <BottomNav />
@@ -339,48 +188,38 @@ export default function Profile() {
   );
 }
 
-function SettingsItem({ label, value, onTap, premium }) {
+function ContentCard({ onTap, eyebrow, headline, sub, headlineStyle }) {
   return (
     <button
       onClick={onTap}
-      className="w-full flex items-center justify-between py-4 border-b text-left"
-      style={{ borderColor: 'var(--t-border)' }}
+      className="rounded-xl p-4 text-left flex flex-col gap-1"
+      style={{ backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)' }}
     >
-      <div className="flex items-center gap-2">
-        <span className="text-sm" style={{ color: 'var(--t-text)' }}>{label}</span>
-        {premium && (
-          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--t-accent)' }} />
-        )}
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="text-sm" style={{ color: 'var(--t-muted)' }}>{value}</span>
-        <ChevronRight size={14} style={{ color: 'var(--t-accent)' }} />
-      </div>
+      <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: 'var(--t-accent)' }}>{eyebrow}</p>
+      <p className="font-display text-lg font-medium leading-tight" style={{ color: 'var(--t-text)', ...headlineStyle }}>{headline}</p>
+      <p className="text-xs leading-snug" style={{ color: 'var(--t-muted)' }}>{sub}</p>
     </button>
   );
 }
 
-function EditPanel({ children }) {
-  return (
-    <div className="py-4 px-4 mb-2 rounded-xl border" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)', borderTopColor: 'var(--t-bg)' }}>
-      {children}
-    </div>
-  );
-}
+function SecondaryItem({ label, sub, onTap, children, expandable }) {
+  const [open, setOpen] = useState(false);
 
-function EditActions({ onCancel, onSave }) {
+  const handleTap = () => {
+    hapticLight();
+    if (expandable) { setOpen(v => !v); } else { onTap(); }
+  };
+
   return (
-    <div className="flex gap-2 mt-4">
-      <button onClick={onCancel} className="flex-1 py-2 text-xs font-medium" style={{ color: 'var(--t-muted)' }}>
-        Cancel
+    <div style={{ borderBottom: '1px solid var(--t-border)' }}>
+      <button onClick={handleTap} className="w-full flex items-center justify-between py-3.5 text-left">
+        <div>
+          <span className="text-sm" style={{ color: 'var(--t-text)' }}>{label}</span>
+          {sub && <span className="text-xs ml-2" style={{ color: 'var(--t-muted)' }}>· {sub}</span>}
+        </div>
+        <ChevronRight size={14} strokeWidth={1.5} style={{ color: 'var(--t-muted)', transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s' }} />
       </button>
-      <button
-        onClick={onSave}
-        className="flex-1 py-2 rounded-lg text-xs font-medium"
-        style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}
-      >
-        Save
-      </button>
+      {expandable && open && children}
     </div>
   );
 }

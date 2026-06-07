@@ -8,7 +8,7 @@ import { hapticLight } from "@/lib/haptics";
 const tabs = [
   { name: "Today", icon: Sun, page: "Home" },
   { name: "Spots", icon: MapPin, page: "NearMe" },
-  { name: "You", icon: User, page: "Profile" },
+  { name: "Mine", icon: User, page: "Profile" },
 ];
 
 export default function BottomNav() {
