@@ -12,6 +12,10 @@ import Tracker from './pages/Tracker';
 import MoodScale from './pages/MoodScale';
 import SpotsV2 from './pages/SpotsV2';
 import Settings from './pages/Settings';
+import Reflection from './pages/Reflection';
+import Mocktails from './pages/Mocktails';
+import Letters from './pages/Letters';
+import Pause from './pages/Pause';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -103,7 +107,10 @@ const AuthenticatedApp = () => {
     {/* Stub routes for entry points referenced in Home */}
     <Route path="/Settings" element={<LayoutWrapper currentPageName="Settings"><Settings /></LayoutWrapper>} />
     <Route path="/Anchor" element={<LayoutWrapper currentPageName="Home"><MainPage /></LayoutWrapper>} />
-    <Route path="/Reflection" element={<LayoutWrapper currentPageName="Home"><MainPage /></LayoutWrapper>} />
+    <Route path="/Reflection" element={<LayoutWrapper currentPageName="Reflection"><Reflection /></LayoutWrapper>} />
+    <Route path="/Mocktails" element={<LayoutWrapper currentPageName="Mocktails"><Mocktails /></LayoutWrapper>} />
+    <Route path="/Letters" element={<LayoutWrapper currentPageName="Letters"><Letters /></LayoutWrapper>} />
+    <Route path="/Pause" element={<LayoutWrapper currentPageName="Pause"><Pause /></LayoutWrapper>} />
     <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
