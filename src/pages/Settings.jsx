@@ -47,6 +47,48 @@ export default function Settings() {
     base44.auth.logout();
   };
 
+  const [exporting, setExporting] = useState(false);
+  const handleExportData = async () => {
+    if (!profile || exporting) return;
+    setExporting(true);
+    hapticLight();
+    try {
+      const user = await base44.auth.me().catch(() => null);
+      const uid = user?.id;
+      // Pull everything the user owns. Each call is best-effort; if an
+      // entity isn't readable we just omit it from the export.
+      const collect = async (name, query) => {
+        try { return await base44.entities[name].filter(query, "-created_date", 500); }
+        catch { return []; }
+      };
+      const payload = {
+        exported_at: new Date().toISOString(),
+        profile,
+        mood_logs: uid ? await collect("MoodLog", { user_id: uid }) : [],
+        reflections: uid ? await collect("Reflections", { user_id: uid }) : [],
+        drink_logs: uid ? await collect("DrinkLogs", { user_id: uid }) : [],
+        pauses: uid ? await collect("Pauses", { user_id: uid }) : [],
+        presence_log: uid ? await collect("PresenceLog", { user_id: uid }) : [],
+        user_letters: uid ? await collect("UserLetters", { user_id: uid }) : [],
+        room_replies: uid ? await collect("RoomReplies", { user_id: uid }) : [],
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const today = new Date().toISOString().slice(0, 10);
+      a.download = `current-export-${today}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Export failed:", err);
+    } finally {
+      setExporting(false);
+    }
+  };
+
   if (loading) return <div className="min-h-screen" style={{ backgroundColor: 'var(--t-bg)' }} />;
 
   const isExploring = profile?.mode === "exploring";
@@ -221,6 +263,19 @@ export default function Settings() {
 
         {/* ── DATA ────────────────────────────────────────────────── */}
         <SectionHeader label="Data" />
+
+        <button
+          onClick={handleExportData}
+          disabled={exporting}
+          className="w-full py-3 text-sm font-medium text-center rounded-xl border transition-colors mb-3 disabled:opacity-40"
+          style={{ borderColor: 'var(--t-border)', color: 'var(--t-text)' }}
+        >
+          {exporting ? "Preparing…" : "Export my data (JSON)"}
+        </button>
+
+        <p className="text-[11px] text-center mb-4" style={{ color: 'var(--t-muted)' }}>
+          Everything you've logged, in one file. It's yours.
+        </p>
 
         <button
           onClick={() => base44.auth.logout()}

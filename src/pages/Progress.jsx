@@ -83,6 +83,8 @@ function trendInsight(series) {
 
 export default function ProgressPage() {
   const [mood, setMood] = useState([]);
+  const [energy, setEnergy] = useState([]); // null until MoodLog has energy_index
+  const [sleep, setSleep] = useState([]);   // null until MoodLog has sleep_index
   const [drinkSeries, setDrinkSeries] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -99,6 +101,12 @@ export default function ProgressPage() {
         moodLogs = await base44.entities.MoodLog.filter({ user_id: user.id }, "-logged_at", 200);
       } catch {}
       setMood(bucketByWeek(moodLogs, r => (typeof r.mood_index === "number" ? r.mood_index : null)));
+      // Energy + sleep — only populate if the entity has those fields.
+      // If not, leave the arrays empty so the chart hides cleanly.
+      const hasEnergy = moodLogs.some(r => typeof r.energy_index === "number");
+      const hasSleep = moodLogs.some(r => typeof r.sleep_index === "number");
+      setEnergy(hasEnergy ? bucketByWeek(moodLogs, r => (typeof r.energy_index === "number" ? r.energy_index : null)) : []);
+      setSleep(hasSleep ? bucketByWeek(moodLogs, r => (typeof r.sleep_index === "number" ? r.sleep_index : null)) : []);
 
       // Drinks (presence proxy: count of DrinkLogs per week)
       let drinkLogs = [];
@@ -175,11 +183,48 @@ export default function ProgressPage() {
             </div>
           </Card>
 
-          {/* Energy + Sleep — placeholders until those entities exist */}
-          <Card
-            title="Energy & sleep"
-            subtitle="Coming when we add the daily check-in for these."
-          />
+          {/* Energy + sleep — only render if MoodLog rows have those fields */}
+          {(energy.length > 0 || sleep.length > 0) ? (
+            <Card title="Energy & sleep">
+              <div style={{ position: "relative" }}>
+                {/* Stack two MiniLines with absolute positioning so both
+                    appear on the same chart space. Energy = accent, sleep = sage. */}
+                <div style={{ position: "relative" }}>
+                  {energy.length > 0 && (
+                    <MiniLine series={energy} max={4} color="var(--t-accent)" />
+                  )}
+                  {sleep.length > 0 && (
+                    <div style={{
+                      position: energy.length > 0 ? "absolute" : "relative",
+                      inset: 0,
+                      pointerEvents: "none",
+                    }}>
+                      <MiniLine series={sleep} max={4} color="#8FA298" />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center justify-center gap-4 mt-3">
+                {energy.length > 0 && (
+                  <span className="flex items-center gap-1.5">
+                    <span style={{ display: "inline-block", width: 10, height: 2, backgroundColor: "var(--t-accent)" }} />
+                    <span className="text-[10px] uppercase tracking-widest" style={{ color: "var(--t-muted)" }}>energy</span>
+                  </span>
+                )}
+                {sleep.length > 0 && (
+                  <span className="flex items-center gap-1.5">
+                    <span style={{ display: "inline-block", width: 10, height: 2, backgroundColor: "#8FA298" }} />
+                    <span className="text-[10px] uppercase tracking-widest" style={{ color: "var(--t-muted)" }}>sleep</span>
+                  </span>
+                )}
+              </div>
+            </Card>
+          ) : (
+            <Card
+              title="Energy & sleep"
+              subtitle="Coming when the daily check-in adds these. (Add `energy_index` and `sleep_index` to MoodLog.)"
+            />
+          )}
 
           {/* Noticed by Current */}
           <div

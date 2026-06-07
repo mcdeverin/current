@@ -6,6 +6,7 @@ import { hapticLight } from "@/lib/haptics";
 import { logPresence } from "@/lib/presence";
 import { getDayOfYear } from "@/lib/dates";
 import BottomNav from "@/components/current/BottomNav";
+import { MOCKTAIL_SEEDS } from "@/components/current/mocktailSeeds";
 
 const CATEGORY_LABELS = {
   bar_order: "Bar order",
@@ -47,10 +48,13 @@ export default function Mocktails() {
     setLoading(true);
     try {
       const data = await base44.entities.MocktailRecipes.filter({ status: "approved" }, "sort_order", 100);
-      setRecipes(data || []);
+      // Fall back to local seed list if no approved rows in Base44 yet.
+      // Lets the page stay alive pre-seed; once the entity is populated,
+      // the real rows win.
+      setRecipes((data && data.length > 0) ? data : MOCKTAIL_SEEDS);
     } catch (err) {
       console.error("loadRecipes error:", err);
-      setRecipes([]);
+      setRecipes(MOCKTAIL_SEEDS);
     }
     try {
       // Try NYC first, fall back to LA, fall back to nothing
