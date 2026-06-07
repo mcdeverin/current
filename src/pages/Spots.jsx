@@ -237,7 +237,7 @@ export default function Spots() {
         if (!alive) return;
         if (perm.location === "granted") {
           try {
-            const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy: true });
+            const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy: false });
             if (!alive) return;
             setUserLocation({ lat: pos.coords.latitude, lon: pos.coords.longitude });
             setLocationStatus("granted");
@@ -292,7 +292,7 @@ export default function Spots() {
         setLocationStatus("denied");
         return;
       }
-      const position = await Geolocation.getCurrentPosition({ enableHighAccuracy: true });
+      const position = await Geolocation.getCurrentPosition({ enableHighAccuracy: false });
       setUserLocation({ lat: position.coords.latitude, lon: position.coords.longitude });
       setLocationStatus("granted");
     } catch {
@@ -523,10 +523,10 @@ export default function Spots() {
               <div className="w-10 h-1 rounded-full mx-auto mt-3 mb-5" style={{ backgroundColor: "var(--t-border)" }} />
               <div className="px-6">
                 <p className="font-display font-medium" style={{ fontSize: 22, color: "var(--t-text)", lineHeight: 1.2 }}>
-                  See what's closest?
+                  See what's roughly near you?
                 </p>
                 <p className="text-sm mt-3 leading-relaxed" style={{ color: "var(--t-muted)" }}>
-                  We'll sort spots by distance. Your location never leaves your phone — we don't store it.
+                  We'll see your neighborhood — not your block — and sort spots by distance. Your location stays on your phone; we don't store it.
                 </p>
                 <div className="flex gap-2 mt-6">
                   <button
