@@ -12,7 +12,7 @@ import MilestoneOverlay from "../components/current/MilestoneOverlay";
 import ExploringNudge from "../components/current/ExploringNudge";
 import TodaysMoment from "../components/current/TodaysMoment";
 import InlineMoodScale from "../components/current/InlineMoodScale";
-import { getDaysSince, isMilestoneDay } from "../components/current/milestoneData";
+import { getDaysSince, isMilestoneDay, getNextMilestone } from "../components/current/milestoneData";
 import { Sparkles, ChevronRight, Anchor as AnchorIcon } from "lucide-react";
 
 function getGreeting() {
@@ -98,7 +98,7 @@ export default function Home() {
               <div className="w-full max-w-xs"><TodaysMoment /></div>
             </div>
             <button
-              onClick={() => navigate(createPageUrl("NearMe"))}
+              onClick={() => navigate(createPageUrl("SpotsV2"))}
               className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-8"
               style={{ backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)' }}
             >
@@ -182,7 +182,7 @@ export default function Home() {
                 <div className="w-full max-w-xs"><TodaysMoment /></div>
               </div>
               <button
-                onClick={() => navigate(createPageUrl("NearMe"))}
+                onClick={() => navigate(createPageUrl("SpotsV2"))}
                 className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-4"
                 style={{ backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)' }}
               >
@@ -207,6 +207,70 @@ export default function Home() {
                   <StreakRing days={days} />
                 </div>
               )}
+
+              {/* Milestone strip + closing line (merged in from Tracker) */}
+              {days != null && days > 0 && (() => {
+                const next = getNextMilestone(days);
+                const closingLine = `${days} ${days === 1 ? "choice" : "choices"}.\nAll of them yours.`;
+                return (
+                  <div className="max-w-sm mx-auto w-full">
+                    <div
+                      className="w-full flex items-center justify-between"
+                      style={{
+                        marginTop: 22,
+                        padding: "16px 20px",
+                        borderRadius: 14,
+                        backgroundColor: "var(--t-card)",
+                        border: "1px solid var(--t-border)",
+                      }}
+                    >
+                      <div>
+                        <p
+                          style={{
+                            fontFamily: "'DM Sans', sans-serif",
+                            fontSize: 9,
+                            letterSpacing: "0.2em",
+                            textTransform: "uppercase",
+                            color: "var(--t-accent)",
+                            marginBottom: 6,
+                          }}
+                        >
+                          Next milestone
+                        </p>
+                        <p className="font-display" style={{ fontSize: 18, color: "var(--t-text)", lineHeight: 1.2 }}>
+                          {next.label} — in {next.daysLeft} {next.daysLeft === 1 ? "day" : "days"}
+                        </p>
+                      </div>
+                      <div
+                        className="flex items-center justify-center flex-shrink-0"
+                        style={{
+                          width: 44,
+                          height: 44,
+                          borderRadius: "50%",
+                          border: "1.5px solid var(--t-border)",
+                          marginLeft: 12,
+                        }}
+                      >
+                        <span className="font-display" style={{ fontSize: 18, color: "var(--t-text)" }}>
+                          {next.daysLeft}
+                        </span>
+                      </div>
+                    </div>
+                    <p
+                      className="font-display italic text-center"
+                      style={{
+                        fontSize: 14,
+                        color: "var(--t-muted)",
+                        marginTop: 18,
+                        lineHeight: 1.6,
+                        whiteSpace: "pre-line",
+                      }}
+                    >
+                      {closingLine}
+                    </p>
+                  </div>
+                );
+              })()}
 
               {/* Divider with copy */}
               <div style={{ textAlign: "center", margin: "24px 0 20px" }}>

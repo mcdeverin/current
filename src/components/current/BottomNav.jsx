@@ -7,7 +7,7 @@ import { hapticLight } from "@/lib/haptics";
 
 const tabs = [
   { name: "Today", icon: Sun, page: "Home" },
-  { name: "Spots", icon: MapPin, page: "NearMe" },
+  { name: "Spots", icon: MapPin, page: "SpotsV2" },
   { name: "Mine", icon: User, page: "Profile" },
 ];
 

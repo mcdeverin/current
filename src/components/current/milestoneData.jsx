@@ -46,6 +46,15 @@ export function isMilestoneDay(days) {
   return false;
 }
 
+// Returns the next upcoming milestone past `days`, with its label and how many
+// days remain. Past 730, falls back to the next annual anniversary.
+export function getNextMilestone(days) {
+  const next = milestones.find(m => m > days);
+  if (next) return { label: getMilestoneLabel(next).replace(".", ""), daysLeft: next - days };
+  const nextYear = Math.ceil((days + 1) / 365) * 365;
+  return { label: getMilestoneLabel(nextYear).replace(".", ""), daysLeft: nextYear - days };
+}
+
 function parseLocalDate(dateString) {
   const [year, month, day] = dateString.split("-").map(Number);
   return new Date(year, month - 1, day);

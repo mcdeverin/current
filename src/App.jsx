@@ -8,8 +8,6 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import OfflineBanner from '@/components/current/OfflineBanner';
-import Tracker from './pages/Tracker';
-import MoodScale from './pages/MoodScale';
 import SpotsV2 from './pages/SpotsV2';
 import Settings from './pages/Settings';
 import Reflection from './pages/Reflection';
@@ -106,8 +104,6 @@ const AuthenticatedApp = () => {
       />
     ))}
     {/* New design refinement routes */}
-    <Route path="/Tracker" element={<LayoutWrapper currentPageName="Tracker"><Tracker /></LayoutWrapper>} />
-    <Route path="/MoodScale" element={<LayoutWrapper currentPageName="MoodScale"><MoodScale /></LayoutWrapper>} />
     <Route path="/SpotsV2" element={<LayoutWrapper currentPageName="SpotsV2"><SpotsV2 /></LayoutWrapper>} />
     {/* Stub routes for entry points referenced in Home */}
     <Route path="/Settings" element={<LayoutWrapper currentPageName="Settings"><Settings /></LayoutWrapper>} />
