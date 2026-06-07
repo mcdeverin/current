@@ -381,23 +381,6 @@ export default function Spots() {
             >
               Open now
             </button>
-
-            <button
-              onClick={() => setFilter(filter === "tonight" ? "All" : "tonight")}
-              style={{
-                padding: "5px 14px",
-                borderRadius: 999,
-                fontSize: 12,
-                fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 500,
-                transition: "all 0.15s ease",
-                ...(filter === "tonight"
-                  ? { backgroundColor: "var(--t-accent)", color: "var(--t-bg)", border: "1px solid var(--t-accent)" }
-                  : { backgroundColor: "transparent", color: "var(--t-muted)", border: "1px solid var(--t-border)" }),
-              }}
-            >
-              Tonight
-            </button>
           </div>
         </div>
 
