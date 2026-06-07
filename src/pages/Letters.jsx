@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Send } from "lucide-react";
 import { hapticLight } from "@/lib/haptics";
 import { logPresence } from "@/lib/presence";
+import { getLocalDateString } from "@/lib/dates";
+
+// Deterministic delivery: hash(user_id + date) → index in approved letters.
+function pickToday(letters, userId) {
+  if (!letters || letters.length === 0) return null;
+  const key = `${userId || "guest"}-${getLocalDateString()}`;
+  let h = 0;
+  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) & 0x7fffffff;
+  return letters[h % letters.length];
+}
 
 export default function Letters() {
   const navigate = useNavigate();
-  const [letter, setLetter] = useState(null);
+  const [todays, setTodays] = useState(null);
+  const [past, setPast] = useState([]); // up to 5 most recent before today
   const [loading, setLoading] = useState(true);
   const [showWrite, setShowWrite] = useState(false);
   const [body, setBody] = useState("");
@@ -15,26 +26,23 @@ export default function Letters() {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    loadTodaysLetter();
+    load();
     logPresence("why_read");
   }, []);
 
-  const loadTodaysLetter = async () => {
+  const load = async () => {
     try {
       const isAuth = await base44.auth.isAuthenticated();
       if (isAuth) {
         const u = await base44.auth.me();
         setUserId(u.id);
       }
-      // Get approved letters, pick today's by date seed
-      const letters = await base44.entities.Letters.filter({ status: "approved" }, "-published_at", 50);
-      if (letters.length > 0) {
-        const day = new Date().toDateString();
-        const seed = day.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
-        setLetter(letters[seed % letters.length]);
-      }
+      const all = await base44.entities.Letters.filter({ status: "approved" }, "-published_at", 50);
+      const today = pickToday(all, userId);
+      setTodays(today);
+      setPast(all.filter(l => !today || l.id !== today.id).slice(0, 5));
     } catch (err) {
-      console.error("loadTodaysLetter error:", err);
+      console.error("Letters load failed:", err);
     } finally {
       setLoading(false);
     }
@@ -43,12 +51,17 @@ export default function Letters() {
   const handleSubmit = async () => {
     if (!userId || !body.trim()) return;
     hapticLight();
-    await base44.entities.UserLetters.create({
-      user_id: userId,
-      body: body.trim(),
-      submitted_at: new Date().toISOString(),
-    });
-    setSubmitted(true);
+    try {
+      await base44.entities.UserLetters.create({
+        user_id: userId,
+        body: body.trim(),
+        submitted_at: new Date().toISOString(),
+      });
+      setSubmitted(true);
+      setBody("");
+    } catch (err) {
+      console.error("UserLetters.create failed:", err);
+    }
   };
 
   return (
@@ -59,74 +72,115 @@ export default function Letters() {
           <span className="text-sm">Mine</span>
         </button>
 
-        <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: 'var(--t-accent)' }}>Letters</p>
-        <h1 className="font-display text-3xl font-medium mb-8 leading-tight" style={{ color: 'var(--t-text)' }}>
-          A note for you.
+        <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--t-accent)' }}>
+          Letters
+        </p>
+        <h1 className="font-display font-medium mb-2 leading-tight" style={{ fontSize: 28, color: 'var(--t-text)' }}>
+          From strangers,<br />who are also here.
         </h1>
+        <p className="text-xs mb-8" style={{ color: 'var(--t-muted)' }}>
+          Anonymous. Read-only. One each morning.
+        </p>
 
         {loading ? (
-          <div className="py-16 text-center">
-            <p className="text-sm" style={{ color: 'var(--t-muted)' }}>Loading…</p>
-          </div>
-        ) : letter ? (
-          <div className="rounded-xl p-6 mb-8" style={{ backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)' }}>
-            <p className="font-display leading-relaxed mb-6" style={{ fontSize: 17, color: 'var(--t-text)' }}>
-              {letter.body}
-            </p>
-            <p className="text-xs italic" style={{ color: 'var(--t-muted)' }}>
-              — {letter.anonymous_author_label}
-            </p>
-          </div>
+          <p className="text-sm text-center py-8" style={{ color: 'var(--t-muted)' }}>—</p>
+        ) : todays ? (
+          <LetterCard letter={todays} isToday />
         ) : (
-          <div className="py-12 text-center mb-8">
-            <p className="font-display italic text-lg mb-2" style={{ color: 'var(--t-text)' }}>Coming soon.</p>
-            <p className="text-sm" style={{ color: 'var(--t-muted)' }}>Letters from the community are on their way.</p>
+          <div className="text-center py-8">
+            <p className="font-display italic text-lg mb-2" style={{ color: 'var(--t-text)' }}>Soon.</p>
+            <p className="text-sm" style={{ color: 'var(--t-muted)' }}>Approved letters land here each morning.</p>
           </div>
         )}
 
-        {/* Write your own */}
-        {userId && !showWrite && (
-          <button
-            onClick={() => { hapticLight(); setShowWrite(true); }}
-            className="text-sm font-medium"
-            style={{ color: 'var(--t-accent)' }}
-          >
-            Write your own →
-          </button>
+        {past.length > 0 && (
+          <div className="mt-6 space-y-3">
+            {past.map(l => <LetterCard key={l.id} letter={l} />)}
+          </div>
         )}
 
-        {showWrite && !submitted && (
-          <div>
-            <p className="font-display text-xl font-medium mb-2" style={{ color: 'var(--t-text)' }}>Your letter</p>
-            <p className="text-xs mb-4" style={{ color: 'var(--t-muted)' }}>
-              Anonymous. Reviewed before it reaches anyone.
-            </p>
-            <textarea
-              value={body}
-              onChange={e => setBody(e.target.value)}
-              placeholder="Write something to someone who might need to hear it…"
-              rows={6}
-              className="w-full bg-transparent rounded-xl p-4 text-sm resize-none focus:outline-none mb-4"
-              style={{ border: '1px solid var(--t-border)', color: 'var(--t-text)', fontFamily: "'DM Sans', sans-serif" }}
-            />
-            <button
-              onClick={handleSubmit}
-              disabled={!body.trim()}
-              className="w-full py-3.5 rounded-xl text-sm font-medium transition-opacity disabled:opacity-30"
-              style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}
+        {/* Leave one yourself */}
+        <div className="mt-8">
+          {submitted ? (
+            <div
+              className="rounded-xl p-5 text-center"
+              style={{ backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)' }}
             >
-              Submit letter
-            </button>
-          </div>
-        )}
-
-        {submitted && (
-          <div className="rounded-xl p-5 border text-center" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
-            <p className="font-display italic text-lg mb-1" style={{ color: 'var(--t-text)' }}>Received.</p>
-            <p className="text-sm" style={{ color: 'var(--t-muted)' }}>Someone will read this when they need it.</p>
-          </div>
-        )}
+              <p className="font-display italic text-lg mb-1" style={{ color: 'var(--t-text)' }}>Thanks.</p>
+              <p className="text-xs" style={{ color: 'var(--t-muted)' }}>We read every letter before it goes out.</p>
+            </div>
+          ) : !showWrite ? (
+            userId && (
+              <button
+                onClick={() => { hapticLight(); setShowWrite(true); }}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium"
+                style={{ border: '1.5px dashed var(--t-border)', color: 'var(--t-muted)', backgroundColor: 'transparent' }}
+              >
+                <Send size={14} strokeWidth={1.5} />
+                Leave one yourself
+              </button>
+            )
+          ) : (
+            <div
+              className="rounded-xl p-4"
+              style={{ backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)' }}
+            >
+              <p className="font-display italic mb-3" style={{ fontSize: 14, color: 'var(--t-muted)' }}>
+                Anonymous. Read before it ships.
+              </p>
+              <textarea
+                value={body}
+                onChange={e => setBody(e.target.value.slice(0, 280))}
+                placeholder="A line for whoever needs it tomorrow…"
+                rows={4}
+                className="w-full bg-transparent text-sm resize-none focus:outline-none font-display italic"
+                style={{ color: 'var(--t-text-warm)', fontSize: 15, lineHeight: 1.5 }}
+              />
+              <div className="flex items-center justify-between mt-2">
+                <span className="text-[10px]" style={{ color: 'var(--t-muted)' }}>{body.length}/280</span>
+                <button
+                  onClick={handleSubmit}
+                  disabled={!body.trim()}
+                  className="px-4 py-1.5 rounded-full text-xs font-medium disabled:opacity-40"
+                  style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}
+                >
+                  Submit anonymously
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
+    </div>
+  );
+}
+
+function LetterCard({ letter, isToday = false }) {
+  return (
+    <div
+      className="relative rounded-xl p-5"
+      style={{
+        backgroundColor: isToday ? 'var(--t-card-alt)' : 'var(--t-card)',
+        border: '1px solid var(--t-border)',
+      }}
+    >
+      {isToday && (
+        <span
+          className="absolute right-4 top-4 text-[9px] uppercase font-medium"
+          style={{ color: 'var(--t-accent)', letterSpacing: '0.2em' }}
+        >
+          Today
+        </span>
+      )}
+      <p
+        className="font-display italic"
+        style={{ fontSize: 15, color: 'var(--t-text-warm)', lineHeight: 1.55 }}
+      >
+        “{letter.body}”
+      </p>
+      <p className="text-xs mt-3" style={{ color: 'var(--t-muted)' }}>
+        — {letter.anonymous_author_label || "someone here"}
+      </p>
     </div>
   );
 }

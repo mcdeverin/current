@@ -6,7 +6,7 @@ import { useTheme } from "./ThemeContext";
 
 const ROOT_PATHS = [
   createPageUrl("Home"),
-  createPageUrl("SpotsV2"),
+  createPageUrl("Spots"),
   createPageUrl("Profile"),
   "/",
 ];

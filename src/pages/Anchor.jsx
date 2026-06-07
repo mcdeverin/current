@@ -4,57 +4,12 @@ import { X, Phone } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { hapticLight, hapticMedium } from "@/lib/haptics";
 import { logPresence } from "@/lib/presence";
-
-// 4-7-8 cycle (seconds) — total 19s per breath
-const PHASES = [
-  { name: "Breathe in", secs: 4 },
-  { name: "Hold", secs: 7 },
-  { name: "Breathe out", secs: 8 },
-];
-const CYCLE = PHASES.reduce((a, p) => a + p.secs, 0);
-
-function usePhase(reducedMotion) {
-  const [phase, setPhase] = useState(0);
-  useEffect(() => {
-    if (reducedMotion) return; // hold still
-    let cumulative = 0;
-    const timers = [];
-    const schedule = () => {
-      cumulative = 0;
-      PHASES.forEach((p, i) => {
-        cumulative += p.secs;
-        const t = setTimeout(() => {
-          setPhase((i + 1) % PHASES.length);
-          hapticLight();
-        }, cumulative * 1000);
-        timers.push(t);
-      });
-      timers.push(setTimeout(schedule, CYCLE * 1000));
-    };
-    schedule();
-    return () => timers.forEach(clearTimeout);
-  }, [reducedMotion]);
-  return phase;
-}
-
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-    const onChange = (e) => setReduced(e.matches);
-    mq.addEventListener?.("change", onChange);
-    return () => mq.removeEventListener?.("change", onChange);
-  }, []);
-  return reduced;
-}
+import BreathBlob from "@/components/current/BreathBlob";
 
 export default function Anchor() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [logged, setLogged] = useState(null); // 'almost' | 'drank' | null
-  const reducedMotion = usePrefersReducedMotion();
-  const phase = usePhase(reducedMotion);
 
   useEffect(() => {
     hapticMedium();
@@ -67,15 +22,14 @@ export default function Anchor() {
     })();
   }, []);
 
-  const phaseName = PHASES[phase].name;
   const reason = profile?.why_i_started?.trim();
   const contactName = profile?.emergency_contact_name?.trim();
   const contactPhone = profile?.emergency_contact_phone?.trim();
+  const thirdActivity = profile?.anchor_activity?.trim();
 
   const handleText = () => {
     if (!contactPhone) return;
     hapticMedium();
-    // iOS SMS deep link works in Capacitor via window.location
     window.location.href = `sms:${contactPhone}`;
   };
 
@@ -87,7 +41,8 @@ export default function Anchor() {
       if (!isAuth) return;
       const user = await base44.auth.me();
       // DrinkLogs schema: count (0..3) + was_almost.
-      // 'almost' → count 0 + was_almost true. 'drank' → count 1 (best guess; user can amend later).
+      // 'almost' → count 0 + was_almost true; 'drank' → count 1 + was_almost false.
+      // Neither resets clear_days.
       await base44.entities.DrinkLogs.create({
         user_id: user.id,
         logged_at: new Date().toISOString(),
@@ -103,7 +58,7 @@ export default function Anchor() {
     <div
       className="fixed inset-0 z-[200] flex flex-col"
       style={{
-        backgroundColor: "var(--t-bg)",
+        backgroundColor: "#0b0e14",
         backgroundImage: "radial-gradient(circle at 50% 38%, rgba(110,143,163,0.22), transparent 60%)",
       }}
     >
@@ -130,58 +85,9 @@ export default function Anchor() {
         </p>
       </div>
 
-      {/* Breath ring + blob */}
+      {/* Breath */}
       <div className="flex-1 flex items-center justify-center px-6">
-        <div className="relative" style={{ width: 230, height: 230 }}>
-          {/* Outer thin ring (static) */}
-          <div
-            style={{
-              position: "absolute", inset: 0, borderRadius: "50%",
-              border: "1.5px solid var(--t-border)",
-            }}
-          />
-          {/* Animated progress arc — one full sweep per cycle */}
-          {!reducedMotion && (
-            <svg width="230" height="230" style={{ position: "absolute", transform: "rotate(-90deg)" }}>
-              <circle
-                cx="115" cy="115" r="113"
-                stroke="var(--t-accent)"
-                strokeWidth="1.5"
-                fill="none"
-                strokeLinecap="round"
-                strokeDasharray="710"
-                style={{
-                  animation: `arcSweep ${CYCLE}s linear infinite`,
-                }}
-              />
-            </svg>
-          )}
-
-          {/* Liquid blob */}
-          <div
-            className="absolute inset-0 flex flex-col items-center justify-center"
-            style={{
-              borderRadius: "50%",
-              background: "rgba(110,143,163,0.10)",
-              border: "1px solid rgba(110,143,163,0.30)",
-              margin: 26,
-              animation: reducedMotion ? "none" : `blob ${CYCLE}s ease-in-out infinite`,
-            }}
-          >
-            <p
-              className="font-display italic"
-              style={{ fontSize: 22, color: "var(--t-text)" }}
-            >
-              {reducedMotion ? "Breathe with me" : phaseName}
-            </p>
-            <p
-              className="mt-2 text-[10px] uppercase tracking-widest"
-              style={{ color: "var(--t-muted)" }}
-            >
-              4 · 7 · 8
-            </p>
-          </div>
-        </div>
+        <BreathBlob />
       </div>
 
       {/* Why you're here */}
@@ -235,54 +141,59 @@ export default function Anchor() {
 
         {/* Move */}
         <button
-          className="w-full py-3 rounded-xl text-xs font-medium mb-4"
+          className="w-full py-3 rounded-xl text-xs font-medium mb-2"
           style={{ border: "1px solid var(--t-border)", color: "var(--t-muted)", backgroundColor: "transparent" }}
           onClick={hapticLight}
         >
           Move — go outside for 5
         </button>
 
-        {/* Log row — neither resets streak */}
+        {/* Optional third — user-defined */}
+        {thirdActivity && (
+          <button
+            className="w-full py-3 rounded-xl text-xs font-medium mb-2"
+            style={{ border: "1px solid var(--t-border)", color: "var(--t-muted)", backgroundColor: "transparent" }}
+            onClick={hapticLight}
+          >
+            {thirdActivity}
+          </button>
+        )}
+
+        {/* Log row — neither resets clear_days */}
         {logged ? (
           <p
-            className="font-display italic text-center"
+            className="font-display italic text-center mt-3"
             style={{ fontSize: 13, color: "var(--t-text)" }}
           >
             {logged === "almost" ? "Noted. You held it." : "Noted. Still here."}
           </p>
         ) : (
-          <div className="flex gap-2">
-            <button
-              onClick={() => handleLog("almost")}
-              className="flex-1 py-2.5 rounded-xl text-xs font-medium"
-              style={{ border: "1px solid var(--t-border)", color: "var(--t-text)", backgroundColor: "transparent" }}
+          <>
+            <div className="flex gap-2 mt-3">
+              <button
+                onClick={() => handleLog("almost")}
+                className="flex-1 py-2.5 rounded-xl text-[10px] uppercase tracking-widest font-medium"
+                style={{ border: "1px solid var(--t-border)", color: "var(--t-text)", backgroundColor: "transparent" }}
+              >
+                Almost · log it
+              </button>
+              <button
+                onClick={() => handleLog("drank")}
+                className="flex-1 py-2.5 rounded-xl text-[10px] uppercase tracking-widest font-medium"
+                style={{ border: "1px solid var(--t-border)", color: "var(--t-text)", backgroundColor: "transparent" }}
+              >
+                I drank · log it
+              </button>
+            </div>
+            <p
+              className="text-[11px] text-center mt-3"
+              style={{ color: "var(--t-muted)" }}
             >
-              Almost · log it
-            </button>
-            <button
-              onClick={() => handleLog("drank")}
-              className="flex-1 py-2.5 rounded-xl text-xs font-medium"
-              style={{ border: "1px solid var(--t-border)", color: "var(--t-text)", backgroundColor: "transparent" }}
-            >
-              I drank · log it
-            </button>
-          </div>
+              Both are just information. We don't punish either.
+            </p>
+          </>
         )}
       </div>
-
-      {/* Keyframes */}
-      <style>{`
-        @keyframes blob {
-          0%   { transform: scale(0.92); }
-          ${(PHASES[0].secs / CYCLE * 100).toFixed(2)}%  { transform: scale(1.06); }
-          ${((PHASES[0].secs + PHASES[1].secs) / CYCLE * 100).toFixed(2)}% { transform: scale(1.06); }
-          100% { transform: scale(0.92); }
-        }
-        @keyframes arcSweep {
-          from { stroke-dashoffset: 710; }
-          to   { stroke-dashoffset: 0; }
-        }
-      `}</style>
     </div>
   );
 }

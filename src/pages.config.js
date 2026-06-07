@@ -54,7 +54,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Profile from './pages/Profile';
 import TermsOfService from './pages/TermsOfService';
 import Auth from './pages/Auth';
-import SpotsV2 from './pages/SpotsV2';
+import Spots from './pages/Spots';
 import __Layout from './Layout.jsx';
 
 
@@ -66,7 +66,7 @@ export const PAGES = {
     "Profile": Profile,
     "TermsOfService": TermsOfService,
     "Auth": Auth,
-    "SpotsV2": SpotsV2,
+    "Spots": Spots,
 }
 
 export const pagesConfig = {

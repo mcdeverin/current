@@ -3,19 +3,19 @@ import { base44 } from "@/api/base44Client";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { hapticLight } from "@/lib/haptics";
+import { getLocalDateString } from "@/lib/dates";
 
 const DURATIONS = [
-  { key: "one_day",    label: "One day",   sub: "Back tomorrow" },
-  { key: "three_days", label: "Three days", sub: "A short rest" },
-  { key: "one_week",   label: "One week",  sub: "Take your time" },
-  { key: "open_ended", label: "Open",      sub: "Return when ready" },
+  { key: "one_day",    label: "One day",          sub: "Travel, an off day", days: 1 },
+  { key: "three_days", label: "Three days",       sub: "Sick, or moving", days: 3 },
+  { key: "one_week",   label: "A week",           sub: "Holiday, big trip", days: 7 },
+  { key: "open_ended", label: "Until I come back", sub: "No countdown", days: null },
 ];
 
 export default function Pause() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
-  const [selected, setSelected] = useState("one_day");
-  const [confirming, setConfirming] = useState(false);
+  const [selected, setSelected] = useState("three_days"); // default per spec
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -30,17 +30,25 @@ export default function Pause() {
     setSaving(true);
     hapticLight();
 
-    const durationDays = { one_day: 1, three_days: 3, one_week: 7, open_ended: null };
-    const d = durationDays[selected];
-    const pauseUntil = d ? new Date(Date.now() + d * 86400000).toISOString().slice(0, 10) : null;
+    const opt = DURATIONS.find(d => d.key === selected);
+    const startDate = new Date();
+    const pauseUntil = opt?.days
+      ? (() => { const d = new Date(); d.setDate(d.getDate() + opt.days); return getLocalDateString(d); })()
+      : null;
 
-    await base44.entities.UserProfile.update(profile.id, { paused: true, pause_until: pauseUntil });
-    await base44.entities.Pauses.create({
-      user_id: profile.id,
-      started_at: new Date().toISOString(),
-      duration_label: selected,
-    });
-
+    try {
+      await base44.entities.UserProfile.update(profile.id, {
+        paused: true,
+        pause_until: pauseUntil,
+      });
+      await base44.entities.Pauses.create({
+        user_id: profile.id,
+        started_at: startDate.toISOString(),
+        duration_label: selected,
+      });
+    } catch (err) {
+      console.error("Pause save failed:", err);
+    }
     setSaving(false);
     setDone(true);
   };
@@ -49,8 +57,10 @@ export default function Pause() {
     if (!profile) return;
     setSaving(true);
     hapticLight();
-    await base44.entities.UserProfile.update(profile.id, { paused: false, pause_until: null });
-    setProfile(prev => ({ ...prev, paused: false, pause_until: null }));
+    try {
+      await base44.entities.UserProfile.update(profile.id, { paused: false, pause_until: null });
+      setProfile(prev => ({ ...prev, paused: false, pause_until: null }));
+    } catch {}
     setSaving(false);
   };
 
@@ -65,16 +75,18 @@ export default function Pause() {
         {done ? (
           <div className="text-center py-16">
             <p className="font-display italic text-2xl mb-3" style={{ color: 'var(--t-text)' }}>Paused.</p>
-            <p className="text-sm mb-8" style={{ color: 'var(--t-muted)' }}>Your streak is held. Come back when you're ready.</p>
-            <button onClick={() => navigate(-1)} className="text-sm font-medium" style={{ color: 'var(--t-accent)' }}>Back to Today</button>
+            <p className="text-sm mb-8" style={{ color: 'var(--t-muted)' }}>Your number is waiting where you left it.</p>
+            <button onClick={() => navigate(-1)} className="text-sm font-medium" style={{ color: 'var(--t-accent)' }}>
+              Back to Today
+            </button>
           </div>
         ) : isPaused ? (
           <>
-            <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: 'var(--t-accent)' }}>Pause</p>
+            <p className="text-[10px] uppercase tracking-widest font-medium mb-1" style={{ color: 'var(--t-accent)' }}>Quiet pause</p>
             <h1 className="font-display text-3xl font-medium mb-4 leading-tight" style={{ color: 'var(--t-text)' }}>You're paused.</h1>
             {profile?.pause_until && (
               <p className="text-sm mb-8" style={{ color: 'var(--t-muted)' }}>
-                Streak held until {new Date(profile.pause_until + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric" })}.
+                Your number is waiting until {new Date(profile.pause_until + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric" })}.
               </p>
             )}
             <button
@@ -83,62 +95,59 @@ export default function Pause() {
               className="w-full py-3.5 rounded-xl text-sm font-medium disabled:opacity-40"
               style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}
             >
-              {saving ? "Resuming…" : "Resume streak"}
+              {saving ? "Resuming…" : "End pause"}
             </button>
+            <p className="font-display italic text-center mt-4" style={{ fontSize: 13, color: 'var(--t-muted)' }}>
+              You can come back whenever.
+            </p>
           </>
         ) : (
           <>
-            <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: 'var(--t-accent)' }}>Pause</p>
-            <h1 className="font-display text-3xl font-medium mb-2 leading-tight" style={{ color: 'var(--t-text)' }}>Take a break.</h1>
+            <p className="text-[10px] uppercase tracking-widest font-medium mb-1" style={{ color: 'var(--t-accent)' }}>Quiet pause</p>
+            <h1 className="font-display text-3xl font-medium mb-3 leading-tight" style={{ color: 'var(--t-text)' }}>
+              Take a breath.<br />Your days stay yours.
+            </h1>
             <p className="text-sm mb-8" style={{ color: 'var(--t-muted)' }}>
-              Life isn't linear. Your streak is held while you pause — no days lost.
+              Pausing isn't restarting. Your number is waiting.
             </p>
 
-            {!confirming ? (
-              <>
-                <div className="space-y-3 mb-8">
-                  {DURATIONS.map(d => (
-                    <button
-                      key={d.key}
-                      onClick={() => { hapticLight(); setSelected(d.key); }}
-                      className="w-full rounded-xl p-4 text-left flex items-center justify-between"
-                      style={{
-                        backgroundColor: selected === d.key ? 'var(--t-accent-bg)' : 'var(--t-card)',
-                        border: `1px solid ${selected === d.key ? 'var(--t-accent)' : 'var(--t-border)'}`,
-                      }}
-                    >
-                      <div>
-                        <p className="text-sm font-medium" style={{ color: 'var(--t-text)' }}>{d.label}</p>
-                        <p className="text-xs" style={{ color: 'var(--t-muted)' }}>{d.sub}</p>
-                      </div>
-                      {selected === d.key && (
-                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--t-accent)' }} />
-                      )}
-                    </button>
-                  ))}
-                </div>
+            <div className="space-y-2 mb-6">
+              {DURATIONS.map(d => (
                 <button
-                  onClick={() => { hapticLight(); setConfirming(true); }}
-                  className="w-full py-3.5 rounded-xl text-sm font-medium"
-                  style={{ backgroundColor: 'var(--t-card)', color: 'var(--t-text)', border: '1px solid var(--t-border)' }}
+                  key={d.key}
+                  onClick={() => { hapticLight(); setSelected(d.key); }}
+                  className="w-full rounded-xl p-4 text-left flex items-center justify-between"
+                  style={{
+                    backgroundColor: 'var(--t-card)',
+                    border: `1px solid ${selected === d.key ? 'var(--t-accent)' : 'var(--t-border)'}`,
+                  }}
                 >
-                  Continue
+                  <div>
+                    <p className="text-sm font-medium" style={{ color: 'var(--t-text)' }}>{d.label}</p>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--t-muted)' }}>{d.sub}</p>
+                  </div>
+                  <div
+                    className="w-[18px] h-[18px] rounded-full flex-shrink-0"
+                    style={{
+                      border: `1.5px solid ${selected === d.key ? 'var(--t-accent)' : 'var(--t-border)'}`,
+                      ...(selected === d.key && { boxShadow: 'inset 0 0 0 4px var(--t-accent)' }),
+                    }}
+                  />
                 </button>
-              </>
-            ) : (
-              <div className="rounded-xl p-5 border mb-4" style={{ backgroundColor: 'var(--t-card)', borderColor: 'var(--t-border)' }}>
-                <p className="font-display text-lg font-medium mb-2" style={{ color: 'var(--t-text)' }}>
-                  Pause for {DURATIONS.find(d => d.key === selected)?.label.toLowerCase()}?
-                </p>
-                <p className="text-sm mb-6" style={{ color: 'var(--t-muted)' }}>Your streak stays exactly where it is.</p>
-                <div className="flex gap-2">
-                  <button onClick={() => setConfirming(false)} className="flex-1 py-2.5 rounded-xl text-xs font-medium" style={{ color: 'var(--t-muted)' }}>Cancel</button>
-                  <button onClick={handlePause} disabled={saving} className="flex-1 py-2.5 rounded-xl text-xs font-medium disabled:opacity-40" style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}>
-                    {saving ? "Pausing…" : "Yes, pause"}
-                  </button>
-                </div>
-              </div>
-            )}
+              ))}
+            </div>
+
+            <button
+              onClick={handlePause}
+              disabled={saving || !profile}
+              className="w-full py-3.5 rounded-xl text-sm font-medium disabled:opacity-40"
+              style={{ backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)' }}
+            >
+              {saving ? "Pausing…" : "Begin pause"}
+            </button>
+            <p className="font-display italic text-center mt-4" style={{ fontSize: 13, color: 'var(--t-muted)' }}>
+              You can come back whenever.
+            </p>
           </>
         )}
       </div>

@@ -12,6 +12,7 @@ import MilestoneOverlay from "../components/current/MilestoneOverlay";
 import ExploringNudge from "../components/current/ExploringNudge";
 import TodaysMoment from "../components/current/TodaysMoment";
 import InlineMoodScale from "../components/current/InlineMoodScale";
+import QuietHours, { isQuietNow } from "../components/current/QuietHours";
 import { getDaysSince, isMilestoneDay, getNextMilestone } from "../components/current/milestoneData";
 import { Sparkles, ChevronRight, Anchor as AnchorIcon } from "lucide-react";
 
@@ -98,7 +99,7 @@ export default function Home() {
               <div className="w-full max-w-xs"><TodaysMoment /></div>
             </div>
             <button
-              onClick={() => navigate(createPageUrl("SpotsV2"))}
+              onClick={() => navigate(createPageUrl("Spots"))}
               className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-8"
               style={{ backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)' }}
             >
@@ -142,6 +143,15 @@ export default function Home() {
   const showRoomPill = hour >= 6 && hour < 19; // daytime
   const showMocktailsCard = dow === 4 || dow === 5 || dow === 6 || hour >= 17; // Thu/Fri/Sat or after 5pm
   const showAnchorButton = profile.anchor_button_enabled !== false;
+  const isPaused = !!profile.paused;
+  const quietActive = isQuietNow(profile);
+
+  const handleEndPause = async () => {
+    try {
+      await base44.entities.UserProfile.update(profile.id, { paused: false, pause_until: null });
+      setProfile(prev => ({ ...prev, paused: false, pause_until: null }));
+    } catch (err) { console.error("End pause failed:", err); }
+  };
 
   const handleShareMilestone = async () => {
     try {
@@ -150,6 +160,68 @@ export default function Home() {
       else await navigator.clipboard.writeText(text);
     } catch {}
   };
+
+  // ── PAUSED ─────────────────────────────────────────────────────────────────
+  if (isPaused) {
+    const resumesOn = profile.pause_until
+      ? new Date(profile.pause_until + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric" })
+      : null;
+    return (
+      <div className="min-h-screen pb-24 flex flex-col items-center justify-center px-6" style={{ backgroundColor: 'var(--t-bg)' }}>
+        <p className="text-[10px] uppercase tracking-widest font-medium mb-3" style={{ color: 'var(--t-accent)' }}>
+          Paused
+        </p>
+        <p className="font-display italic text-2xl mb-2 text-center" style={{ color: 'var(--t-text)' }}>
+          Your days are held.
+        </p>
+        {resumesOn && (
+          <p className="text-sm mb-8" style={{ color: 'var(--t-muted)' }}>
+            Resumes {resumesOn}.
+          </p>
+        )}
+        <button
+          onClick={handleEndPause}
+          className="text-sm font-medium mb-3"
+          style={{ color: 'var(--t-accent)' }}
+        >
+          End pause now →
+        </button>
+        <BottomNav />
+      </div>
+    );
+  }
+
+  // ── QUIET HOURS ────────────────────────────────────────────────────────────
+  if (quietActive) {
+    return (
+      <div className="min-h-screen" style={{ backgroundColor: '#070a10' }}>
+        <QuietHours />
+        {showAnchorButton && (
+          <button
+            onClick={() => navigate("/Anchor")}
+            style={{
+              position: 'fixed',
+              bottom: 'calc(env(safe-area-inset-bottom, 0px) + 72px)',
+              right: 20,
+              width: 56,
+              height: 56,
+              borderRadius: '50%',
+              backgroundColor: 'rgba(110,143,163,0.15)',
+              border: '1px solid var(--t-accent)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 40,
+            }}
+            aria-label="Anchor"
+          >
+            <AnchorIcon size={20} strokeWidth={1.5} style={{ color: 'var(--t-accent)' }} />
+          </button>
+        )}
+        <BottomNav />
+      </div>
+    );
+  }
 
   return (
     <PullToRefresh onRefresh={loadProfile}>
@@ -182,7 +254,7 @@ export default function Home() {
                 <div className="w-full max-w-xs"><TodaysMoment /></div>
               </div>
               <button
-                onClick={() => navigate(createPageUrl("SpotsV2"))}
+                onClick={() => navigate(createPageUrl("Spots"))}
                 className="w-full max-w-xs mx-auto block rounded-xl p-4 text-left mb-4"
                 style={{ backgroundColor: 'var(--t-card)', border: '1px solid var(--t-border)' }}
               >

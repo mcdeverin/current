@@ -4,6 +4,7 @@ import { Plus, Check } from "lucide-react";
 import { Geolocation } from "@capacitor/geolocation";
 import BottomNav from "../components/current/BottomNav";
 import PullToRefresh from "../components/current/PullToRefresh";
+import { logPresence } from "@/lib/presence";
 
 const FILTER_CHIPS = ["All", "Spots", "Mocktails", "Events", "Cafés", "Wellness"];
 const DAY_KEYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
@@ -206,7 +207,7 @@ function SpotCard({ place, distance, isOpen }) {
   );
 }
 
-export default function SpotsV2() {
+export default function Spots() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
@@ -224,6 +225,7 @@ export default function SpotsV2() {
 
   useEffect(() => {
     loadPlaces();
+    logPresence("spots");
   }, [cityFilter]);
 
   const loadPlaces = async () => {
@@ -331,17 +333,15 @@ export default function SpotsV2() {
           className="px-6"
           style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 72px)", paddingBottom: 12 }}
         >
-          <p style={{ fontSize: 32, fontFamily: "'Playfair Display', serif", color: "var(--t-muted)", marginBottom: 16, fontWeight: 400, letterSpacing: "-0.5px" }}>
-            current
+          <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: "var(--t-accent)" }}>
+            The Field Guide
           </p>
-          <div className="mb-3">
-            <h1
-              className="font-display"
-              style={{ fontSize: 24, fontWeight: 500, color: "var(--t-text)" }}
-            >
-              Spots
-            </h1>
-          </div>
+          <h1
+            className="font-display font-medium mb-4"
+            style={{ fontSize: 40, color: "var(--t-text)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+          >
+            Places that don't<br />need a drink.
+          </h1>
 
           {/* Single filter row: city | open now | tonight */}
           <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>

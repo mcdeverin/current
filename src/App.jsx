@@ -8,7 +8,7 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import OfflineBanner from '@/components/current/OfflineBanner';
-import SpotsV2 from './pages/SpotsV2';
+import Spots from './pages/Spots';
 import Settings from './pages/Settings';
 import Reflection from './pages/Reflection';
 import Mocktails from './pages/Mocktails';
@@ -104,7 +104,7 @@ const AuthenticatedApp = () => {
       />
     ))}
     {/* New design refinement routes */}
-    <Route path="/SpotsV2" element={<LayoutWrapper currentPageName="SpotsV2"><SpotsV2 /></LayoutWrapper>} />
+    <Route path="/Spots" element={<LayoutWrapper currentPageName="Spots"><Spots /></LayoutWrapper>} />
     {/* Stub routes for entry points referenced in Home */}
     <Route path="/Settings" element={<LayoutWrapper currentPageName="Settings"><Settings /></LayoutWrapper>} />
     <Route path="/Anchor" element={<Anchor />} />
