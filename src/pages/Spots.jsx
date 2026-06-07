@@ -447,7 +447,7 @@ export default function Spots() {
                   }}
                 >
                   <Plus size={15} />
-                  Suggest a place
+                  Suggest A Spot
                 </button>
               ) : (
                 <div
