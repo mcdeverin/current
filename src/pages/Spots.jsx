@@ -220,6 +220,11 @@ export default function Spots() {
   // 'denied'   → OS denied (or user said no this session). Quiet inline hint, no re-nag.
   const [locationStatus, setLocationStatus] = useState("idle");
 
+  // Radius filter (miles). null = "All distances". Chips only appear when
+  // location is granted (otherwise distance is unknowable and the filter is
+  // meaningless). Choices match the spec brief: 5 / 10 / 20 / All.
+  const [radiusMi, setRadiusMi] = useState(null);
+
   useEffect(() => {
     loadPlaces();
     logPresence("spots");
@@ -237,7 +242,7 @@ export default function Spots() {
         if (!alive) return;
         if (perm.location === "granted") {
           try {
-            const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy: false });
+            const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy: true });
             if (!alive) return;
             setUserLocation({ lat: pos.coords.latitude, lon: pos.coords.longitude });
             setLocationStatus("granted");
@@ -292,7 +297,7 @@ export default function Spots() {
         setLocationStatus("denied");
         return;
       }
-      const position = await Geolocation.getCurrentPosition({ enableHighAccuracy: false });
+      const position = await Geolocation.getCurrentPosition({ enableHighAccuracy: true });
       setUserLocation({ lat: position.coords.latitude, lon: position.coords.longitude });
       setLocationStatus("granted");
     } catch {
@@ -306,6 +311,7 @@ export default function Spots() {
     hapticLight();
     setUserLocation(null);
     setLocationStatus("idle");
+    setRadiusMi(null); // clear radius — without coords it would hide everything
     sessionStorage.setItem("spots_location_dismissed", "1");
   };
 
@@ -319,6 +325,10 @@ export default function Spots() {
       _isOpen: isPlaceOpenNow(p),
     }))
     .filter(p => !openNow || p._isOpen)
+    // Radius filter — only narrows when location is granted AND a radius is set.
+    // Places without coords (data quality) pass through; otherwise distance-sort
+    // would silently hide them.
+    .filter(p => !radiusMi || p._distance == null || p._distance <= radiusMi)
     .sort((a, b) => {
       if (a._distance != null && b._distance != null) return a._distance - b._distance;
       return 0;
@@ -491,6 +501,43 @@ export default function Spots() {
             )}
           </div>
 
+          {/* Radius filter — only when location is actively in use.
+              "All" = no filter; otherwise restricts to places within N miles. */}
+          {locationStatus === "granted" && userLocation && (
+            <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
+              <span className="text-[10px] uppercase tracking-widest" style={{ color: "var(--t-muted)" }}>
+                within
+              </span>
+              {[
+                { key: 5, label: "5 mi" },
+                { key: 10, label: "10 mi" },
+                { key: 20, label: "20 mi" },
+                { key: null, label: "All" },
+              ].map(opt => {
+                const active = radiusMi === opt.key;
+                return (
+                  <button
+                    key={opt.label}
+                    onClick={() => { hapticLight(); setRadiusMi(opt.key); }}
+                    style={{
+                      padding: "4px 12px",
+                      borderRadius: 999,
+                      fontSize: 11.5,
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontWeight: 500,
+                      transition: "all 0.15s ease",
+                      ...(active
+                        ? { backgroundColor: "var(--t-accent-bg)", color: "var(--t-accent)", border: "1px solid var(--t-accent)" }
+                        : { backgroundColor: "transparent", color: "var(--t-muted)", border: "1px solid var(--t-border)" }),
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
           {/* Quiet denied hint — appears only when OS-denied. No re-nag, no big banner. */}
           {locationStatus === "denied" && (
             <p className="text-[11px] mt-3" style={{ color: "var(--t-muted)" }}>
@@ -523,10 +570,10 @@ export default function Spots() {
               <div className="w-10 h-1 rounded-full mx-auto mt-3 mb-5" style={{ backgroundColor: "var(--t-border)" }} />
               <div className="px-6">
                 <p className="font-display font-medium" style={{ fontSize: 22, color: "var(--t-text)", lineHeight: 1.2 }}>
-                  See what's roughly near you?
+                  See what's closest?
                 </p>
                 <p className="text-sm mt-3 leading-relaxed" style={{ color: "var(--t-muted)" }}>
-                  We'll see your neighborhood — not your block — and sort spots by distance. Your location stays on your phone; we don't store it.
+                  We'll sort spots by distance. Your location stays on your phone — we compute distance here and forget it the moment you close the app.
                 </p>
                 <div className="flex gap-2 mt-6">
                   <button
@@ -564,7 +611,20 @@ export default function Spots() {
               </div>
             ) : filtered.length === 0 ? (
               <div className="text-center py-16">
-                <p style={{ fontSize: 13, color: "var(--t-muted)" }}>No places found.</p>
+                <p style={{ fontSize: 13, color: "var(--t-muted)" }}>
+                  {radiusMi
+                    ? `Nothing within ${radiusMi} mi.`
+                    : "No places found."}
+                </p>
+                {radiusMi && (
+                  <button
+                    onClick={() => { hapticLight(); setRadiusMi(null); }}
+                    className="mt-2 text-xs font-medium"
+                    style={{ color: "var(--t-accent)" }}
+                  >
+                    Widen to all distances →
+                  </button>
+                )}
               </div>
             ) : (
               filtered.map(place => (
