@@ -1,0 +1,26 @@
+{
+  "name": "PresenceLog",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User"
+    },
+    "date": {
+      "type": "string",
+      "description": "Date key YYYY-MM-DD"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "Array of action keys logged on this date"
+    }
+  },
+  "required": [
+    "user_id",
+    "date"
+  ]
+}

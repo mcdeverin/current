@@ -1,0 +1,30 @@
+{
+  "name": "MoodLog",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User"
+    },
+    "logged_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the mood was logged"
+    },
+    "mood_index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4,
+      "description": "Mood level: 0 struggling \u2026 4 good"
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional note"
+    }
+  },
+  "required": [
+    "user_id",
+    "logged_at",
+    "mood_index"
+  ]
+}

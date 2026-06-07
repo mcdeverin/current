@@ -1,0 +1,33 @@
+{
+  "name": "Reflections",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User"
+    },
+    "logged_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the reflection was logged"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "a_win",
+        "a_person",
+        "made_it_through"
+      ],
+      "description": "Type of reflection"
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional italic note"
+    }
+  },
+  "required": [
+    "user_id",
+    "logged_at",
+    "kind"
+  ]
+}

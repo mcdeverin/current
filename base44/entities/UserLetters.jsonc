@@ -1,0 +1,29 @@
+{
+  "name": "UserLetters",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User"
+    },
+    "body": {
+      "type": "string",
+      "description": "Letter body text"
+    },
+    "submitted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the letter was submitted"
+    },
+    "approved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the letter has been approved for publication"
+    }
+  },
+  "required": [
+    "user_id",
+    "body",
+    "submitted_at"
+  ]
+}

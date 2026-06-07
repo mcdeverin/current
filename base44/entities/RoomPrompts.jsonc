@@ -1,0 +1,19 @@
+{
+  "name": "RoomPrompts",
+  "type": "object",
+  "properties": {
+    "prompt_text": {
+      "type": "string",
+      "description": "The prompt text shown to users"
+    },
+    "publish_date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date this prompt is shown (YYYY-MM-DD)"
+    }
+  },
+  "required": [
+    "prompt_text",
+    "publish_date"
+  ]
+}

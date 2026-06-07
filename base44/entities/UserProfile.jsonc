@@ -48,6 +48,68 @@
       "type": "boolean",
       "default": false,
       "description": "Whether exploring user has dismissed the date nudge"
+    },
+    "emergency_contact_name": {
+      "type": "string",
+      "description": "Name of emergency contact for Anchor feature"
+    },
+    "emergency_contact_phone": {
+      "type": "string",
+      "description": "Phone number of emergency contact for Anchor feature"
+    },
+    "anchor_activity": {
+      "type": "string",
+      "description": "Optional third Anchor button activity"
+    },
+    "savings_goal_label": {
+      "type": "string",
+      "default": "A week in Lisbon",
+      "description": "Label for the savings goal"
+    },
+    "savings_goal_amount": {
+      "type": "number",
+      "default": 5000,
+      "description": "Target savings goal in dollars"
+    },
+    "quiet_hours_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether quiet hours are enabled"
+    },
+    "quiet_start": {
+      "type": "string",
+      "default": "22:00",
+      "description": "Quiet hours start time HH:MM"
+    },
+    "quiet_end": {
+      "type": "string",
+      "default": "06:00",
+      "description": "Quiet hours end time HH:MM"
+    },
+    "paused": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the user has paused their streak"
+    },
+    "pause_until": {
+      "type": "string",
+      "format": "date",
+      "description": "Date until which the streak is paused"
+    },
+    "reflection_push_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether evening reflection push notifications are enabled"
+    },
+    "letters_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether daily letters feature is enabled"
+    },
+    "anchor_button_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the floating Anchor button is visible"
     }
   },
   "required": [

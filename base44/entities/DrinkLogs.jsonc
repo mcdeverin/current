@@ -1,0 +1,39 @@
+{
+  "name": "DrinkLogs",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User"
+    },
+    "logged_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this was logged"
+    },
+    "count": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "description": "Number of drinks (0 = almost, didn't)"
+    },
+    "was_almost": {
+      "type": "boolean",
+      "default": false,
+      "description": "True if count=0 and user almost drank but didn't"
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional note"
+    }
+  },
+  "required": [
+    "user_id",
+    "logged_at",
+    "count"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "RoomReplies",
+  "type": "object",
+  "properties": {
+    "prompt_id": {
+      "type": "string",
+      "description": "Reference to RoomPrompts"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User"
+    },
+    "body": {
+      "type": "string",
+      "description": "Reply text (max 280 chars)"
+    },
+    "posted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the reply was posted"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the reply expires and should be hard-deleted"
+    }
+  },
+  "required": [
+    "prompt_id",
+    "user_id",
+    "body",
+    "posted_at",
+    "expires_at"
+  ]
+}

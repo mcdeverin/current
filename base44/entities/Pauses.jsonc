@@ -1,0 +1,35 @@
+{
+  "name": "Pauses",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the pause started"
+    },
+    "ended_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the pause ended (nullable if ongoing)"
+    },
+    "duration_label": {
+      "type": "string",
+      "enum": [
+        "one_day",
+        "three_days",
+        "one_week",
+        "open_ended"
+      ],
+      "description": "Intended pause duration"
+    }
+  },
+  "required": [
+    "user_id",
+    "started_at",
+    "duration_label"
+  ]
+}

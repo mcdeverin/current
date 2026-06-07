@@ -1,0 +1,33 @@
+{
+  "name": "Letters",
+  "type": "object",
+  "properties": {
+    "body": {
+      "type": "string",
+      "description": "Letter body text"
+    },
+    "anonymous_author_label": {
+      "type": "string",
+      "description": "Anonymous label for the author"
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the letter was published"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved"
+      ],
+      "default": "draft",
+      "description": "Publication status"
+    }
+  },
+  "required": [
+    "body",
+    "anonymous_author_label",
+    "status"
+  ]
+}

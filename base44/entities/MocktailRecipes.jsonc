@@ -1,0 +1,69 @@
+{
+  "name": "MocktailRecipes",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Recipe name"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "bar_order",
+        "home",
+        "na_beer",
+        "fifteen_sec"
+      ],
+      "description": "Recipe category"
+    },
+    "one_liner": {
+      "type": "string",
+      "description": "Short description"
+    },
+    "order_script": {
+      "type": "string",
+      "description": "What to say at a bar"
+    },
+    "ingredients": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of ingredients"
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Step-by-step instructions"
+    },
+    "time_minutes": {
+      "type": "integer",
+      "description": "Prep time in minutes"
+    },
+    "flavor_profile": {
+      "type": "string",
+      "description": "Flavor description"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved"
+      ],
+      "default": "draft",
+      "description": "Whether this recipe is published"
+    },
+    "sort_order": {
+      "type": "integer",
+      "default": 100,
+      "description": "Display order"
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "one_liner"
+  ]
+}

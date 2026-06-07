@@ -1,0 +1,29 @@
+{
+  "name": "LetterDeliveries",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Reference to User"
+    },
+    "letter_id": {
+      "type": "string",
+      "description": "Reference to Letters"
+    },
+    "delivered_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the letter was delivered"
+    },
+    "read_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the letter was read (nullable)"
+    }
+  },
+  "required": [
+    "user_id",
+    "letter_id",
+    "delivered_at"
+  ]
+}
