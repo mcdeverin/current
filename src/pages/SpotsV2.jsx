@@ -60,9 +60,9 @@ function PhotoPlaceholder({ place }) {
     return (
       <div
         style={{
-          width: 80,
-          height: 80,
-          borderRadius: 8,
+          width: 100,
+          height: 100,
+          borderRadius: 12,
           border: "1px solid var(--t-border)",
           overflow: "hidden",
           flexShrink: 0,
@@ -76,28 +76,31 @@ function PhotoPlaceholder({ place }) {
   return (
     <div
       style={{
-        width: 80,
-        height: 80,
-        borderRadius: 8,
+        width: 100,
+        height: 100,
+        borderRadius: 12,
         border: "1px solid var(--t-border)",
         background: `linear-gradient(135deg, hsl(${h}, 18%, 22%), hsl(${h}, 22%, 32%))`,
         position: "relative",
         flexShrink: 0,
         overflow: "hidden",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        padding: 6,
       }}
     >
       <span
         style={{
-          position: "absolute",
-          top: 5,
-          left: 5,
-          fontFamily: "'JetBrains Mono', 'Courier New', monospace",
-          fontSize: 7,
-          color: "rgba(255,255,255,0.55)",
-          letterSpacing: "0.05em",
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: "10px",
+          fontWeight: 500,
+          color: "rgba(255,255,255,0.6)",
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
         }}
       >
-        PHOTO
+        Photo
       </span>
     </div>
   );
@@ -108,9 +111,9 @@ function SpotCard({ place, distance, isOpen }) {
     <div
       style={{
         display: "flex",
-        gap: 12,
-        padding: 10,
-        borderRadius: 12,
+        gap: 14,
+        padding: 12,
+        borderRadius: 14,
         backgroundColor: "var(--t-card)",
         border: "1px solid var(--t-border)",
         marginBottom: 12,
