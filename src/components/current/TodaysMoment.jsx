@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-
-function getDayOfYear() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 0);
-  return Math.floor((now - start) / (1000 * 60 * 60 * 24));
-}
+import { getDayOfYear } from "@/lib/dates";
 
 export default function TodaysMoment() {
   const [intention, setIntention] = useState("");

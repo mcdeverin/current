@@ -55,10 +55,7 @@ export function getNextMilestone(days) {
   return { label: getMilestoneLabel(nextYear).replace(".", ""), daysLeft: nextYear - days };
 }
 
-function parseLocalDate(dateString) {
-  const [year, month, day] = dateString.split("-").map(Number);
-  return new Date(year, month - 1, day);
-}
+import { parseLocalDate } from "@/lib/dates";
 
 export function getDaysSince(dateString) {
   const start = parseLocalDate(dateString);

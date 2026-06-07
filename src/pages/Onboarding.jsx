@@ -4,6 +4,7 @@ import { base44 } from "@/api/base44Client";
 import { createPageUrl } from "@/utils";
 import { useNavigate } from "react-router-dom";
 import { registerPushNotifications, scheduleDailyReminder } from "@/lib/notifications";
+import { getLocalDateString } from "@/lib/dates";
 
 // Brand color constants — kept in sync with ThemeContext DARK_VARS for
 // onboarding's fixed dark background (pre-ThemeProvider scope).
@@ -204,7 +205,7 @@ export default function Onboarding() {
               type="date"
               value={sobrietyDate}
               onChange={e => setSobrietyDate(e.target.value)}
-              max={(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; })()}
+              max={getLocalDateString()}
               className="w-full max-w-xs text-center text-lg font-display bg-transparent border-b-2 pb-3 focus:outline-none appearance-none"
               style={{ borderColor: BORDER, color: TEXT, colorScheme: 'dark', WebkitAppearance: 'none', fontSize: '16px' }}
             />
