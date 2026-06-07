@@ -1,0 +1,40 @@
+{
+  "name": "ModeSwitch",
+  "type": "object",
+  "properties": {
+    "from_mode": {
+      "type": "string",
+      "enum": [
+        "exploring",
+        "streak"
+      ],
+      "description": "Mode the user switched from"
+    },
+    "to_mode": {
+      "type": "string",
+      "enum": [
+        "exploring",
+        "streak"
+      ],
+      "description": "Mode the user switched to"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "Email of the user who switched"
+    },
+    "sobriety_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Sobriety date if switching to streak mode"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional notes about the switch"
+    }
+  },
+  "required": [
+    "from_mode",
+    "to_mode",
+    "user_email"
+  ]
+}

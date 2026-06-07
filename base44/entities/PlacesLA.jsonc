@@ -1,0 +1,165 @@
+{
+  "name": "PlacesLA",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the place"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Spots",
+        "Mocktails",
+        "Events",
+        "Caf\u00e9s",
+        "Wellness"
+      ],
+      "description": "Category of the place"
+    },
+    "neighborhood": {
+      "type": "string",
+      "description": "Neighborhood or area"
+    },
+    "address": {
+      "type": "string",
+      "description": "Street address"
+    },
+    "tag": {
+      "type": "string",
+      "enum": [
+        "Alcohol-Free",
+        "NA Cocktails",
+        "NA Wine",
+        "NA Bottle Shop",
+        "Sober Rave",
+        "Sober Event",
+        "Sober Friendly"
+      ],
+      "description": "Primary tag"
+    },
+    "vibe": {
+      "type": "string",
+      "enum": [
+        "Chill",
+        "Lively",
+        "Romantic",
+        "Social",
+        "Cozy",
+        "Trendy",
+        "Wellness"
+      ],
+      "description": "Vibe of the place"
+    },
+    "price_level": {
+      "type": "string",
+      "enum": [
+        "$",
+        "$$",
+        "$$$",
+        "$$$$"
+      ],
+      "description": "Price level"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this place is featured/highlighted"
+    },
+    "profile_image": {
+      "type": "string",
+      "description": "Profile image URL for the place"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short note about the place"
+    },
+    "google_maps_url": {
+      "type": "string",
+      "description": "Google Maps link"
+    },
+    "website_url": {
+      "type": "string",
+      "description": "Website URL"
+    },
+    "instagram_url": {
+      "type": "string",
+      "description": "Instagram profile URL"
+    },
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
+    },
+    "monday_open": {
+      "type": "string"
+    },
+    "monday_close": {
+      "type": "string"
+    },
+    "tuesday_open": {
+      "type": "string"
+    },
+    "tuesday_close": {
+      "type": "string"
+    },
+    "wednesday_open": {
+      "type": "string"
+    },
+    "wednesday_close": {
+      "type": "string"
+    },
+    "thursday_open": {
+      "type": "string"
+    },
+    "thursday_close": {
+      "type": "string"
+    },
+    "friday_open": {
+      "type": "string"
+    },
+    "friday_close": {
+      "type": "string"
+    },
+    "saturday_open": {
+      "type": "string"
+    },
+    "saturday_close": {
+      "type": "string"
+    },
+    "sunday_open": {
+      "type": "string"
+    },
+    "sunday_close": {
+      "type": "string"
+    },
+    "suggested_by": {
+      "type": "string",
+      "description": "Email of user who suggested"
+    },
+    "suggested_by_name": {
+      "type": "string",
+      "description": "First name of user who suggested"
+    },
+    "suggested_by_days": {
+      "type": "number",
+      "description": "Days sober when suggestion was made"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "declined"
+      ],
+      "default": "pending",
+      "description": "Review status of the place"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "neighborhood"
+  ]
+}

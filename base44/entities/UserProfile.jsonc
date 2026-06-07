@@ -1,0 +1,56 @@
+{
+  "name": "UserProfile",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string",
+      "description": "User's first name"
+    },
+    "sobriety_date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date the user started their sobriety (optional)"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "streak",
+        "exploring"
+      ],
+      "default": "streak",
+      "description": "Whether user is tracking a streak or just exploring"
+    },
+    "daily_savings_rate": {
+      "type": "number",
+      "default": 15,
+      "description": "Amount saved per day in dollars"
+    },
+    "notification_time": {
+      "type": "string",
+      "default": "08:00",
+      "description": "Preferred time for daily intention notification"
+    },
+    "why_i_started": {
+      "type": "string",
+      "description": "Private text about why they started - never shown publicly"
+    },
+    "onboarding_complete": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the user has completed onboarding"
+    },
+    "has_seen_tone_guide": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether user has seen the community tone guide"
+    },
+    "exploring_nudge_dismissed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether exploring user has dismissed the date nudge"
+    }
+  },
+  "required": [
+    "first_name"
+  ]
+}

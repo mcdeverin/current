@@ -10,7 +10,7 @@ import BottomNav from "../components/current/BottomNav";
 import MilestoneOverlay from "../components/current/MilestoneOverlay";
 import ExploringNudge from "../components/current/ExploringNudge";
 import TodaysMoment from "../components/current/TodaysMoment";
-import MoodCheckin from "../components/current/MoodCheckin";
+import InlineMoodScale from "../components/current/InlineMoodScale";
 import { getDaysSince, isMilestoneDay } from "../components/current/milestoneData";
 import { Sparkles, ChevronRight } from "lucide-react";
 
@@ -116,13 +116,6 @@ export default function Home() {
           <p className="font-display text-xl mb-10 text-center" style={{ color: 'var(--t-text)' }}>
             {getGreeting()}.
           </p>
-
-          {/* Mood Check-in */}
-          <div className="mb-8 flex justify-center">
-            <div className="w-full max-w-xs">
-              <MoodCheckin bare />
-            </div>
-          </div>
 
           {/* Today's Moment */}
           <div className="mb-12 flex justify-center">
@@ -261,12 +254,6 @@ export default function Home() {
 
             <div className="mb-5 flex justify-center">
               <div className="w-full max-w-xs">
-                <MoodCheckin bare />
-              </div>
-            </div>
-
-            <div className="mb-5 flex justify-center">
-              <div className="w-full max-w-xs">
                 <TodaysMoment />
               </div>
             </div>
@@ -287,14 +274,21 @@ export default function Home() {
           </>
         )}
 
-        {/* STREAK layout */}
+        {/* STREAK layout — inline mood scale */}
         {!isExploring && (
           <>
-            <div className="mt-5 mb-4 flex justify-center">
-              <div className="w-full max-w-xs">
-                <MoodCheckin />
-              </div>
+            {/* Serif rule handoff */}
+            <div style={{ textAlign: "center", margin: "28px 0 24px" }}>
+              <p className="font-display italic" style={{ fontSize: 13, color: "var(--t-muted)", letterSpacing: "0.01em" }}>
+                and you, right now
+              </p>
+              <div style={{ width: 40, height: 1, backgroundColor: "var(--t-border)", margin: "10px auto 0" }} />
             </div>
+
+            <div className="w-full max-w-xs mx-auto mb-4">
+              <InlineMoodScale />
+            </div>
+
             <div className="mb-4 flex justify-center">
               <div className="w-full max-w-xs">
                 <TodaysMoment />
