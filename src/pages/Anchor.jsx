@@ -86,10 +86,13 @@ export default function Anchor() {
       const isAuth = await base44.auth.isAuthenticated();
       if (!isAuth) return;
       const user = await base44.auth.me();
+      // DrinkLogs schema: count (0..3) + was_almost.
+      // 'almost' → count 0 + was_almost true. 'drank' → count 1 (best guess; user can amend later).
       await base44.entities.DrinkLogs.create({
         user_id: user.id,
-        kind, // 'almost' | 'drank' — does not reset streak
         logged_at: new Date().toISOString(),
+        count: kind === "almost" ? 0 : 1,
+        was_almost: kind === "almost",
       });
     } catch (err) {
       console.error("DrinkLogs.create failed:", err);
