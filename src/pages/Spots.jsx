@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { Plus, Check } from "lucide-react";
+import { Plus, Check, MapPin, X } from "lucide-react";
 import { Geolocation } from "@capacitor/geolocation";
 import BottomNav from "../components/current/BottomNav";
 import PullToRefresh from "../components/current/PullToRefresh";
 import { logPresence } from "@/lib/presence";
+import { hapticLight } from "@/lib/haptics";
 
 const FILTER_CHIPS = ["All", "Spots", "Mocktails", "Events", "Cafés", "Wellness"];
 const DAY_KEYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
@@ -32,17 +33,6 @@ function isPlaceOpenNow(place) {
   const close = ch * 60 + cm;
   if (close <= open) return cur >= open || cur < close;
   return cur >= open && cur < close;
-}
-
-function isOpenTonight(place) {
-  const now = new Date();
-  const day = DAY_KEYS[now.getDay()];
-  const closeStr = place[`${day}_close`];
-  if (!closeStr) return false;
-  const [ch, cm] = closeStr.split(":").map(Number);
-  const closeMin = ch * 60 + cm;
-  // "open after 8pm tonight" = closes after 20:00
-  return closeMin > 20 * 60 || closeMin === 0; // midnight = 0 treated as next-day
 }
 
 function getDistanceMi(lat1, lon1, lat2, lon2) {
@@ -223,10 +213,50 @@ export default function Spots() {
   const [submitted, setSubmitted] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
+  // Location permission state — 3-layer pattern, never spends the OS prompt cold.
+  // 'idle'     → button visible, no prompt shown yet this session
+  // 'priming'  → our own pre-prompt sheet is up; OS dialog hasn't fired
+  // 'granted'  → coords resolved; cards show distance + "Using your location · stop"
+  // 'denied'   → OS denied (or user said no this session). Quiet inline hint, no re-nag.
+  const [locationStatus, setLocationStatus] = useState("idle");
+
   useEffect(() => {
     loadPlaces();
     logPresence("spots");
   }, [cityFilter]);
+
+  // On mount, silently check OS permission state. If already granted from a prior
+  // session, auto-fetch position (no prompt). If denied at OS level, mark denied so
+  // we don't show the "Use my location" button anymore. Never call requestPermissions
+  // here — that'd defeat the whole point.
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const perm = await Geolocation.checkPermissions();
+        if (!alive) return;
+        if (perm.location === "granted") {
+          try {
+            const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy: true });
+            if (!alive) return;
+            setUserLocation({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+            setLocationStatus("granted");
+          } catch {
+            setLocationStatus("idle");
+          }
+        } else if (perm.location === "denied") {
+          setLocationStatus("denied");
+        } else if (sessionStorage.getItem("spots_location_dismissed") === "1") {
+          // User said "Not now" earlier in this session — don't re-nag, but keep
+          // the button visible so they can change their mind without leaving Spots.
+          setLocationStatus("idle");
+        }
+      } catch {
+        // Web browser without geolocation, or capacitor not initialized — leave idle.
+      }
+    })();
+    return () => { alive = false; };
+  }, []);
 
   const loadPlaces = async () => {
     setLoading(true);
@@ -241,18 +271,46 @@ export default function Spots() {
     setLoading(false);
   };
 
-  const requestLocation = async () => {
+  // Step 1: user tapped "Use my location" — show our priming sheet, not the OS prompt
+  const openLocationPriming = () => {
+    hapticLight();
+    setLocationStatus("priming");
+  };
+
+  // Step 2: user tapped "Not now" on our sheet — record it, never call the OS
+  const declineLocationPriming = () => {
+    sessionStorage.setItem("spots_location_dismissed", "1");
+    setLocationStatus("idle");
+  };
+
+  // Step 2 (alt): user tapped "Use my location" on our sheet — NOW trigger the OS dialog
+  const confirmLocationPriming = async () => {
+    hapticLight();
     try {
       const permResult = await Geolocation.requestPermissions();
-      if (permResult.location === "denied") return;
+      if (permResult.location === "denied") {
+        setLocationStatus("denied");
+        return;
+      }
       const position = await Geolocation.getCurrentPosition({ enableHighAccuracy: true });
       setUserLocation({ lat: position.coords.latitude, lon: position.coords.longitude });
-    } catch {}
+      setLocationStatus("granted");
+    } catch {
+      setLocationStatus("denied");
+    }
+  };
+
+  // User chose to stop using location — clear coords, return to idle (no OS call).
+  // Note: this doesn't revoke OS permission, just stops using it in this session.
+  const stopUsingLocation = () => {
+    hapticLight();
+    setUserLocation(null);
+    setLocationStatus("idle");
+    sessionStorage.setItem("spots_location_dismissed", "1");
   };
 
   const filtered = places
-    .filter(p => filter === "All" || filter === "tonight" || p.type === filter)
-    .filter(p => filter !== "tonight" || isOpenTonight(p))
+    .filter(p => filter === "All" || p.type === filter)
     .map(p => ({
       ...p,
       _distance: (userLocation && p.latitude && p.longitude)
@@ -381,8 +439,115 @@ export default function Spots() {
             >
               Open now
             </button>
+
+            {/* Vertical separator before location button */}
+            {locationStatus !== "denied" && (
+              <div style={{ width: 1, height: 16, backgroundColor: "var(--t-border)", margin: "0 4px" }} />
+            )}
+
+            {/* Location button — state-aware. Hidden entirely when denied (no re-nag). */}
+            {locationStatus === "granted" ? (
+              <button
+                onClick={stopUsingLocation}
+                style={{
+                  padding: "5px 12px",
+                  borderRadius: 999,
+                  fontSize: 12,
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontWeight: 500,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  backgroundColor: "var(--t-accent-bg)",
+                  color: "var(--t-accent)",
+                  border: "1px solid var(--t-accent)",
+                }}
+                aria-label="Stop using location"
+              >
+                <MapPin size={11} strokeWidth={1.7} />
+                Using your location
+                <X size={11} strokeWidth={2} style={{ opacity: 0.7 }} />
+              </button>
+            ) : locationStatus !== "denied" && (
+              <button
+                onClick={openLocationPriming}
+                style={{
+                  padding: "5px 12px",
+                  borderRadius: 999,
+                  fontSize: 12,
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontWeight: 500,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 5,
+                  backgroundColor: "transparent",
+                  color: "var(--t-muted)",
+                  border: "1px solid var(--t-border)",
+                }}
+              >
+                <MapPin size={11} strokeWidth={1.7} />
+                Use my location
+              </button>
+            )}
           </div>
+
+          {/* Quiet denied hint — appears only when OS-denied. No re-nag, no big banner. */}
+          {locationStatus === "denied" && (
+            <p className="text-[11px] mt-3" style={{ color: "var(--t-muted)" }}>
+              Location's off — pick a city, or turn it on in Settings →
+            </p>
+          )}
         </div>
+
+        {/* Location priming sheet — our own UI, BEFORE the OS dialog fires.
+            "Not now" costs nothing (we haven't burned the OS prompt yet);
+            tapping the primary CTA is what actually triggers it. */}
+        {locationStatus === "priming" && (
+          <div
+            className="fixed inset-0 z-[100] flex items-end justify-center"
+            style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
+            onClick={declineLocationPriming}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-lg pb-8"
+              style={{
+                backgroundColor: "var(--t-card)",
+                borderTop: "1px solid var(--t-border)",
+                borderTopLeftRadius: 16,
+                borderTopRightRadius: 16,
+                paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 24px)",
+              }}
+            >
+              {/* Drag handle */}
+              <div className="w-10 h-1 rounded-full mx-auto mt-3 mb-5" style={{ backgroundColor: "var(--t-border)" }} />
+              <div className="px-6">
+                <p className="font-display font-medium" style={{ fontSize: 22, color: "var(--t-text)", lineHeight: 1.2 }}>
+                  See what's closest?
+                </p>
+                <p className="text-sm mt-3 leading-relaxed" style={{ color: "var(--t-muted)" }}>
+                  We'll sort spots by distance. Your location never leaves your phone — we don't store it.
+                </p>
+                <div className="flex gap-2 mt-6">
+                  <button
+                    onClick={declineLocationPriming}
+                    className="flex-1 py-3 rounded-xl text-sm font-medium"
+                    style={{ color: "var(--t-muted)", backgroundColor: "transparent" }}
+                  >
+                    Not now
+                  </button>
+                  <button
+                    onClick={confirmLocationPriming}
+                    className="flex-1 py-3 rounded-xl text-sm font-medium"
+                    style={{ backgroundColor: "var(--t-accent)", color: "var(--t-bg)" }}
+                  >
+                    Use my location
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Content */}
         <div className="px-6 mt-1">
