@@ -332,6 +332,29 @@ export default function Home() {
         </button>
       </div>
 
+      {/* Take A Breath pill */}
+      <div className="px-6 max-w-lg mx-auto mb-4">
+        <button
+          style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '12px 14px',
+            borderRadius: 999,
+            backgroundColor: 'transparent',
+            border: '1px solid var(--t-border)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 13, color: 'var(--t-muted)', fontFamily: "'DM Sans', sans-serif" }}>
+              Take a breath
+            </span>
+          </div>
+          <ChevronRight size={12} strokeWidth={1.5} style={{ color: 'var(--t-muted)', flexShrink: 0 }} />
+        </button>
+      </div>
+
       <BottomNav />
     </div>
     </PullToRefresh>
