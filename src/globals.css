@@ -1,51 +1,28 @@
+/* App-specific utilities, fonts, and global resets.
+ * Theme tokens (--t-*) live in src/components/current/ThemeContext.jsx.
+ * shadcn primitives live in src/index.css.
+ */
+
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --current-bg: #0f1219;
-  --current-card: #161b24;
-  --current-card-border: #232a35;
-  --current-text: #e8eaf0;
-  --current-muted: #6a7280;
-  --current-accent: #6F8FA4;
-  --current-accent-light: #1A2530;
-  --current-light-bg: #eef0ec;
-  --current-light-text: #0f1219;
-}
-
-/* App theme variables */
+/* :root fallbacks so var(--t-*) resolves outside ThemeProvider
+ * (OfflineBanner, ErrorBoundary, etc.). ThemeProvider's wrapper div
+ * overrides these per-page. */
 :root {
   --t-bg: #0f1219;
   --t-card: #161b24;
   --t-card-alt: #1a2430;
+  --t-primary-card: #1a2430;
   --t-border: #232a35;
   --t-text: #e8eaf0;
   --t-text-warm: #f0f2ee;
   --t-muted: #6a7280;
-  --t-accent: #6F8FA4;
-  --t-accent-bg: rgba(111,143,164,0.15);
+  --t-label: #6a7280;
+  --t-accent: #6E8FA3;
+  --t-accent-bg: rgba(110,143,163,0.15);
   --t-danger-muted: #4a3030;
   --t-danger: #7a2020;
   --t-danger-border: #3a2020;
-}
-
-:root.theme-light, .theme-light {
-  --t-bg: #f5f4ef;
-  --t-card: #ffffff;
-  --t-card-alt: #ede9e2;
-  --t-border: #d5d0c8;
-  --t-text: #1a1a1a;
-  --t-text-warm: #1a1a1a;
-  --t-muted: #7a7870;
-  --t-accent: #4d7a96;
-  --t-accent-bg: rgba(77,122,150,0.12);
-  --t-danger-muted: #8b3535;
-  --t-danger: #7a2020;
-  --t-danger-border: #e8c0c0;
-  color-scheme: light;
 }
 
 * {
@@ -79,37 +56,12 @@ body {
   font-family: 'DM Sans', sans-serif;
 }
 
-.text-amber {
-  color: var(--current-amber);
-}
-
-.bg-current-black {
-  background-color: var(--current-black);
-}
-
-.bg-current-cream {
-  background-color: var(--current-cream);
-}
-
-.bg-current-card {
-  background-color: var(--current-dark-card);
-}
-
-.border-dusk {
-  border-color: var(--current-dusk);
-}
-
-.text-stone {
-  color: var(--current-stone);
-}
-
-/* Scrollbar styling */
+/* Scrollbar styling — hide everywhere */
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
 }
 
-/* Hide scrollbar for all elements */
 * {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -124,29 +76,4 @@ body {
 /* Tracking wide */
 .tracking-widest-custom {
   letter-spacing: 0.2em;
-}
-
-@layer base {
-  :root {
-    --background: 40 23% 94%;
-    --foreground: 40 5% 10%;
-    --card: 40 23% 94%;
-    --card-foreground: 40 5% 10%;
-    --popover: 40 23% 94%;
-    --popover-foreground: 40 5% 10%;
-    --primary: 33 35% 64%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 36 10% 50%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 36 10% 90%;
-    --muted-foreground: 36 10% 50%;
-    --accent: 36 10% 90%;
-    --accent-foreground: 36 10% 50%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 36 15% 82%;
-    --input: 36 15% 82%;
-    --ring: 33 35% 64%;
-    --radius: 0.75rem;
-  }
 }

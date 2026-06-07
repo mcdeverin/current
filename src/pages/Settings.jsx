@@ -250,7 +250,7 @@ export default function Settings() {
             </p>
             <div className="flex gap-2">
               <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 py-2.5 rounded-xl text-xs font-medium" style={{ color: 'var(--t-muted)' }}>Cancel</button>
-              <button onClick={handleDeleteAccount} disabled={deleting} className="flex-1 py-2.5 rounded-xl text-xs font-medium disabled:opacity-40" style={{ backgroundColor: 'var(--t-danger)', color: '#e8eaf0' }}>
+              <button onClick={handleDeleteAccount} disabled={deleting} className="flex-1 py-2.5 rounded-xl text-xs font-medium disabled:opacity-40" style={{ backgroundColor: 'var(--t-danger)', color: 'var(--t-text)' }}>
                 {deleting ? "Deleting..." : "Yes, delete"}
               </button>
             </div>

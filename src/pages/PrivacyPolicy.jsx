@@ -6,21 +6,21 @@ export default function PrivacyPolicy() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen pb-16" style={{ backgroundColor: '#0f1219' }}>
+    <div className="min-h-screen pb-16" style={{ backgroundColor: 'var(--t-bg)' }}>
       <div className="px-6 pt-14 pb-6 flex items-center gap-3">
-        <button onClick={() => navigate(-1)} style={{ color: '#6a7280' }}>
+        <button onClick={() => navigate(-1)} style={{ color: 'var(--t-muted)' }}>
           <ChevronLeft size={20} />
         </button>
-        <h1 className="font-display text-xl font-medium" style={{ color: '#e8eaf0' }}>Privacy Policy</h1>
+        <h1 className="font-display text-xl font-medium" style={{ color: 'var(--t-text)' }}>Privacy Policy</h1>
       </div>
 
       <div className="px-6 max-w-lg mx-auto space-y-6 pb-8">
-        <p className="text-xs" style={{ color: '#6a7280' }}>Last updated: March 2026</p>
+        <p className="text-xs" style={{ color: 'var(--t-muted)' }}>Last updated: March 2026</p>
 
-        <p className="text-sm leading-relaxed" style={{ color: '#6a7280' }}>
+        <p className="text-sm leading-relaxed" style={{ color: 'var(--t-muted)' }}>
           Current ("we", "our", or "us") respects your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use the Current mobile application.
         </p>
-        <p className="text-sm leading-relaxed" style={{ color: '#6a7280' }}>
+        <p className="text-sm leading-relaxed" style={{ color: 'var(--t-muted)' }}>
           Current is designed to help people discover alcohol-free places and explore sober or sober-curious living.
         </p>
 
@@ -81,7 +81,7 @@ export default function PrivacyPolicy() {
           <a
             href="mailto:hello@currentapp.studio"
             className="text-sm mt-2 inline-block"
-            style={{ color: '#6F8FA4' }}
+            style={{ color: 'var(--t-accent)' }}
           >
             hello@currentapp.studio
           </a>
@@ -94,8 +94,8 @@ export default function PrivacyPolicy() {
 function Section({ title, children }) {
   return (
     <div>
-      <h2 className="text-sm font-semibold mb-3" style={{ color: '#e8eaf0' }}>{title}</h2>
-      <div className="text-sm leading-relaxed space-y-2" style={{ color: '#6a7280' }}>{children}</div>
+      <h2 className="text-sm font-semibold mb-3" style={{ color: 'var(--t-text)' }}>{title}</h2>
+      <div className="text-sm leading-relaxed space-y-2" style={{ color: 'var(--t-muted)' }}>{children}</div>
     </div>
   );
 }
@@ -104,7 +104,7 @@ function SubSection({ title, children }) {
   return (
     <div className="mt-4">
       <h3 className="text-xs font-medium mb-2" style={{ color: '#a0b8c8' }}>{title}</h3>
-      <div className="text-sm leading-relaxed space-y-1" style={{ color: '#6a7280' }}>{children}</div>
+      <div className="text-sm leading-relaxed space-y-1" style={{ color: 'var(--t-muted)' }}>{children}</div>
     </div>
   );
 }
@@ -113,8 +113,8 @@ function BulletList({ items }) {
   return (
     <ul className="mt-1 space-y-1">
       {items.map((item, i) => (
-        <li key={i} className="flex items-start gap-2 text-sm" style={{ color: '#6a7280' }}>
-          <span style={{ color: '#6F8FA4' }}>•</span>
+        <li key={i} className="flex items-start gap-2 text-sm" style={{ color: 'var(--t-muted)' }}>
+          <span style={{ color: 'var(--t-accent)' }}>•</span>
           {item}
         </li>
       ))}

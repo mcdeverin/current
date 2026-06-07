@@ -131,7 +131,7 @@ export default function StreakRing({ days, size = 260, strokeWidth = 5 }) {
         </span>
         <span
           style={{
-            fontFamily: "'DM Sans', monospace",
+            fontFamily: "'DM Sans', sans-serif",
             fontSize: 10,
             letterSpacing: "0.28em",
             textTransform: "uppercase",
@@ -144,7 +144,7 @@ export default function StreakRing({ days, size = 260, strokeWidth = 5 }) {
         {yearsDone >= 1 && (
           <span
             style={{
-              fontFamily: "'DM Sans', monospace",
+              fontFamily: "'DM Sans', sans-serif",
               fontSize: 9,
               letterSpacing: "0.22em",
               textTransform: "uppercase",

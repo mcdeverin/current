@@ -6,18 +6,18 @@ export default function TermsOfService() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen pb-16" style={{ backgroundColor: '#0f1219' }}>
+    <div className="min-h-screen pb-16" style={{ backgroundColor: 'var(--t-bg)' }}>
       <div className="px-6 pt-14 pb-6 flex items-center gap-3">
-        <button onClick={() => navigate(-1)} style={{ color: '#6a7280' }}>
+        <button onClick={() => navigate(-1)} style={{ color: 'var(--t-muted)' }}>
           <ChevronLeft size={20} />
         </button>
-        <h1 className="font-display text-xl font-medium" style={{ color: '#e8eaf0' }}>Terms of Service</h1>
+        <h1 className="font-display text-xl font-medium" style={{ color: 'var(--t-text)' }}>Terms of Service</h1>
       </div>
 
       <div className="px-6 max-w-lg mx-auto space-y-6 pb-8">
-        <p className="text-xs" style={{ color: '#6a7280' }}>Last updated: March 2026</p>
+        <p className="text-xs" style={{ color: 'var(--t-muted)' }}>Last updated: March 2026</p>
 
-        <p className="text-sm leading-relaxed" style={{ color: '#6a7280' }}>
+        <p className="text-sm leading-relaxed" style={{ color: 'var(--t-muted)' }}>
           By using the Current mobile application, you agree to these Terms of Service.
         </p>
 
@@ -65,7 +65,7 @@ export default function TermsOfService() {
 
         <Section title="Contact">
           <p>Questions about these terms may be sent to:</p>
-          <a href="mailto:hello@currentapp.studio" className="text-sm mt-2 inline-block" style={{ color: '#6F8FA4' }}>
+          <a href="mailto:hello@currentapp.studio" className="text-sm mt-2 inline-block" style={{ color: 'var(--t-accent)' }}>
             hello@currentapp.studio
           </a>
         </Section>
@@ -77,8 +77,8 @@ export default function TermsOfService() {
 function Section({ title, children }) {
   return (
     <div>
-      <h2 className="text-sm font-semibold mb-3" style={{ color: '#e8eaf0' }}>{title}</h2>
-      <div className="text-sm leading-relaxed space-y-1" style={{ color: '#6a7280' }}>{children}</div>
+      <h2 className="text-sm font-semibold mb-3" style={{ color: 'var(--t-text)' }}>{title}</h2>
+      <div className="text-sm leading-relaxed space-y-1" style={{ color: 'var(--t-muted)' }}>{children}</div>
     </div>
   );
 }
@@ -87,8 +87,8 @@ function BulletList({ items }) {
   return (
     <ul className="mt-1 space-y-1">
       {items.map((item, i) => (
-        <li key={i} className="flex items-start gap-2 text-sm" style={{ color: '#6a7280' }}>
-          <span style={{ color: '#6F8FA4' }}>•</span>
+        <li key={i} className="flex items-start gap-2 text-sm" style={{ color: 'var(--t-muted)' }}>
+          <span style={{ color: 'var(--t-accent)' }}>•</span>
           {item}
         </li>
       ))}

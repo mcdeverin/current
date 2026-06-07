@@ -63,7 +63,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
           <p className="text-sm" style={{ color: 'var(--t-text)' }}>Exploring</p>
         ) : (
           <p className="text-sm" style={{ color: 'var(--t-text)' }}>
-            Tracking since <span style={{ color: '#6F8FA4' }}>{sinceDate}</span>
+            Tracking since <span style={{ color: 'var(--t-accent)' }}>{sinceDate}</span>
           </p>
         )}
       </div>
@@ -109,7 +109,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
                 onSelect={setDateValue}
               />
               <div className="flex gap-2 mt-4">
-                <button onClick={() => setView("idle")} className="flex-1 py-2 text-xs font-medium" style={{ color: '#6a7280' }}>
+                <button onClick={() => setView("idle")} className="flex-1 py-2 text-xs font-medium" style={{ color: 'var(--t-muted)' }}>
                   Cancel
                 </button>
                 <button
@@ -146,7 +146,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
             No streak, no clock. Just the app. Your call.
           </p>
           <div className="flex gap-2">
-            <button onClick={() => setView("idle")} className="flex-1 py-2 text-xs font-medium" style={{ color: '#6a7280' }}>
+            <button onClick={() => setView("idle")} className="flex-1 py-2 text-xs font-medium" style={{ color: 'var(--t-muted)' }}>
               Cancel
             </button>
             <button
@@ -166,7 +166,7 @@ export default function JourneySection({ profile, onProfileUpdate }) {
           <p className="text-sm leading-relaxed mb-1" style={{ color: 'var(--t-text)' }}>
             Welcome back. Your date is still here.
           </p>
-          <p className="text-xs mb-5" style={{ color: '#6F8FA4' }}>{sinceDate}</p>
+          <p className="text-xs mb-5" style={{ color: 'var(--t-accent)' }}>{sinceDate}</p>
           <div className="flex gap-2">
             <button
               onClick={handleChangeDate}
@@ -197,7 +197,7 @@ function ActionRow({ label, onTap }) {
       style={{ borderColor: 'var(--t-border)' }}
     >
       <span className="text-sm" style={{ color: 'var(--t-text)' }}>{label}</span>
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6a7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="9 18 15 12 9 6" />
       </svg>
     </button>

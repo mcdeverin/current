@@ -42,7 +42,7 @@ export default function ExploringNudge({ profile, onDismiss }) {
         <button
           onClick={handleSetDate}
           className="text-xs font-medium mt-3 transition-colors"
-          style={{ color: '#6F8FA4' }}
+          style={{ color: 'var(--t-accent)' }}
         >
           Start tracking →
         </button>
@@ -50,7 +50,7 @@ export default function ExploringNudge({ profile, onDismiss }) {
       <button
         onClick={handleDismiss}
         className="mt-0.5 p-1 rounded-lg transition-colors"
-        style={{ color: '#6a7280' }}
+        style={{ color: 'var(--t-muted)' }}
       >
         <X size={14} />
       </button>

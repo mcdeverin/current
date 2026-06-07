@@ -39,12 +39,12 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', backgroundColor: '#0f1219', color: '#e8eaf0' }}>
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', backgroundColor: 'var(--t-bg)', color: 'var(--t-text)' }}>
           <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.5rem', marginBottom: '0.5rem' }}>Something went wrong.</p>
-          <p style={{ color: '#6a7280', fontSize: '0.875rem', marginBottom: '1.5rem' }}>Please try refreshing the page.</p>
+          <p style={{ color: 'var(--t-muted)', fontSize: '0.875rem', marginBottom: '1.5rem' }}>Please try refreshing the page.</p>
           <button
             onClick={() => { this.setState({ hasError: false }); window.location.reload(); }}
-            style={{ padding: '0.75rem 2rem', borderRadius: '0.75rem', fontSize: '0.875rem', fontWeight: 500, backgroundColor: '#6F8FA4', color: '#0f1219', border: 'none', cursor: 'pointer' }}
+            style={{ padding: '0.75rem 2rem', borderRadius: '0.75rem', fontSize: '0.875rem', fontWeight: 500, backgroundColor: 'var(--t-accent)', color: 'var(--t-bg)', border: 'none', cursor: 'pointer' }}
           >
             Refresh
           </button>

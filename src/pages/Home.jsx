@@ -118,7 +118,7 @@ export default function Home() {
                   else base44.auth.redirectToLogin(createPageUrl("Onboarding"));
                 }}
                 className="text-sm font-medium hover:opacity-70 transition-opacity"
-                style={{ color: '#6F8FA4' }}
+                style={{ color: 'var(--t-accent)' }}
               >
                 Start tracking →
               </button>
@@ -309,8 +309,8 @@ export default function Home() {
 
         <style>{`
           @keyframes anchorPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(111,143,164,0.3); }
-            50% { box-shadow: 0 0 0 8px rgba(111,143,164,0); }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(110,143,163,0.3); }
+            50% { box-shadow: 0 0 0 8px rgba(110,143,163,0); }
           }
         `}</style>
 

@@ -55,7 +55,7 @@ export default function PullToRefresh({ onRefresh, children }) {
             style={{
               width: 20,
               height: 20,
-              borderColor: '#6F8FA4',
+              borderColor: 'var(--t-accent)',
               borderTopColor: 'transparent',
               animation: refreshing ? 'spin 0.7s linear infinite' : 'none',
               transform: `rotate(${progress * 270}deg)`,

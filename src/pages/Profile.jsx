@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useNavigate } from "react-router-dom";
 import { ChevronRight, Settings } from "lucide-react";
-import { useTheme } from "../components/current/ThemeContext";
 import BottomNav from "../components/current/BottomNav";
 import { getDaysSince } from "../components/current/milestoneData";
 import JourneySection from "../components/current/JourneySection.jsx";
