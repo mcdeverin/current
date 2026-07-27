@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "@aparajita/capacitor-biometric-auth": "^10.0.0",
-    "@base44/sdk": "^0.8.31",
-    "@base44/vite-plugin": "^1.0.21",
+    "@base44/sdk": "^0.8.40",
+    "@base44/vite-plugin": "^1.0.30",
     "@capacitor/camera": "^8.0.2",
     "@capacitor/cli": "^8.2.0",
     "@capacitor/core": "^8.2.0",
