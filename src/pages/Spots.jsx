@@ -43,132 +43,155 @@ function getDistanceMi(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-function SpotCard({ place, distance, isOpen }) {
+function PhotoPlaceholder({ place }) {
   const h = CATEGORY_HUES[place.type] ?? nameToHue(place.name ?? "");
   const photoUrl = place.photo_url || place.profile_image;
+
+  if (photoUrl) {
+    return (
+      <div
+        style={{
+          width: 100,
+          height: 100,
+          borderRadius: 12,
+          border: "1px solid var(--t-border)",
+          overflow: "hidden",
+          flexShrink: 0,
+        }}
+      >
+        <img src={photoUrl} alt={place.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+      </div>
+    );
+  }
 
   return (
     <div
       style={{
-        borderRadius: 16,
-        overflow: "hidden",
-        backgroundColor: "var(--t-card)",
+        width: 100,
+        height: 100,
+        borderRadius: 12,
         border: "1px solid var(--t-border)",
-        marginBottom: 16,
-        boxShadow: "0 2px 8px rgba(0,0,0,0.14)",
+        background: `linear-gradient(135deg, hsl(${h}, 18%, 22%), hsl(${h}, 22%, 32%))`,
+        position: "relative",
+        flexShrink: 0,
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        padding: 6,
       }}
     >
-      {/* Image */}
-      <div
+      <span
         style={{
-          position: "relative",
-          width: "100%",
-          height: 180,
-          overflow: "hidden",
-          background: photoUrl
-            ? undefined
-            : `linear-gradient(135deg, hsl(${h}, 18%, 22%), hsl(${h}, 24%, 34%))`,
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: "10px",
+          fontWeight: 500,
+          color: "rgba(255,255,255,0.6)",
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
         }}
       >
-        {photoUrl ? (
-          <img src={photoUrl} alt={place.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        ) : (
-          <span
-            style={{
-              position: "absolute",
-              top: 12,
-              left: 12,
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 10,
-              fontWeight: 500,
-              color: "rgba(255,255,255,0.55)",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-            }}
-          >
-            Photo
-          </span>
-        )}
+        Photo
+      </span>
+    </div>
+  );
+}
 
-        {/* Open now badge — Airbnb-style overlay, only when open */}
-        {isOpen && (
-          <span
-            style={{
-              position: "absolute",
-              top: 12,
-              left: 12,
-              fontSize: 10,
-              fontWeight: 600,
-              letterSpacing: "0.03em",
-              padding: "4px 10px",
-              borderRadius: 999,
-              backgroundColor: "rgba(46,125,50,0.9)",
-              color: "#fff",
-              backdropFilter: "blur(6px)",
-              WebkitBackdropFilter: "blur(6px)",
-            }}
-          >
-            Open now
-          </span>
-        )}
-      </div>
+function SpotCard({ place, distance, isOpen }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: 14,
+        padding: 12,
+        borderRadius: 14,
+        backgroundColor: "var(--t-card)",
+        border: "1px solid var(--t-border)",
+        marginBottom: 12,
+      }}
+    >
+      <PhotoPlaceholder place={place} />
 
-      {/* Content */}
-      <div style={{ padding: 14 }}>
-        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 8 }}>
-          <span
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "2px 0", minWidth: 0 }}>
+        {/* Top */}
+        <div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6 }}>
+            <span
+              style={{
+                fontSize: 14,
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 500,
+                color: "var(--t-text)",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {place.name}
+            </span>
+            <span
+              style={{
+                flexShrink: 0,
+                fontSize: 9.5,
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 500,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                padding: "2px 6px",
+                borderRadius: 999,
+                ...(isOpen
+                  ? { color: "var(--t-accent)", backgroundColor: "var(--t-accent-bg)", border: "1px solid var(--t-accent)" }
+                  : { color: "var(--t-muted)", backgroundColor: "transparent", border: "1px solid var(--t-border)" }),
+              }}
+            >
+              {isOpen ? "Open" : "Closed"}
+            </span>
+          </div>
+          <p
             style={{
-              fontSize: 15,
+              fontSize: 11.5,
+              color: "var(--t-muted)",
+              marginTop: 3,
               fontFamily: "'DM Sans', sans-serif",
-              fontWeight: 600,
-              color: "var(--t-text)",
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
             }}
           >
-            {place.name}
-          </span>
+            {place.neighborhood} · {place.type}
+          </p>
+        </div>
+
+        {/* Bottom */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 8 }}>
+          {place.tag && (
+            <span
+              style={{
+                fontSize: 10,
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 500,
+                color: "var(--t-accent)",
+                backgroundColor: "var(--t-card-alt)",
+                padding: "2px 7px",
+                borderRadius: 999,
+              }}
+            >
+              {place.tag}
+            </span>
+          )}
           {distance != null && (
             <span
               style={{
-                fontSize: 12,
+                fontSize: 10.5,
                 color: "var(--t-muted)",
                 fontFamily: "'DM Sans', sans-serif",
-                flexShrink: 0,
+                marginLeft: "auto",
               }}
             >
               {distance.toFixed(1)} mi
             </span>
           )}
         </div>
-        <p
-          style={{
-            fontSize: 12.5,
-            color: "var(--t-muted)",
-            marginTop: 4,
-            fontFamily: "'DM Sans', sans-serif",
-          }}
-        >
-          {place.neighborhood} · {place.type}
-        </p>
-        {place.tag && (
-          <span
-            style={{
-              display: "inline-block",
-              marginTop: 10,
-              fontSize: 11,
-              fontFamily: "'DM Sans', sans-serif",
-              fontWeight: 500,
-              color: "var(--t-accent)",
-              backgroundColor: "var(--t-accent-bg)",
-              padding: "3px 10px",
-              borderRadius: 999,
-            }}
-          >
-            {place.tag}
-          </span>
-        )}
       </div>
     </div>
   );
@@ -583,7 +606,7 @@ export default function Spots() {
             ) : loading ? (
               <div>
                 {[1, 2, 3].map(i => (
-                  <div key={i} style={{ height: 260, borderRadius: 16, marginBottom: 16, backgroundColor: "var(--t-border)", opacity: 0.4 }} className="animate-pulse" />
+                  <div key={i} style={{ height: 100, borderRadius: 12, marginBottom: 12, backgroundColor: "var(--t-border)", opacity: 0.4 }} className="animate-pulse" />
                 ))}
               </div>
             ) : filtered.length === 0 ? (
